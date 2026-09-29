@@ -1,0 +1,55 @@
+{
+  "id": "ussr",
+  "name": "Union of Soviet Socialist Republics",
+  "shortName": "Soviet Union",
+  "tier": "main_rival",
+  "government": {
+    "type": "one_party_socialist_state",
+    "label": "One-party socialist state",
+    "leader": {
+      "name": "Joseph Stalin",
+      "title": "Chairman of the Council of Ministers",
+      "party": "All-Union Communist Party (Bolsheviks)"
+    }
+  },
+  "stats": {
+    "gdp_nominal": {
+      "value": 90,
+      "provenance": "estimate",
+      "note": "Western estimates put Soviet output at roughly a third of US output around 1949–50. Highly uncertain; will become a fogged range in Phase 3."
+    },
+    "steel_output": {
+      "value": 23.3,
+      "provenance": "measured",
+      "note": "Soviet official figure for 1949 crude steel output."
+    },
+    "active_personnel": {
+      "value": 2900000,
+      "provenance": "estimate",
+      "note": "Soviet armed forces after post-war demobilisation, about 2.9 million in 1948 by later-published figures."
+    },
+    "nuclear_warheads": {
+      "value": 0,
+      "provenance": "measured",
+      "note": "No Soviet weapon exists yet. The first test (RDS-1) came in August 1949."
+    },
+    "population": {
+      "value": 176000000,
+      "provenance": "estimate",
+      "note": "Back-projected from the official figure of about 178.5 million on 1 January 1950."
+    }
+  },
+  "params": {
+    "population_growth_annual": {
+      "value": 0.017,
+      "provenance": "estimate",
+      "note": "Rough post-war growth rate. A placeholder until the cohort-component model replaces it."
+    }
+  },
+  "verification": "unchecked",
+  "sources": [
+    { "label": "Maddison Project Database", "url": "https://www.rug.nl/ggdc/historicaldevelopment/maddison/" },
+    { "label": "B. R. Mitchell, International Historical Statistics" },
+    { "label": "Correlates of War, National Material Capabilities", "url": "https://correlatesofwar.org/data-sets/national-material-capabilities/" }
+  ]
+}

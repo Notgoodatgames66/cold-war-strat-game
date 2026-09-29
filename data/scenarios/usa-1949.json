@@ -1,0 +1,10 @@
+{
+  "id": "usa-1949",
+  "name": "United States, 1949",
+  "description": "January 1949. Truman has just won re-election. The North Atlantic Treaty is three months from signing, the Soviet bomb is months away, and China is falling to the Communists.",
+  "playerNation": "usa",
+  "startDate": { "year": 1949, "quarter": 1 },
+  "endDate": { "year": 2000, "quarter": 4 },
+  "nations": ["usa", "ussr"],
+  "defaultSeed": "truman-1949"
+}

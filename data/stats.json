@@ -1,0 +1,98 @@
+[
+  {
+    "id": "gdp_nominal",
+    "label": "GDP",
+    "pillar": "economy",
+    "unit": "usd_bn",
+    "decimals": 1,
+    "description": "Gross domestic product in current US dollars, annual rate."
+  },
+  {
+    "id": "real_growth",
+    "label": "Real growth",
+    "pillar": "economy",
+    "unit": "percent",
+    "decimals": 1,
+    "description": "Change in inflation-adjusted GDP over the year."
+  },
+  {
+    "id": "inflation",
+    "label": "Inflation",
+    "pillar": "economy",
+    "unit": "percent",
+    "decimals": 1,
+    "description": "Change in consumer prices over the year."
+  },
+  {
+    "id": "unemployment",
+    "label": "Unemployment",
+    "pillar": "economy",
+    "unit": "percent",
+    "decimals": 1,
+    "description": "Share of the labour force out of work and seeking work."
+  },
+  {
+    "id": "budget_balance",
+    "label": "Budget balance",
+    "pillar": "economy",
+    "unit": "usd_bn",
+    "decimals": 1,
+    "description": "Central government receipts minus outlays for the fiscal year. Positive is a surplus."
+  },
+  {
+    "id": "public_debt",
+    "label": "Public debt",
+    "pillar": "economy",
+    "unit": "usd_bn",
+    "decimals": 1,
+    "description": "Central government debt held by the public."
+  },
+  {
+    "id": "gold_reserves",
+    "label": "Gold reserves",
+    "pillar": "economy",
+    "unit": "usd_bn",
+    "decimals": 1,
+    "description": "Monetary gold stock valued at the official price of $35 per troy ounce."
+  },
+  {
+    "id": "steel_output",
+    "label": "Steel output",
+    "pillar": "economy",
+    "unit": "mt",
+    "decimals": 1,
+    "description": "Crude steel production, million metric tonnes per year."
+  },
+  {
+    "id": "defence_spending",
+    "label": "Defence spending",
+    "pillar": "military",
+    "unit": "usd_bn",
+    "decimals": 1,
+    "description": "National defence outlays for the fiscal year."
+  },
+  {
+    "id": "active_personnel",
+    "label": "Active personnel",
+    "pillar": "military",
+    "unit": "people",
+    "decimals": 2,
+    "description": "Active-duty members of the armed forces."
+  },
+  {
+    "id": "nuclear_warheads",
+    "label": "Nuclear warheads",
+    "pillar": "military",
+    "unit": "count",
+    "decimals": 0,
+    "description": "Nuclear weapons in the stockpile."
+  },
+  {
+    "id": "population",
+    "label": "Population",
+    "pillar": "society",
+    "unit": "people",
+    "decimals": 1,
+    "description": "Resident population."
+  }
+]

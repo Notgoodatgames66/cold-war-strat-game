@@ -1,0 +1,93 @@
+{
+  "id": "usa",
+  "name": "United States of America",
+  "shortName": "United States",
+  "tier": "player",
+  "government": {
+    "type": "federal_presidential_republic",
+    "label": "Federal presidential republic",
+    "leader": {
+      "name": "Harry S. Truman",
+      "title": "President",
+      "party": "Democratic"
+    }
+  },
+  "stats": {
+    "gdp_nominal": {
+      "value": 272.5,
+      "provenance": "measured",
+      "note": "BEA national accounts, calendar-year 1949 GDP in current dollars."
+    },
+    "real_growth": {
+      "value": -0.6,
+      "provenance": "measured",
+      "note": "BEA, real GDP change for calendar 1949 (a mild recession year)."
+    },
+    "inflation": {
+      "value": -1.2,
+      "provenance": "measured",
+      "note": "BLS CPI, annual-average change 1948 to 1949. Prices fell after the 1948 peak."
+    },
+    "unemployment": {
+      "value": 4.7,
+      "provenance": "measured",
+      "note": "BLS, average of Jan–Mar 1949 monthly rates. The rate climbed through 1949 to a peak near 7.9% in October."
+    },
+    "budget_balance": {
+      "value": 0.6,
+      "provenance": "measured",
+      "note": "OMB historical tables, fiscal 1949: receipts $39.4bn, outlays $38.8bn."
+    },
+    "public_debt": {
+      "value": 214.3,
+      "provenance": "measured",
+      "note": "OMB historical tables, federal debt held by the public at the end of fiscal 1949."
+    },
+    "gold_reserves": {
+      "value": 24.4,
+      "provenance": "estimate",
+      "note": "US monetary gold stock in 1949, close to its all-time peak of roughly $24.6bn."
+    },
+    "steel_output": {
+      "value": 70.7,
+      "provenance": "measured",
+      "note": "Raw steel output for 1949, about 78 million short tons (70.7 million metric tonnes)."
+    },
+    "defence_spending": {
+      "value": 13.0,
+      "provenance": "measured",
+      "note": "OMB historical tables, national defence outlays for fiscal 1949."
+    },
+    "active_personnel": {
+      "value": 1530000,
+      "provenance": "estimate",
+      "note": "Interpolated for January 1949 between 1.45 million (June 1948) and 1.62 million (June 1949) on active duty."
+    },
+    "nuclear_warheads": {
+      "value": 50,
+      "provenance": "measured",
+      "note": "Declassified US stockpile at the end of 1948. It reached about 170 by the end of 1949."
+    },
+    "population": {
+      "value": 147900000,
+      "provenance": "estimate",
+      "note": "Interpolated for January 1949 from Census mid-year estimates: 146.6 million (1948) and 149.2 million (1949)."
+    }
+  },
+  "params": {
+    "population_growth_annual": {
+      "value": 0.0174,
+      "provenance": "estimate",
+      "note": "Mid-1948 to mid-1949 growth from Census estimates, including immigration. A placeholder until the cohort-component model replaces it."
+    }
+  },
+  "verification": "unchecked",
+  "sources": [
+    { "label": "BEA, National Income and Product Accounts", "url": "https://apps.bea.gov/iTable/" },
+    { "label": "BLS, Consumer Price Index and Current Population Survey", "url": "https://www.bls.gov/" },
+    { "label": "OMB, Historical Tables", "url": "https://www.whitehouse.gov/omb/budget/historical-tables/" },
+    { "label": "US Census Bureau, historical population estimates", "url": "https://www.census.gov/" },
+    { "label": "Historical Statistics of the United States" },
+    { "label": "US Department of Energy, declassified stockpile figures", "url": "https://www.energy.gov/" }
+  ]
+}
