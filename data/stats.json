@@ -8,12 +8,20 @@
     "description": "Gross domestic product in current US dollars, annual rate."
   },
   {
+    "id": "gdp_real",
+    "label": "Real GDP",
+    "pillar": "economy",
+    "unit": "usd_bn",
+    "decimals": 1,
+    "description": "Gross domestic product in constant 1949 dollars, annual rate. Strips out inflation."
+  },
+  {
     "id": "real_growth",
     "label": "Real growth",
     "pillar": "economy",
     "unit": "percent",
     "decimals": 1,
-    "description": "Change in inflation-adjusted GDP over the year."
+    "description": "Change in inflation-adjusted GDP over the past year."
   },
   {
     "id": "inflation",
@@ -21,7 +29,7 @@
     "pillar": "economy",
     "unit": "percent",
     "decimals": 1,
-    "description": "Change in consumer prices over the year."
+    "description": "Change in consumer prices over the past year."
   },
   {
     "id": "unemployment",
@@ -32,12 +40,20 @@
     "description": "Share of the labour force out of work and seeking work."
   },
   {
+    "id": "interest_rate",
+    "label": "Interest rate",
+    "pillar": "economy",
+    "unit": "percent",
+    "decimals": 2,
+    "description": "Short-term Treasury bill rate. Until the Fed wins its independence, it is pegged to hold down the cost of government debt."
+  },
+  {
     "id": "budget_balance",
     "label": "Budget balance",
     "pillar": "economy",
     "unit": "usd_bn",
     "decimals": 1,
-    "description": "Central government receipts minus outlays for the fiscal year. Positive is a surplus."
+    "description": "Central government receipts minus outlays, annual rate. Positive is a surplus."
   },
   {
     "id": "public_debt",
@@ -46,6 +62,14 @@
     "unit": "usd_bn",
     "decimals": 1,
     "description": "Central government debt held by the public."
+  },
+  {
+    "id": "debt_to_gdp",
+    "label": "Debt to GDP",
+    "pillar": "economy",
+    "unit": "percent",
+    "decimals": 1,
+    "description": "Public debt as a share of nominal GDP."
   },
   {
     "id": "gold_reserves",
@@ -69,7 +93,7 @@
     "pillar": "military",
     "unit": "usd_bn",
     "decimals": 1,
-    "description": "National defence outlays for the fiscal year."
+    "description": "National defence outlays, annual rate."
   },
   {
     "id": "active_personnel",

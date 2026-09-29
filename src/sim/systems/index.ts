@@ -4,9 +4,10 @@
  */
 
 import { demography } from './demography';
+import { economy } from './economy';
 import type { SimSystem } from './system';
 
-export const SYSTEMS: readonly SimSystem[] = [demography];
+export const SYSTEMS: readonly SimSystem[] = [economy, demography];
 
 export { isDue, makeContext } from './system';
 export type { Frequency, SimSystem, SystemContext } from './system';

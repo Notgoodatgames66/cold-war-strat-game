@@ -13,6 +13,7 @@
  * later, fewer pops and coarser sectors.
  */
 
+import type { EconomyState, NationEconomyData } from './economy/types';
 import type { GameDate } from './time';
 
 // ---------------------------------------------------------------------------
@@ -83,6 +84,8 @@ export interface NationData {
   stats: Record<string, SourcedValue>;
   /** Model parameters (rates, coefficients). Not shown as headline stats. */
   params: Record<string, SourcedValue>;
+  /** Present when the nation's economy is simulated (Phase 2: the USA). */
+  economy?: NationEconomyData;
   /** "unchecked" until a human has checked the figures against the sources. */
   verification: 'unchecked' | 'checked';
   sources: SourceRef[];
@@ -117,6 +120,8 @@ export interface NationState {
   /** Provenance of each starting figure, kept so the interface can mark estimates. */
   statProvenance: Record<string, Provenance>;
   params: Record<string, number>;
+  /** The simulated economy, when the nation has one. */
+  economy?: EconomyState;
 }
 
 /** A snapshot of every nation's stats at one date. One per quarter, never pruned. */
@@ -149,7 +154,17 @@ export interface GameState {
   log: TurnLogEntry[];
 }
 
-/** The player's decisions for the quarter. Empty in Phase 1; policy sliders arrive in Phase 2. */
-export type PlayerOrders = Record<string, never>;
+/**
+ * The player's decisions for the quarter. Only the levers that change need to
+ * be sent; anything omitted keeps its current setting.
+ */
+export interface PlayerOrders {
+  /** New budget targets, nominal $bn a year, keyed by budget line id. */
+  budget?: Record<string, number>;
+  /** New tax rates, percent, keyed by tax id. */
+  taxes?: Record<string, number>;
+  /** Switch automatic budget indexation on or off. */
+  budgetIndexed?: boolean;
+}
 
-export const SCHEMA_VERSION = 1;
+export const SCHEMA_VERSION = 2;

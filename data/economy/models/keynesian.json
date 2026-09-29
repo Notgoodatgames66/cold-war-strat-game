@@ -1,0 +1,192 @@
+{
+  "id": "keynesian",
+  "label": "Keynesian mixed economy (post-war consensus)",
+  "description": "A demand-led short run (consumption, investment, government, trade) on top of a slowly growing supply side (potential output). Prices respond to the output gap through an expectations-augmented Phillips curve.",
+  "params": {
+    "mpc": {
+      "value": 0.75,
+      "provenance": "estimate",
+      "note": "Long-run marginal propensity to consume out of disposable income. Post-war estimates cluster around 0.7–0.9; 0.75 keeps the fiscal multiplier near 1.5, in line with the empirical range."
+    },
+    "consumption_adjustment": {
+      "value": 0.5,
+      "provenance": "estimate",
+      "note": "Share of the gap between desired and actual consumption closed each quarter (habit and smoothing)."
+    },
+    "current_income_weight": {
+      "value": 0.5,
+      "provenance": "estimate",
+      "note": "Weight households put on this quarter's disposable income; the rest is expected long-run income along the economy's potential path (Friedman's permanent-income hypothesis). Stops a slump from feeding on itself indefinitely."
+    },
+    "business_saving_share": {
+      "value": 0.14,
+      "provenance": "estimate",
+      "note": "Depreciation plus retained profits as a share of GDP: the wedge between GDP and household income. Roughly the 1949 gap between GDP ($272.5bn) and disposable income (about $188bn) after taxes and transfers."
+    },
+    "investment_adjustment": {
+      "value": 0.3,
+      "provenance": "estimate",
+      "note": "Share of the gap between desired and actual fixed investment closed each quarter (planning and construction lags)."
+    },
+    "accelerator": {
+      "value": 1.0,
+      "provenance": "estimate",
+      "note": "How strongly desired investment responds to the output gap (capacity utilisation). A 1% gap raises desired investment by 1%. Together with consumption this gives a fiscal multiplier of roughly 1.5, in line with post-war estimates."
+    },
+    "investment_rate_sensitivity": {
+      "value": 0.03,
+      "provenance": "estimate",
+      "note": "Desired investment falls about 3% for each point rise in the real interest rate."
+    },
+    "long_expectations_weight": {
+      "value": 0.3,
+      "provenance": "estimate",
+      "note": "How far investors' long-horizon inflation expectations follow short-run expectations away from the anchor. Under the gold peg, long-run expectations stayed close to it, so a price spike does not collapse the real rate that investment responds to."
+    },
+    "investment_corporate_tax_sensitivity": {
+      "value": 0.5,
+      "provenance": "estimate",
+      "note": "Desired investment falls about 5% for a 10-point rise in the corporate tax rate."
+    },
+    "inventory_ratio": {
+      "value": 0.2,
+      "provenance": "estimate",
+      "note": "Desired inventories as a share of annual final sales (about two and a half months of sales)."
+    },
+    "inventory_adjustment": {
+      "value": 0.25,
+      "provenance": "estimate",
+      "note": "Share of an inventory surplus or shortfall corrected each quarter. Drives the short inventory recessions of 1949 and 1954."
+    },
+    "potential_growth": {
+      "value": 0.032,
+      "provenance": "estimate",
+      "note": "Underlying growth of productive capacity per year, from labour-force growth (about 1.2%) and productivity (about 2%). Later phases derive it from pops, capital and technology."
+    },
+    "public_capital_depreciation": {
+      "value": 0.04,
+      "provenance": "estimate",
+      "note": "Annual wear on public capital (roads, research base, schools)."
+    },
+    "public_capital_elasticity": {
+      "value": 0.06,
+      "provenance": "estimate",
+      "note": "Doubling the public capital stock raises potential output by about 4%. Low end of the Aschauer-style literature."
+    },
+    "natural_unemployment": {
+      "value": 4.5,
+      "provenance": "estimate",
+      "note": "Unemployment rate consistent with a zero output gap in the early 1950s."
+    },
+    "minimum_unemployment": {
+      "value": 2.5,
+      "provenance": "estimate",
+      "note": "Frictional floor: people between jobs. The post-war US low was about 2.5% in 1953."
+    },
+    "okun_coefficient": {
+      "value": 0.5,
+      "provenance": "estimate",
+      "note": "Okun's law: each 1% of negative output gap adds about half a point of unemployment."
+    },
+    "unemployment_adjustment": {
+      "value": 0.5,
+      "provenance": "estimate",
+      "note": "Share of the gap to Okun's-law unemployment closed each quarter (hiring and firing lags)."
+    },
+    "phillips_slope": {
+      "value": 0.35,
+      "provenance": "estimate",
+      "note": "Each 1% of output gap adds 0.35 points to annualised inflation."
+    },
+    "expectations_persistence": {
+      "value": 0.6,
+      "provenance": "estimate",
+      "note": "Weight on last quarter's inflation in expected inflation; the rest is the anchor. The gold peg kept expectations fairly well anchored."
+    },
+    "inflation_anchor": {
+      "value": 2.0,
+      "provenance": "estimate",
+      "note": "Long-run inflation expectation under the Bretton Woods gold peg."
+    },
+    "overheating_threshold": {
+      "value": 3.0,
+      "provenance": "estimate",
+      "note": "Output gap (%) beyond which capacity bottlenecks make inflation accelerate sharply."
+    },
+    "overheating_slope": {
+      "value": 1.0,
+      "provenance": "estimate",
+      "note": "Extra inflation per point of output gap beyond the overheating threshold."
+    },
+    "capacity_ceiling": {
+      "value": 6.0,
+      "provenance": "estimate",
+      "note": "Output cannot exceed potential by more than this (%). Demand beyond it becomes shortages and inflation."
+    },
+    "budget_phase_in": {
+      "value": 0.5,
+      "provenance": "estimate",
+      "note": "Share of a budget change that takes effect each quarter (appropriation and spending lags)."
+    },
+    "world_demand_growth": {
+      "value": 0.045,
+      "provenance": "estimate",
+      "note": "Real growth of foreign demand for exports during the post-war recovery."
+    },
+    "import_tariff_elasticity": {
+      "value": 1.5,
+      "provenance": "estimate",
+      "note": "Responsiveness of import volumes to the tariff-inclusive import price."
+    },
+    "import_propensity_trend": {
+      "value": 0.013,
+      "provenance": "estimate",
+      "note": "Yearly rise in the share of spending that goes on imports as Europe and Japan rebuild and trade integrates. With exports growing at world-demand pace, both trade shares climb together, as they did until about 1970."
+    },
+    "neutral_real_rate": {
+      "value": 1.0,
+      "provenance": "estimate",
+      "note": "Real short-term interest rate consistent with a closed output gap and target inflation."
+    },
+    "policy_inflation_response": {
+      "value": 0.5,
+      "provenance": "estimate",
+      "note": "How far the central bank's desired rate moves for each point of inflation above the anchor."
+    },
+    "policy_gap_response": {
+      "value": 0.5,
+      "provenance": "estimate",
+      "note": "How far the central bank's desired rate moves for each point of output gap."
+    },
+    "policy_rate_smoothing": {
+      "value": 0.5,
+      "provenance": "estimate",
+      "note": "Share of the gap to the desired rate closed each quarter; central banks move gradually."
+    },
+    "policy_rate_floor": {
+      "value": 0.25,
+      "provenance": "estimate",
+      "note": "Lowest short-term rate the central bank will set."
+    },
+    "profit_cyclicality": {
+      "value": 3.0,
+      "provenance": "estimate",
+      "note": "Corporate profits swing about three times as much as output over the cycle."
+    },
+    "income_tax_progressivity": {
+      "value": 0.25,
+      "provenance": "estimate",
+      "note": "Unindexed brackets: income-tax receipts rise faster than nominal income per head (bracket creep), an automatic stabiliser."
+    },
+    "gold_settlement_share": {
+      "value": 0.5,
+      "provenance": "estimate",
+      "note": "Share of the overall balance of payments settled in gold; the rest accumulates as foreign-held dollars (the Triffin problem)."
+    },
+    "debt_rate_adjustment": {
+      "value": 0.05,
+      "provenance": "estimate",
+      "note": "Share of the debt stock refinanced at current long rates each quarter."
+    }
+  }
+}

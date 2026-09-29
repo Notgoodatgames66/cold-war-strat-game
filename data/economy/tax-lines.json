@@ -1,0 +1,42 @@
+[
+  {
+    "id": "income",
+    "label": "Income tax",
+    "min": 0,
+    "max": 40,
+    "step": 0.1,
+    "description": "Effective average rate on household income. Brackets are not indexed, so the effective burden creeps up as incomes rise. (The 1949 top marginal rate was about 82%; the average was far lower.)"
+  },
+  {
+    "id": "corporate",
+    "label": "Corporate tax",
+    "min": 0,
+    "max": 80,
+    "step": 0.5,
+    "description": "Rate on corporate profits. Profits swing with the business cycle, and higher rates discourage investment."
+  },
+  {
+    "id": "excise",
+    "label": "Excise taxes",
+    "min": 0,
+    "max": 20,
+    "step": 0.1,
+    "description": "Taxes on alcohol, tobacco, fuel and luxuries, as a share of consumer spending."
+  },
+  {
+    "id": "payroll",
+    "label": "Payroll tax",
+    "min": 0,
+    "max": 20,
+    "step": 0.1,
+    "description": "Social insurance contributions as a share of wages."
+  },
+  {
+    "id": "tariff",
+    "label": "Tariffs",
+    "min": 0,
+    "max": 60,
+    "step": 0.5,
+    "description": "Average duty on all imports. Higher tariffs cut imports and raise a little revenue."
+  }
+]

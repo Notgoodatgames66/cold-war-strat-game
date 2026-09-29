@@ -1,0 +1,65 @@
+[
+  {
+    "id": "defence",
+    "label": "Defence",
+    "kind": "defence",
+    "min": 3,
+    "max": 150,
+    "step": 0.5,
+    "description": "The armed forces, weapons procurement and the atomic programme. Counts as government purchases; part is spent at overseas bases and leaves the country."
+  },
+  {
+    "id": "foreign_aid",
+    "label": "Foreign aid",
+    "kind": "foreign_aid",
+    "min": 0,
+    "max": 30,
+    "step": 0.5,
+    "description": "The Marshall Plan and other international programmes. Much of it is spent on American goods, so it props up exports."
+  },
+  {
+    "id": "welfare",
+    "label": "Welfare and veterans",
+    "kind": "transfer",
+    "min": 1,
+    "max": 150,
+    "step": 0.5,
+    "description": "Veterans' benefits, public assistance and social security. Paid to households, so it lifts disposable income and consumption. Unemployment insurance is paid automatically on top."
+  },
+  {
+    "id": "infrastructure",
+    "label": "Infrastructure",
+    "kind": "public_investment",
+    "min": 0,
+    "max": 60,
+    "step": 0.5,
+    "description": "Roads, dams, power and public works. Adds to demand now and builds public capital that raises productive capacity for decades."
+  },
+  {
+    "id": "research",
+    "label": "Research",
+    "kind": "public_investment",
+    "min": 0,
+    "max": 40,
+    "step": 0.1,
+    "description": "Civilian and military-adjacent science. Adds to public capital now; will feed the technology trees in Phase 3."
+  },
+  {
+    "id": "education_health",
+    "label": "Education and health",
+    "kind": "public_investment",
+    "min": 0,
+    "max": 60,
+    "step": 0.1,
+    "description": "Federal grants for schools, hospitals and public health. Adds to public capital now; will shape pops' skills and health in Phase 3."
+  },
+  {
+    "id": "general_government",
+    "label": "General government",
+    "kind": "purchase",
+    "min": 1,
+    "max": 40,
+    "step": 0.1,
+    "description": "Running the federal government: agriculture programmes, justice, administration."
+  }
+]

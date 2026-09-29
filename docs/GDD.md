@@ -500,7 +500,7 @@ Development runs in five phases, each ending in a playable build. Most of the ti
 
 The gate is what the build must pass before the next phase begins.
 
-**Status:** Phase 1 complete (see CLAUDE.md for the live status).
+**Status:** Phase 1 and Phase 2A complete (see CLAUDE.md for the live status).
 
 ## 🛠️ Build guide for a first-time developer
 

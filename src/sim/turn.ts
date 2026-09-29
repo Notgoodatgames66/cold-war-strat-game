@@ -8,6 +8,7 @@
  */
 
 import { checksum } from './checksum';
+import { applyOrders } from './orders';
 import type { GameState, PlayerOrders } from './schema';
 import { SYSTEMS, isDue, makeContext } from './systems';
 import { compareDates, nextQuarter, quartersBetween } from './time';
@@ -27,7 +28,7 @@ export function stateChecksum(state: GameState): string {
   return checksum(world);
 }
 
-export function advanceTurn(previous: GameState, _orders: PlayerOrders = {}): GameState {
+export function advanceTurn(previous: GameState, orders: PlayerOrders = {}): GameState {
   if (!canAdvance(previous)) {
     throw new Error('The simulation has reached its end date; no further turns can be played.');
   }
@@ -35,6 +36,8 @@ export function advanceTurn(previous: GameState, _orders: PlayerOrders = {}): Ga
   const next = structuredClone(previous);
   const resolving = previous.date;
   const systemsRun: string[] = [];
+
+  applyOrders(next, orders);
 
   for (const system of SYSTEMS) {
     if (!isDue(system, resolving)) continue;

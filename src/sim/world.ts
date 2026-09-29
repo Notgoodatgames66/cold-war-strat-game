@@ -3,9 +3,10 @@
  */
 
 import type { Content } from './content';
+import { createEconomy, type EconomyDefs } from './economy/calibrate';
 import { SCHEMA_VERSION, type GameState, type HistoryEntry, type NationData, type NationState } from './schema';
 
-function nationStateFrom(data: NationData): NationState {
+export function nationStateFrom(data: NationData, economyDefs: EconomyDefs): NationState {
   const stats: Record<string, number> = {};
   const statProvenance: NationState['statProvenance'] = {};
   for (const [id, entry] of Object.entries(data.stats)) {
@@ -24,6 +25,7 @@ function nationStateFrom(data: NationData): NationState {
     stats,
     statProvenance,
     params,
+    ...(data.economy ? { economy: createEconomy(data, economyDefs) } : {}),
   };
 }
 
@@ -42,7 +44,7 @@ export function createGame(content: Content, scenarioId: string, seed?: string):
   for (const id of scenario.nations) {
     const data = content.nations[id];
     if (!data) throw new Error(`Scenario "${scenarioId}" needs nation "${id}", which has no data file`);
-    nations[id] = nationStateFrom(data);
+    nations[id] = nationStateFrom(data, content.economy);
   }
 
   const chosenSeed = seed?.trim() || scenario.defaultSeed;

@@ -6,7 +6,7 @@ A deep, calculation-driven grand strategy simulator of the Cold War. Guide the U
 
 ## Status
 
-Phase 1 of 5 (Foundations) is complete: the engine skeleton, seeded random numbers, the quarterly turn loop, save/load, and the USA and USSR loaded with 1949 figures. The economy, politics and events arrive in the phases that follow. See [`docs/GDD.md`](docs/GDD.md) for the full design and roadmap.
+Phase 2A is complete: a live, 1949-calibrated Keynesian economy for the United States with a federal budget, five taxes, the Treasury peg, gold under Bretton Woods, and charts of the record. Industry, the Soviet economy, politics and events arrive in the phases that follow. The economics are explained in [`docs/models/economy.md`](docs/models/economy.md). See [`docs/GDD.md`](docs/GDD.md) for the full design and roadmap.
 
 ## Run it locally
 

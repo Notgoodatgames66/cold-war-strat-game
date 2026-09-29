@@ -51,19 +51,25 @@ A deep, calculation-driven Cold War grand strategy simulator. Alpha scenario: th
 ## Layout
 
 ```
-data/            stats.json (stat registry), nations/, scenarios/
-src/sim/         the engine: rng, time, schema, content, world, turn, save, worker, systems/
-src/ui/          interface components and helpers
+data/            stats.json (stat registry), nations/, scenarios/, economy/ (models, budget and tax levers)
+src/sim/         the engine: rng, time, schema, content, world, turn, orders, save, worker, systems/, economy/
+src/ui/          interface components and helpers (tabs, charts, Treasury desk)
 src/App.tsx      the main screen
 tests/           automated tests
 docs/GDD.md      the game design document
+docs/models/     plain-English papers explaining each model
 .github/workflows/deploy.yml   tests, builds and publishes to GitHub Pages on every push to main
 ```
 
 ## Status
 
 - **Phase 1 (Foundations): complete.** Seeded RNG, quarterly turn loop to Q4 2000, staggered system scheduler, universal nation schema, USA and USSR 1949 data, save/load/export/import, autosave, web worker, state checksums, GitHub Pages deployment.
-- **Next: Phase 2 (Playable core).** US macroeconomy (C + I + G + NX), fiscal sliders with lagged effects, seven sectors, input–output production, a simple USSR, and the first charts. Gate: 1949–55 is playable.
+- **Phase 2A (Macroeconomy): complete.** Keynesian model for the USA (C, I, inventories, G, trade, potential, Okun, Phillips, Treasury peg, federal budget, debt, gold), calibrated to 1949 from data files; budget and tax orders with phase-in and optional indexation; Economy tab with charts, accounts and the Treasury desk; save schema 2 with a migration from schema 1. Model paper: `docs/models/economy.md`.
+- **Next: Phase 2B (Industry).** Seven sectors and input–output production chains, with a private capital stock feeding capacity. Then 2C: a simpler Soviet economy and the Phase 2 gate (1949–55 playable).
+
+## Open design questions for Ryan
+
+- Should budget indexation be on or off by default? Currently off: budgets stay fixed in dollars, which produces slow fiscal-drag stagnation for hands-off players.
 
 ## Open data tasks
 

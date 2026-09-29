@@ -6,7 +6,9 @@
  * SCHEMA_VERSION and add a migration below so old saves keep loading.
  */
 
-import { SCHEMA_VERSION, type GameState } from './schema';
+import type { Content } from './content';
+import { createEconomy } from './economy/calibrate';
+import { SCHEMA_VERSION, type GameState, type NationState } from './schema';
 import { isValidDate } from './time';
 
 export const SAVE_FORMAT = 'cold-war-strat-save';
@@ -26,9 +28,30 @@ export class SaveError extends Error {
   }
 }
 
+type Migration = (state: Record<string, unknown>, content: Content) => Record<string, unknown>;
+
 /** Upgrades a save from one schema version to the next, keyed by the version it upgrades FROM. */
-const MIGRATIONS: Record<number, (state: Record<string, unknown>) => Record<string, unknown>> = {
-  // 1: (state) => ({ ...state, newField: defaultValue }),
+const MIGRATIONS: Record<number, Migration> = {
+  /**
+   * v1 (Phase 1) → v2 (Phase 2A): nations gain a simulated economy and three
+   * new stats. Phase 1 games had no policy choices, so the economy is started
+   * from its 1949 calibration whatever the save's date.
+   */
+  1: (state, content) => {
+    const nations = state.nations as Record<string, NationState>;
+    for (const nation of Object.values(nations)) {
+      const data = content.nations[nation.id];
+      if (!data) continue;
+      for (const [id, entry] of Object.entries(data.stats)) {
+        if (!(id in nation.stats)) {
+          nation.stats[id] = entry.value;
+          nation.statProvenance[id] = entry.provenance;
+        }
+      }
+      if (data.economy && !nation.economy) nation.economy = createEconomy(data, content.economy);
+    }
+    return state;
+  },
 };
 
 export function serializeGame(state: GameState, savedAt?: string): string {
@@ -37,7 +60,7 @@ export function serializeGame(state: GameState, savedAt?: string): string {
   return JSON.stringify(file);
 }
 
-export function deserializeGame(text: string): GameState {
+export function deserializeGame(text: string, content: Content): GameState {
   let parsed: unknown;
   try {
     parsed = JSON.parse(text);
@@ -65,7 +88,10 @@ export function deserializeGame(text: string): GameState {
   while (version < SCHEMA_VERSION) {
     const migrate = MIGRATIONS[version];
     if (!migrate) throw new SaveError(`No upgrade path from save schema ${version}.`);
-    state = migrate(state);
+    if (typeof state.nations !== 'object' || state.nations === null) {
+      throw new SaveError('The save file is damaged: the game state is incomplete.');
+    }
+    state = migrate(state, content);
     version += 1;
   }
   state.schemaVersion = SCHEMA_VERSION;

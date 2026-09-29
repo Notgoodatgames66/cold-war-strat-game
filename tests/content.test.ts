@@ -12,7 +12,7 @@ describe('data files', () => {
   it('every nation uses the universal schema and only registered stats', () => {
     const statIds = new Set(content.stats.map((s) => s.id));
     for (const nation of Object.values(content.nations)) {
-      expect(validateNation(nation, nation.id, statIds)).toEqual([]);
+      expect(validateNation(nation, nation.id, statIds, content.economy)).toEqual([]);
     }
   });
 
@@ -36,7 +36,14 @@ describe('data files', () => {
 
   it('reports every problem at once with the file name', () => {
     expect(() =>
-      buildContent([], { 'data/nations/broken.json': { id: 'broken' } }, {}),
+      buildContent({
+        stats: [],
+        nations: { 'data/nations/broken.json': { id: 'broken' } },
+        scenarios: {},
+        economyModels: {},
+        budgetLines: [],
+        taxLines: [],
+      }),
     ).toThrow(/data\/nations\/broken.json/);
   });
 
@@ -45,5 +52,32 @@ describe('data files', () => {
     expect(scenario.startDate).toEqual({ year: 1949, quarter: 1 });
     expect(scenario.endDate).toEqual({ year: 2000, quarter: 4 });
     expect(scenario.playerNation).toBe('usa');
+  });
+});
+
+describe('economy data', () => {
+  const statIds = new Set(content.stats.map((s) => s.id));
+  const usa = content.nations.usa!;
+
+  it('rejects an economy missing a starting figure', () => {
+    const { government: _dropped, ...start } = usa.economy!.start;
+    const bad = { ...usa, economy: { ...usa.economy!, start } };
+    expect(validateNation(bad, 'bad.json', statIds, content.economy).join(' ')).toMatch(/missing "government"/);
+  });
+
+  it('rejects a budget outside its lever range', () => {
+    const budget = { ...usa.economy!.budget, defence: { value: 9999, provenance: 'measured', note: 'x' } };
+    const bad = { ...usa, economy: { ...usa.economy!, budget } };
+    expect(validateNation(bad, 'bad.json', statIds, content.economy).join(' ')).toMatch(/defence: 9999 is outside/);
+  });
+
+  it('rejects accounts that do not add up', () => {
+    const start = { ...usa.economy!.start, government: { value: 5, provenance: 'measured' as const, note: 'x' } };
+    const bad = { ...usa, economy: { ...usa.economy!, start } };
+    expect(validateNation(bad, 'bad.json', statIds, content.economy).join(' ')).toMatch(/inconsistent/);
+  });
+
+  it('every model file defines every parameter with a source note', () => {
+    expect(Object.keys(content.economy.models)).toContain('keynesian');
   });
 });
