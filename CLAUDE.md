@@ -6,6 +6,9 @@ Read this first in every session. The full design is in `docs/GDD.md`; this file
 
 A deep, calculation-driven Cold War grand strategy simulator. Alpha scenario: the United States from Q1 1949 to Q4 2000, one quarter per turn (208 turns). It runs entirely in the browser and is published with GitHub Pages.
 
+- **Live site:** https://notgoodatgames66.github.io/cold-war-strat-game/
+- **Repository:** https://github.com/Notgoodatgames66/cold-war-strat-game (public; Pages source is GitHub Actions)
+
 ## Who does what
 
 - **Ryan is the creative director and tester.** He makes the design calls, plays each build and reports what feels wrong. He is new to coding.
