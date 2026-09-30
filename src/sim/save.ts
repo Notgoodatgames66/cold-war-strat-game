@@ -8,6 +8,7 @@
 
 import type { Content } from './content';
 import { createEconomy } from './economy/calibrate';
+import { normalCapacities } from './economy/industry';
 import { SCHEMA_VERSION, type GameState, type NationState } from './schema';
 import { isValidDate } from './time';
 
@@ -30,6 +31,49 @@ export class SaveError extends Error {
 
 type Migration = (state: Record<string, unknown>, content: Content) => Record<string, unknown>;
 
+/** Adds any stats the nation's data file has that an older save lacks. */
+function addMissingStats(nation: NationState, content: Content) {
+  const data = content.nations[nation.id];
+  if (!data) return;
+  for (const [id, entry] of Object.entries(data.stats)) {
+    if (!(id in nation.stats)) {
+      nation.stats[id] = entry.value;
+      nation.statProvenance[id] = entry.provenance;
+    }
+  }
+}
+
+/**
+ * v2 → v3: gives an existing economy its industries. The 1949 industry
+ * structure is scaled up to the economy's current size; total factor
+ * productivity is then set so that potential output is unchanged.
+ */
+function addIndustry(e: Record<string, any>, nationId: string, turn: number, content: Content): void {
+  const data = content.nations[nationId];
+  if (!data?.economy) return;
+  const fresh = createEconomy(data, content.economy);
+  const ind = fresh.industry;
+  const p = fresh.params;
+  const growth = e.potential / e.calib.potential0;
+
+  ind.capital = ind.capital.map((k) => k * growth);
+  ind.labourIndex = Math.pow(1 + p.labour_force_growth, Math.max(0, turn - 1) / 4);
+  ind.output = ind.output.map((x) => x * growth);
+  ind.normalCapacity = normalCapacities(ind, e.potential);
+  ind.utilisationSmoothed = ind.output.map((x, j) => x / ind.normalCapacity[j]!);
+  const baseImportShare = fresh.imports / fresh.gdpReal;
+  if (typeof e.importPropensity === 'number') ind.importIndex = e.importPropensity / baseImportShare;
+
+  e.params = p;
+  e.industry = ind;
+  e.productivity =
+    e.potential /
+    (Math.pow(growth, p.capital_share) *
+      Math.pow(ind.labourIndex, 1 - p.capital_share) *
+      Math.pow(e.publicCapital / e.calib.publicCapital0, p.public_capital_elasticity));
+  delete e.importPropensity;
+}
+
 /** Upgrades a save from one schema version to the next, keyed by the version it upgrades FROM. */
 const MIGRATIONS: Record<number, Migration> = {
   /**
@@ -42,13 +86,20 @@ const MIGRATIONS: Record<number, Migration> = {
     for (const nation of Object.values(nations)) {
       const data = content.nations[nation.id];
       if (!data) continue;
-      for (const [id, entry] of Object.entries(data.stats)) {
-        if (!(id in nation.stats)) {
-          nation.stats[id] = entry.value;
-          nation.statProvenance[id] = entry.provenance;
-        }
-      }
+      addMissingStats(nation, content);
       if (data.economy && !nation.economy) nation.economy = createEconomy(data, content.economy);
+    }
+    return state;
+  },
+
+  /** v2 (Phase 2A) → v3 (Phase 2B): economies gain seven industries and a private capital stock. */
+  2: (state, content) => {
+    const nations = state.nations as Record<string, NationState>;
+    const turn = typeof state.turn === 'number' ? state.turn : 1;
+    for (const nation of Object.values(nations)) {
+      addMissingStats(nation, content);
+      const e = nation.economy as unknown as Record<string, any> | undefined;
+      if (e && !e.industry) addIndustry(e, nation.id, turn, content);
     }
     return state;
   },

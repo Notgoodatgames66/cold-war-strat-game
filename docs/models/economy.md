@@ -1,6 +1,6 @@
-# The economy model (Phase 2A)
+# The economy model (Phases 2A–2B)
 
-This paper explains how the US economy is simulated, in plain English first and equations second. Every number mentioned lives in a data file, not in the code:
+This paper explains how the US economy is simulated, in plain English first and equations second. The seven industries underneath it are explained in `industry.md`. Every number mentioned lives in a data file, not in the code:
 
 - Model parameters: `data/economy/models/keynesian.json`
 - US 1949 accounts, budget and taxes: the `economy` block in `data/nations/usa.json`
@@ -10,7 +10,7 @@ Each figure there carries a note saying where it came from and whether it is mea
 
 ## The idea in one paragraph
 
-In the short run, output is whatever people, firms, government and foreigners choose to spend (Keynes). In the long run, output is limited by productive capacity ("potential"), which grows with productivity and public capital. The gap between the two drives jobs (Okun's law) and prices (the Phillips curve). The federal budget, the debt, interest rates under the Treasury peg, and gold flows under Bretton Woods are all settled every quarter.
+In the short run, output is whatever people, firms, government and foreigners choose to spend (Keynes). In the long run, output is limited by productive capacity ("potential"), which grows with productivity, private capital, labour and public capital. The gap between the two drives jobs (Okun's law) and prices (the Phillips curve). The federal budget, the debt, interest rates under the Treasury peg, and gold flows under Bretton Woods are all settled every quarter.
 
 ## Units
 
@@ -24,13 +24,13 @@ The data gives observed 1949 flows: GDP, investment, government spending, export
 
 ### 1. Capacity grows
 
-Productivity grows at the trend rate (3.2% a year). Public investment (infrastructure, research, education and health) builds a public capital stock that depreciates at 4% a year. Potential output is productivity times a public-capital effect:
+Potential output follows a Cobb–Douglas production function in private capital and labour, scaled by productivity and public capital:
 
 ```
-potential = productivity × (public capital ÷ 1949 public capital) ^ 0.06
+potential = productivity × capital^0.3 × labour^0.7 × (public capital ÷ 1949 public capital)^0.06
 ```
 
-Doubling public capital raises potential by about 4%, slowly, over decades.
+Productivity grows 1.5% a year and the labour force 1.2% a year. Private capital is the sum of the seven industries' capital stocks, built by investment (see `industry.md`). Public investment (infrastructure, research, education and health) builds a public capital stock that depreciates at 4% a year; doubling it raises potential by about 4%, slowly, over decades.
 
 ### 2. The budget moves
 
@@ -46,15 +46,15 @@ If **indexation** is on, every budget target rises with the economy's nominal gr
 - **Inventories**: firms aim for stocks worth 20% of a year's sales and correct a quarter of any surplus or shortfall each quarter. The 1948 stock overhang produces the 1949 inventory recession.
 - **Government** is federal purchases (defence, public investment, general government) deflated by prices, plus state and local spending that grows with capacity.
 - **Exports** grow with world demand (4.5% a year), plus the part of foreign aid spent on American goods (70% for the Marshall Plan).
-- **Imports** are a share of last quarter's output. The share drifts up 1.3% a year as foreign industry recovers, and tariffs cut it.
+### 4. Output (through the industries)
 
-### 4. Output
+Each kind of spending is split into purchases of seven products and run through the input–output model in `industry.md`. That gives each industry's output, imports (a share of each product's home use, drifting up 1.3% a year as foreign industry recovers and cut by tariffs), and GDP:
 
 ```
 Y = C + I + inventories + G + exports − imports
 ```
 
-Output cannot exceed potential by more than 6%. Demand beyond that is rationed (consumption and investment in proportion, then inventories) and appears as extra inflation instead.
+Output cannot exceed potential by more than 6% (the workforce limit), and no industry can run more than 12% above its normal capacity. Demand beyond a limit is partly met by emergency imports and otherwise rationed, and appears as extra inflation.
 
 ### 5. Jobs and prices
 
@@ -66,7 +66,7 @@ Output cannot exceed potential by more than 6%. Demand beyond that is rationed (
   expected  = 0.6 × last quarter's inflation + 0.4 × 2% anchor
   ```
 
-  Bottlenecks add a point of inflation per point of gap beyond 3%; shortages add the rationed demand.
+  Bottlenecks add a point of inflation for each point by which an industry runs more than 3% above normal capacity, weighted by the industry's size. Shortages add the demand that went unfilled.
 
 ### 6. Interest rates (the Treasury peg)
 
@@ -106,8 +106,7 @@ The balance of payments is net exports + income from abroad − foreign aid − 
 
 ## Known gaps (to fix in later phases)
 
-- **No private capital stock yet.** Investment raises demand but not capacity. Phase 2B's sectors add that link.
-- **Gold barely drains** unless you spend heavily abroad. The real 1950s–60s drain also came from rising private investment abroad and European recovery, which later events and the Bretton Woods mechanics will add.
-- **The peg is permanent** until the Accord arrives with Phase 3 politics.
+- **The peg is permanent** until the Accord arrives with Phase 3 politics, and there are no price controls. Rearmament on the scale of Korea therefore gives double-digit inflation unless taxes rise a long way. That was the reason for both tools.
+- **Nothing floats the dollar.** Gold drains as imports grow, reaching roughly the real 1971 level on its own, but no mechanic yet ends Bretton Woods and lets the dollar fall when the gold runs out.
 - **Frozen budgets cause slow stagnation** over decades, because receipts rise with the economy while spending does not. That is realistic fiscal drag, but it means a hands-off player needs indexation on or regular tax cuts.
 - **Figures are unchecked.** Many 1949 values are approximate and marked as estimates. The Monte Carlo fidelity test in Phase 4 will check the whole path against history.

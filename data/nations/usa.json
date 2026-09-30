@@ -63,6 +63,11 @@
       "provenance": "estimate",
       "note": "US monetary gold stock in 1949, close to its all-time peak of roughly $24.6bn."
     },
+    "industrial_output": {
+      "value": 100,
+      "provenance": "measured",
+      "note": "Index base: 1949 = 100."
+    },
     "steel_output": {
       "value": 70.7,
       "provenance": "measured",
@@ -99,6 +104,7 @@
   "economy": {
     "model": "keynesian",
     "monetaryRegime": "treasury_peg",
+    "industry": "usa-1949",
     "start": {
       "fixed_investment": {
         "value": 41.8,

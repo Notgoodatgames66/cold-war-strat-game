@@ -80,6 +80,14 @@
     "description": "Monetary gold stock valued at the official price of $35 per troy ounce."
   },
   {
+    "id": "industrial_output",
+    "label": "Industrial production",
+    "pillar": "economy",
+    "unit": "index",
+    "decimals": 1,
+    "description": "Real output of heavy industry, energy, consumer goods and technology, weighted by value added. Index, 1949 = 100."
+  },
+  {
     "id": "steel_output",
     "label": "Steel output",
     "pillar": "economy",

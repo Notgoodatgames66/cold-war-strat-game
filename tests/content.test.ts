@@ -43,6 +43,8 @@ describe('data files', () => {
         economyModels: {},
         budgetLines: [],
         taxLines: [],
+        sectors: [],
+        industryTables: {},
       }),
     ).toThrow(/data\/nations\/broken.json/);
   });

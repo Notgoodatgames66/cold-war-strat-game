@@ -5,7 +5,7 @@
  * "nominal" means current dollars. Rates are in percent unless noted.
  */
 
-import type { SourcedValue } from '../schema';
+import type { Provenance, SourceRef, SourcedValue } from '../schema';
 
 // ---------------------------------------------------------------------------
 // Data-file shapes
@@ -90,7 +90,9 @@ export const MODEL_PARAM_KEYS = [
   'investment_corporate_tax_sensitivity',
   'inventory_ratio',
   'inventory_adjustment',
-  'potential_growth',
+  'capital_share',
+  'tfp_growth',
+  'labour_force_growth',
   'public_capital_depreciation',
   'public_capital_elasticity',
   'natural_unemployment',
@@ -103,6 +105,16 @@ export const MODEL_PARAM_KEYS = [
   'overheating_threshold',
   'overheating_slope',
   'capacity_ceiling',
+  'sector_capacity_ceiling',
+  'investment_allocation_sensitivity',
+  'utilisation_smoothing',
+  'surge_import_share',
+  'surge_import_cap',
+  'ration_weight_consumption',
+  'ration_weight_investment',
+  'ration_weight_inventories',
+  'ration_weight_government',
+  'ration_weight_exports',
   'budget_phase_in',
   'world_demand_growth',
   'import_tariff_elasticity',
@@ -122,6 +134,8 @@ export type ModelParamKey = (typeof MODEL_PARAM_KEYS)[number];
 export interface NationEconomyData {
   model: string;
   monetaryRegime: MonetaryRegime;
+  /** Id of the input–output table in data/economy/industry/. */
+  industry: string;
   start: Record<EconomyStartKey, SourcedValue>;
   /** Starting outlay per budget line, nominal $bn a year. */
   budget: Record<string, SourcedValue>;
@@ -132,8 +146,130 @@ export interface NationEconomyData {
 }
 
 // ---------------------------------------------------------------------------
+// Industry data (data/economy/sectors.json, data/economy/industry/*.json)
+// ---------------------------------------------------------------------------
+
+export interface SectorDef {
+  id: string;
+  label: string;
+  description: string;
+  /** Can shortages be met by extra imports? */
+  tradable: boolean;
+  /** Counts towards the industrial production index. */
+  industrial: boolean;
+}
+
+/** A set of shares that sum to 1, keyed by sector id (and `workforce` where allowed). */
+export interface SourcedShares {
+  value: Record<string, number>;
+  provenance: Provenance;
+  note: string;
+}
+
+/** Bridge key for the part of government spending that pays its own workforce. */
+export const WORKFORCE = 'workforce';
+
+export interface IndustrySectorData {
+  /** Share of business (non-government) value added. */
+  valueAddedShare: SourcedValue;
+  /** Value added per dollar of gross output. */
+  valueAddedRatio: SourcedValue;
+  /** Where this sector's intermediate inputs come from (shares, sum to 1). */
+  inputs: SourcedShares;
+  /** Imports of this sector's product, $bn in the base year. */
+  imports: SourcedValue;
+  /** Share of private fixed capital. */
+  capitalShare: SourcedValue;
+  /** Share of private fixed investment in the base year. */
+  investmentShare: SourcedValue;
+}
+
+export interface IndustryTableData {
+  id: string;
+  description: string;
+  verification: 'unchecked' | 'checked';
+  sources: SourceRef[];
+  sectors: Record<string, IndustrySectorData>;
+  capital: { capitalOutputRatio: SourcedValue; depreciation: SourcedValue };
+  bridges: {
+    fixed_investment: SourcedShares;
+    inventory_investment: SourcedShares;
+    state_local: SourcedShares;
+    exports: SourcedShares;
+    aid_exports: SourcedShares;
+    /** One bridge per government-purchase budget line (defence, purchase, public investment). */
+    budget: Record<string, SourcedShares>;
+  };
+  physicalIndicators: { stat: string; sector: string; note: string }[];
+}
+
+// ---------------------------------------------------------------------------
 // State
 // ---------------------------------------------------------------------------
+
+/** Final demand is split into these components for rationing and reporting. */
+export const DEMAND_COMPONENTS = ['consumption', 'fixed_investment', 'inventories', 'government', 'exports'] as const;
+export type DemandComponent = (typeof DEMAND_COMPONENTS)[number];
+
+export interface IndustryState {
+  table: string;
+  /** Sector ids, in matrix order. */
+  sectors: string[];
+  tradable: boolean[];
+  industrial: boolean[];
+  /** A[i][j]: input from sector i per unit of sector j's gross output (all sources). */
+  A: number[][];
+  /** Value added per unit of gross output. */
+  valueAdded: number[];
+  /** Base-year share of each product's home use that is imported. */
+  importShare0: number[];
+  /** Trend multiplier on import shares (foreign recovery and integration). */
+  importIndex: number;
+  /** How each demand component is split across products (shares). */
+  bridges: {
+    consumption: number[];
+    fixed_investment: number[];
+    inventory_investment: number[];
+    state_local: number[];
+    exports: number[];
+    aid_exports: number[];
+    budget: Record<string, number[]>;
+  };
+  /** Share of each government spending stream that pays government's own workforce. */
+  workforceShare: { state_local: number; budget: Record<string, number> };
+
+  // Capital and capacity (real, 1949 dollars)
+  capital: number[];
+  depreciation: number[];
+  investmentShare: number[];
+  /** Normal capacity of sector j = capacityCoef[j] × (its share of capital) × potential GDP. */
+  capacityCoef: number[];
+  /** Recent capacity use per sector (1 = normal), smoothed; steers new investment. */
+  utilisationSmoothed: number[];
+
+  // Last quarter's results
+  output: number[];
+  normalCapacity: number[];
+  imports: number[];
+  surgeImports: number[];
+  /** Final demand that went unmet, by component, real $bn (annual rate). */
+  unmet: Record<DemandComponent, number>;
+  /** Final demand that went unmet, by product. */
+  unmetByProduct: number[];
+  /** Government's own workforce (value added), real. */
+  governmentWorkforce: number;
+
+  base: {
+    output: number[];
+    privateCapital: number;
+    labourIndex: number;
+    industrialValueAdded: number;
+    /** Physical indicators, e.g. steel tonnes per unit of heavy-industry output. */
+    physical: { stat: string; sector: number; perUnit: number }[];
+  };
+  /** Labour input index (1 in the base year). */
+  labourIndex: number;
+}
 
 /** A policy lever the engine needs to know about (copied into the save so old games keep their rules). */
 export interface LeverBounds {
@@ -200,6 +336,7 @@ export interface EconomyState {
   taxRates: Record<TaxId, number>;
 
   // Supply side (real)
+  /** Total factor productivity level (potential output at base-year capital, labour and public capital). */
   productivity: number;
   publicCapital: number;
   potential: number;
@@ -214,8 +351,6 @@ export interface EconomyState {
   imports: number;
   gdpReal: number;
   exportBase: number;
-  /** Share of last quarter's output spent on imports (before tariffs); drifts upward as foreign industry recovers. */
-  importPropensity: number;
   disposableIncomeReal: number;
 
   // Prices, jobs, money
@@ -238,6 +373,8 @@ export interface EconomyState {
   /** Real GDP and price level for the previous four quarters, oldest first (for year-on-year rates). */
   recentGdpReal: number[];
   recentPrice: number[];
+
+  industry: IndustryState;
 
   fiscal: FiscalAccounts;
   breakdown: {

@@ -1,0 +1,51 @@
+[
+  {
+    "id": "agriculture",
+    "label": "Agriculture",
+    "description": "Farms, forestry and fishing.",
+    "tradable": true,
+    "industrial": false
+  },
+  {
+    "id": "heavy_industry",
+    "label": "Heavy industry",
+    "description": "Coal and metal mining, steel and other metals, machinery, ships, railway equipment, tanks and munitions, and construction.",
+    "tradable": true,
+    "industrial": true
+  },
+  {
+    "id": "energy",
+    "label": "Energy",
+    "description": "Oil and gas extraction, refining, and electric and gas utilities. Coal mining sits in heavy industry.",
+    "tradable": true,
+    "industrial": true
+  },
+  {
+    "id": "consumer_goods",
+    "label": "Consumer goods",
+    "description": "Food processing, textiles and clothing, lumber and furniture, paper and printing, cars and household goods.",
+    "tradable": true,
+    "industrial": true
+  },
+  {
+    "id": "technology",
+    "label": "Technology and R&D",
+    "description": "Chemicals and drugs, electrical equipment and electronics, aircraft, instruments, telephones and research laboratories.",
+    "tradable": true,
+    "industrial": true
+  },
+  {
+    "id": "services",
+    "label": "Services and finance",
+    "description": "Housing, banking, insurance, medicine, law, private education, entertainment and personal services. Cannot be imported.",
+    "tradable": false,
+    "industrial": false
+  },
+  {
+    "id": "shipping_trade",
+    "label": "Shipping and trade",
+    "description": "Railways, trucking, shipping, airlines, warehouses, and wholesale and retail trade.",
+    "tradable": true,
+    "industrial": false
+  }
+]

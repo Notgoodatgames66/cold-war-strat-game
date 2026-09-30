@@ -8,6 +8,7 @@ import { createGame } from './sim/world';
 import { EconomyScreen } from './ui/EconomyScreen';
 import { EngineRoom } from './ui/EngineRoom';
 import { FilingCabinet } from './ui/FilingCabinet';
+import { IndustryScreen } from './ui/IndustryScreen';
 import { NationDossier } from './ui/NationDossier';
 import { resolveTurn } from './ui/simClient';
 import { AUTOSAVE_KEY, readSlot, writeSlot } from './ui/storage';
@@ -17,6 +18,7 @@ const SCENARIO_ID = 'usa-1949';
 const TABS = [
   { id: 'situation', label: 'Situation' },
   { id: 'economy', label: 'Economy' },
+  { id: 'industry', label: 'Industry' },
   { id: 'files', label: 'Files' },
 ] as const;
 type TabId = (typeof TABS)[number]['id'];
@@ -157,6 +159,8 @@ export function App() {
 
         {tab === 'economy' && <EconomyScreen game={game} draft={draft} onDraft={setDraft} />}
 
+        {tab === 'industry' && <IndustryScreen game={game} />}
+
         {tab === 'files' && (
           <div className="lower">
             <EngineRoom game={game} lastResolutionMs={lastMs} />
@@ -165,7 +169,7 @@ export function App() {
         )}
       </main>
 
-      <footer className="colophon">Phase 2A build · the US economy is live · industry and the Soviet economy come next</footer>
+      <footer className="colophon">Phase 2B build · the US economy and its seven industries are live · the Soviet economy comes next</footer>
     </div>
   );
 }

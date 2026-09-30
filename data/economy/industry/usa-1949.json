@@ -1,0 +1,162 @@
+{
+  "id": "usa-1949",
+  "description": "The United States economy in 1949 as seven industries: what each produces, what it buys from the others, and where its output goes. Aggregated to the game's seven sectors and reconciled so that the 1949 national accounts close exactly. A first estimate: to be replaced by an aggregation of the 1947 benchmark input–output table.",
+  "verification": "unchecked",
+  "sources": [
+    { "label": "BLS / BEA 1947 benchmark input–output study (structure of inter-industry flows)", "url": "https://www.bea.gov/industry/historical-benchmark-input-output-tables" },
+    { "label": "BEA, GDP by industry, historical series (value-added shares)", "url": "https://apps.bea.gov/iTable/" },
+    { "label": "BEA, Fixed Assets accounts (capital stocks by industry)", "url": "https://apps.bea.gov/iTable/" },
+    { "label": "Historical Statistics of the United States (foreign trade by commodity)" }
+  ],
+  "sectors": {
+    "agriculture": {
+      "valueAddedShare": { "value": 0.080, "provenance": "estimate", "note": "Share of business value added, 1949. Farm income fell in 1949; agriculture was about 7% of GDP." },
+      "valueAddedRatio": { "value": 0.45, "provenance": "estimate", "note": "Value added per dollar of farm output; the rest is feed, seed, fertiliser, fuel and services." },
+      "inputs": {
+        "value": { "agriculture": 0.38, "heavy_industry": 0.06, "energy": 0.07, "consumer_goods": 0.15, "technology": 0.12, "services": 0.12, "shipping_trade": 0.10 },
+        "provenance": "estimate",
+        "note": "Where farms' purchased inputs come from: feed grain and livestock from other farms, processed feed, fertiliser and pesticides (technology), fuel, rent and credit, and haulage."
+      },
+      "imports": { "value": 3.5, "provenance": "estimate", "note": "Imports of farm products, 1949, $bn: coffee, cocoa, bananas, wool, natural rubber and sugar cane." },
+      "capitalShare": { "value": 0.08, "provenance": "estimate", "note": "Share of private fixed capital: farm buildings, tractors and machinery." },
+      "investmentShare": { "value": 0.07, "provenance": "estimate", "note": "Share of 1949 private fixed investment, mostly tractors and farm machinery." }
+    },
+    "heavy_industry": {
+      "valueAddedShare": { "value": 0.160, "provenance": "estimate", "note": "Share of business value added: mining (except oil and gas), metals, fabricated metals, machinery, other transport equipment and construction, together about 15% of 1949 GDP." },
+      "valueAddedRatio": { "value": 0.42, "provenance": "estimate", "note": "Heavy industry buys much of its input from itself: ore for steel, steel for machinery, metals and cement for construction." },
+      "inputs": {
+        "value": { "agriculture": 0.03, "heavy_industry": 0.45, "energy": 0.08, "consumer_goods": 0.11, "technology": 0.08, "services": 0.11, "shipping_trade": 0.14 },
+        "provenance": "estimate",
+        "note": "Mostly its own products, plus lumber (consumer goods), fuel and power, chemicals and electrical parts, rail freight and services."
+      },
+      "imports": { "value": 2.2, "provenance": "estimate", "note": "Imports of metals and ores, 1949, $bn: tin, copper, bauxite, manganese, chrome and iron ore." },
+      "capitalShare": { "value": 0.08, "provenance": "estimate", "note": "Share of private fixed capital: mines, steel mills, machine shops and contractors' equipment." },
+      "investmentShare": { "value": 0.10, "provenance": "estimate", "note": "Share of 1949 private fixed investment." }
+    },
+    "energy": {
+      "valueAddedShare": { "value": 0.050, "provenance": "estimate", "note": "Share of business value added: crude oil and gas, refining, and electric and gas utilities, about 4.3% of 1949 GDP." },
+      "valueAddedRatio": { "value": 0.40, "provenance": "estimate", "note": "Refineries buy crude and power stations buy coal, so value added per dollar is modest." },
+      "inputs": {
+        "value": { "agriculture": 0.0, "heavy_industry": 0.24, "energy": 0.25, "consumer_goods": 0.02, "technology": 0.10, "services": 0.16, "shipping_trade": 0.23 },
+        "provenance": "estimate",
+        "note": "Crude oil to refineries (energy), coal to power stations and pipe and drilling rigs (heavy industry), transport by pipeline, rail and tanker, chemicals, and services."
+      },
+      "imports": { "value": 0.8, "provenance": "estimate", "note": "Imports of crude oil and fuel oil, 1949, $bn. The United States was still close to self-sufficient in oil." },
+      "capitalShare": { "value": 0.11, "provenance": "estimate", "note": "Share of private fixed capital: power stations, refineries, oil wells and gas mains." },
+      "investmentShare": { "value": 0.12, "provenance": "estimate", "note": "Share of 1949 private fixed investment; utility construction boomed after the war." }
+    },
+    "consumer_goods": {
+      "valueAddedShare": { "value": 0.160, "provenance": "estimate", "note": "Share of business value added: food, textiles, clothing, lumber, furniture, paper, printing, rubber, leather and motor vehicles, about 15% of 1949 GDP." },
+      "valueAddedRatio": { "value": 0.32, "provenance": "estimate", "note": "Food processing and car assembly buy most of their value in materials, so value added per dollar is low." },
+      "inputs": {
+        "value": { "agriculture": 0.31, "heavy_industry": 0.11, "energy": 0.04, "consumer_goods": 0.28, "technology": 0.07, "services": 0.07, "shipping_trade": 0.12 },
+        "provenance": "estimate",
+        "note": "Farm produce for food and cloth, steel for cars and appliances, its own intermediate goods (cloth for clothing, pulp for paper), chemicals and rubber, and freight."
+      },
+      "imports": { "value": 1.8, "provenance": "estimate", "note": "Imports of processed consumer goods, 1949, $bn: refined sugar, newsprint, whisky, textiles and finished manufactures." },
+      "capitalShare": { "value": 0.06, "provenance": "estimate", "note": "Share of private fixed capital: factories and mills." },
+      "investmentShare": { "value": 0.10, "provenance": "estimate", "note": "Share of 1949 private fixed investment, including retooling of car plants." }
+    },
+    "technology": {
+      "valueAddedShare": { "value": 0.068, "provenance": "estimate", "note": "Share of business value added: chemicals, electrical machinery, aircraft, instruments and telephone communications, about 6% of 1949 GDP." },
+      "valueAddedRatio": { "value": 0.45, "provenance": "estimate", "note": "Value added per dollar of output." },
+      "inputs": {
+        "value": { "agriculture": 0.02, "heavy_industry": 0.17, "energy": 0.09, "consumer_goods": 0.05, "technology": 0.41, "services": 0.12, "shipping_trade": 0.14 },
+        "provenance": "estimate",
+        "note": "Mostly its own products (chemicals into chemicals, components into equipment), metals, petroleum feedstock, services and freight."
+      },
+      "imports": { "value": 0.3, "provenance": "estimate", "note": "Imports of chemicals and instruments, 1949, $bn." },
+      "capitalShare": { "value": 0.05, "provenance": "estimate", "note": "Share of private fixed capital: chemical plants, electrical works and the telephone network." },
+      "investmentShare": { "value": 0.06, "provenance": "estimate", "note": "Share of 1949 private fixed investment." }
+    },
+    "services": {
+      "valueAddedShare": { "value": 0.250, "provenance": "estimate", "note": "Share of business value added: finance, insurance, real estate (including housing) and private services, about 19% of 1949 GDP plus the small remainder of industries not listed elsewhere. Government's own workforce is counted separately." },
+      "valueAddedRatio": { "value": 0.75, "provenance": "estimate", "note": "Mostly labour and the rental value of housing, so value added per dollar is high." },
+      "inputs": {
+        "value": { "agriculture": 0.05, "heavy_industry": 0.12, "energy": 0.08, "consumer_goods": 0.22, "technology": 0.09, "services": 0.30, "shipping_trade": 0.14 },
+        "provenance": "estimate",
+        "note": "Building repairs, fuel and power, food and supplies for restaurants and hospitals, telephone service, other services and freight."
+      },
+      "imports": { "value": 0.6, "provenance": "estimate", "note": "Imports of services, 1949, $bn: travel abroad and insurance." },
+      "capitalShare": { "value": 0.47, "provenance": "estimate", "note": "Share of private fixed capital. Housing alone was almost half of the nation's private fixed capital." },
+      "investmentShare": { "value": 0.35, "provenance": "estimate", "note": "Share of 1949 private fixed investment: housebuilding (about a quarter) plus offices and hospitals." }
+    },
+    "shipping_trade": {
+      "valueAddedShare": { "value": 0.232, "provenance": "estimate", "note": "Share of business value added: transport (about 5.5% of GDP) and wholesale and retail trade (about 17%)." },
+      "valueAddedRatio": { "value": 0.62, "provenance": "estimate", "note": "Value added per dollar of margin or freight revenue." },
+      "inputs": {
+        "value": { "agriculture": 0.02, "heavy_industry": 0.10, "energy": 0.13, "consumer_goods": 0.21, "technology": 0.06, "services": 0.24, "shipping_trade": 0.24 },
+        "provenance": "estimate",
+        "note": "Fuel, packaging, paper and tyres, vehicle and railway repairs, rent, advertising and finance, and other carriers' services."
+      },
+      "imports": { "value": 0.5, "provenance": "estimate", "note": "Freight carried by foreign ships and airlines, 1949, $bn." },
+      "capitalShare": { "value": 0.15, "provenance": "estimate", "note": "Share of private fixed capital: railways (still the largest single item), trucks, ships and shops." },
+      "investmentShare": { "value": 0.20, "provenance": "estimate", "note": "Share of 1949 private fixed investment: railway dieselisation, trucks and new stores." }
+    }
+  },
+  "capital": {
+    "capitalOutputRatio": { "value": 1.75, "provenance": "estimate", "note": "Private fixed capital (including housing) divided by GDP, 1949, in 1949 dollars. BEA fixed-assets figures put the net stock near $475bn." },
+    "depreciation": { "value": 0.04, "provenance": "estimate", "note": "Private capital consumption divided by the capital stock, 1949 (about $19bn of $475bn). Each sector's rate is derived so the 1949 accounts balance." }
+  },
+  "bridges": {
+    "fixed_investment": {
+      "value": { "heavy_industry": 0.72, "consumer_goods": 0.08, "technology": 0.07, "services": 0.05, "shipping_trade": 0.08 },
+      "provenance": "estimate",
+      "note": "What private fixed investment buys: construction and machinery (heavy industry, about half of it structures), trucks and cars (consumer goods), electrical equipment (technology), brokers' and architects' fees, and dealers' margins."
+    },
+    "inventory_investment": {
+      "value": { "agriculture": 0.30, "heavy_industry": 0.20, "energy": 0.05, "consumer_goods": 0.30, "technology": 0.05, "shipping_trade": 0.10 },
+      "provenance": "estimate",
+      "note": "Which products are stocked or run down: farm stocks, metals, fuel, consumer goods and goods held by merchants."
+    },
+    "state_local": {
+      "value": { "workforce": 0.50, "agriculture": 0.02, "heavy_industry": 0.15, "energy": 0.05, "consumer_goods": 0.05, "technology": 0.02, "services": 0.16, "shipping_trade": 0.05 },
+      "provenance": "estimate",
+      "note": "State and local government spending: half is pay for teachers, police and officials; the rest buys roads and schools (heavy industry), supplies and services."
+    },
+    "exports": {
+      "value": { "agriculture": 0.22, "heavy_industry": 0.35, "energy": 0.02, "consumer_goods": 0.16, "technology": 0.07, "services": 0.07, "shipping_trade": 0.11 },
+      "provenance": "estimate",
+      "note": "Commercial exports (not aid-financed): grain, cotton and tobacco, machinery, vehicles and steel, coal, consumer manufactures, chemicals, and shipping and financial services."
+    },
+    "aid_exports": {
+      "value": { "agriculture": 0.35, "heavy_industry": 0.20, "energy": 0.15, "consumer_goods": 0.15, "technology": 0.10, "shipping_trade": 0.05 },
+      "provenance": "estimate",
+      "note": "What Marshall Plan dollars bought in America: food, feed and fertiliser, fuel, raw materials and machinery."
+    },
+    "budget": {
+      "defence": {
+        "value": { "workforce": 0.40, "agriculture": 0.01, "heavy_industry": 0.15, "energy": 0.04, "consumer_goods": 0.07, "technology": 0.20, "services": 0.05, "shipping_trade": 0.08 },
+        "provenance": "estimate",
+        "note": "Defence spending, 1949: about 40% pays servicemen and civilian staff; the rest buys aircraft, electronics and atomic work (technology), ships, tanks, munitions and bases (heavy industry), food and clothing, fuel and transport."
+      },
+      "general_government": {
+        "value": { "workforce": 0.45, "agriculture": 0.12, "heavy_industry": 0.05, "energy": 0.04, "consumer_goods": 0.06, "technology": 0.02, "services": 0.18, "shipping_trade": 0.08 },
+        "provenance": "estimate",
+        "note": "Running the federal government: staff pay, farm price-support purchases (agriculture), supplies and services."
+      },
+      "infrastructure": {
+        "value": { "workforce": 0.10, "heavy_industry": 0.65, "energy": 0.04, "technology": 0.04, "services": 0.09, "shipping_trade": 0.08 },
+        "provenance": "estimate",
+        "note": "Public works: mostly construction and heavy equipment, plus engineers, power and haulage."
+      },
+      "research": {
+        "value": { "workforce": 0.30, "heavy_industry": 0.05, "technology": 0.40, "services": 0.25 },
+        "provenance": "estimate",
+        "note": "Federal research: government scientists, contracts with laboratories and universities, and equipment."
+      },
+      "education_health": {
+        "value": { "workforce": 0.40, "heavy_industry": 0.10, "consumer_goods": 0.05, "technology": 0.05, "services": 0.40 },
+        "provenance": "estimate",
+        "note": "Federal education and health spending: staff, hospital and school building, medical supplies and services."
+      }
+    }
+  },
+  "physicalIndicators": [
+    {
+      "stat": "steel_output",
+      "sector": "heavy_industry",
+      "note": "Steel tonnage moves with heavy industry's real output."
+    }
+  ]
+}

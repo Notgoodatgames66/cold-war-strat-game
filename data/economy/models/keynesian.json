@@ -58,11 +58,6 @@
       "provenance": "estimate",
       "note": "Share of an inventory surplus or shortfall corrected each quarter. Drives the short inventory recessions of 1949 and 1954."
     },
-    "potential_growth": {
-      "value": 0.032,
-      "provenance": "estimate",
-      "note": "Underlying growth of productive capacity per year, from labour-force growth (about 1.2%) and productivity (about 2%). Later phases derive it from pops, capital and technology."
-    },
     "public_capital_depreciation": {
       "value": 0.04,
       "provenance": "estimate",
@@ -187,6 +182,71 @@
       "value": 0.05,
       "provenance": "estimate",
       "note": "Share of the debt stock refinanced at current long rates each quarter."
+    },
+    "capital_share": {
+      "value": 0.3,
+      "provenance": "estimate",
+      "note": "Capital's share of income in the aggregate production function (Cobb–Douglas). The standard post-war estimate is about 0.3."
+    },
+    "tfp_growth": {
+      "value": 0.015,
+      "provenance": "estimate",
+      "note": "Yearly growth of total factor productivity: output gained from better technique and organisation, beyond more capital and workers. US private-business estimates for 1948–73 run near 1.5–2%."
+    },
+    "labour_force_growth": {
+      "value": 0.012,
+      "provenance": "estimate",
+      "note": "Yearly growth of the labour force in the 1950s. A placeholder until pops and demography drive it in Phase 3."
+    },
+    "sector_capacity_ceiling": {
+      "value": 12.0,
+      "provenance": "estimate",
+      "note": "How far (%) one industry can run above its normal capacity with overtime and extra shifts. Industries stretch further than the economy as a whole, which is limited by labour."
+    },
+    "investment_allocation_sensitivity": {
+      "value": 4.0,
+      "provenance": "estimate",
+      "note": "How strongly new investment flows to industries running hot. An industry 10% busier than average attracts 40% more of its usual share."
+    },
+    "utilisation_smoothing": {
+      "value": 0.5,
+      "provenance": "estimate",
+      "note": "Weight on the latest quarter when investors judge how busy an industry is; the rest is its recent history."
+    },
+    "surge_import_share": {
+      "value": 0.35,
+      "provenance": "estimate",
+      "note": "Share of an industry's shortage met by extra imports from abroad."
+    },
+    "surge_import_cap": {
+      "value": 0.25,
+      "provenance": "estimate",
+      "note": "Extra imports can cover at most this share of a product's normal home use in one quarter."
+    },
+    "ration_weight_consumption": {
+      "value": 1.0,
+      "provenance": "estimate",
+      "note": "How readily household purchases are cut when goods are short. Higher numbers are cut first."
+    },
+    "ration_weight_investment": {
+      "value": 1.0,
+      "provenance": "estimate",
+      "note": "How readily business investment projects are delayed when goods are short."
+    },
+    "ration_weight_inventories": {
+      "value": 1.5,
+      "provenance": "estimate",
+      "note": "How readily stockbuilding is abandoned when goods are short; firms give it up first."
+    },
+    "ration_weight_government": {
+      "value": 0.25,
+      "provenance": "estimate",
+      "note": "How readily government orders are cut when goods are short. Low because defence contracts carry priority ratings (as under the Defense Production Act of 1950)."
+    },
+    "ration_weight_exports": {
+      "value": 0.75,
+      "provenance": "estimate",
+      "note": "How readily export orders are cut when goods are short."
     }
   }
 }

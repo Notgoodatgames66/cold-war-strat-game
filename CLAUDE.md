@@ -51,9 +51,9 @@ A deep, calculation-driven Cold War grand strategy simulator. Alpha scenario: th
 ## Layout
 
 ```
-data/            stats.json (stat registry), nations/, scenarios/, economy/ (models, budget and tax levers)
+data/            stats.json (stat registry), nations/, scenarios/, economy/ (models, levers, sectors, industry tables)
 src/sim/         the engine: rng, time, schema, content, world, turn, orders, save, worker, systems/, economy/
-src/ui/          interface components and helpers (tabs, charts, Treasury desk)
+src/ui/          interface components and helpers (tabs, charts, Treasury desk, Industry screen)
 src/App.tsx      the main screen
 tests/           automated tests
 docs/GDD.md      the game design document
@@ -65,7 +65,8 @@ docs/models/     plain-English papers explaining each model
 
 - **Phase 1 (Foundations): complete.** Seeded RNG, quarterly turn loop to Q4 2000, staggered system scheduler, universal nation schema, USA and USSR 1949 data, save/load/export/import, autosave, web worker, state checksums, GitHub Pages deployment.
 - **Phase 2A (Macroeconomy): complete.** Keynesian model for the USA (C, I, inventories, G, trade, potential, Okun, Phillips, Treasury peg, federal budget, debt, gold), calibrated to 1949 from data files; budget and tax orders with phase-in and optional indexation; Economy tab with charts, accounts and the Treasury desk; save schema 2 with a migration from schema 1. Model paper: `docs/models/economy.md`.
-- **Next: Phase 2B (Industry).** Seven sectors and input–output production chains, with a private capital stock feeding capacity. Then 2C: a simpler Soviet economy and the Phase 2 gate (1949–55 playable).
+- **Phase 2B (Industry): complete.** Seven sectors with a 1949 input–output table (`data/economy/industry/usa-1949.json`), competitive imports, government's own workforce split out, sector capacity from sector capital, rationing with priorities and emergency imports, investment flowing to hot sectors, Cobb–Douglas potential, industrial production index and steel tonnage; Industry tab; save schema 3. Model paper: `docs/models/industry.md`.
+- **Next: Phase 2C.** A simpler Soviet economy (same universal schema, planned-economy flavour later), then the Phase 2 gate: 1949–55 is playable.
 
 ## Design decisions made by Ryan
 
@@ -78,3 +79,4 @@ docs/models/     plain-English papers explaining each model
 ## Open data tasks
 
 - Ryan to verify the 1949 starting figures in `data/nations/usa.json` and `ussr.json` against the listed sources, then set `"verification": "checked"`.
+- Replace the estimated input–output table with an aggregation of the 1947 BEA benchmark table to the seven sectors.

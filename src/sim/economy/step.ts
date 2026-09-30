@@ -2,23 +2,28 @@
  * One quarter of the Keynesian economy.
  *
  * Order within the quarter:
- *  1. Capacity (potential output) grows; budget changes phase in.
+ *  1. Capacity grows: potential output from productivity, private capital,
+ *     labour and public capital. Budget changes phase in.
  *  2. Spending decisions, based on last quarter's income and output:
- *     consumption, fixed investment, inventories, government, trade.
- *  3. Output is the sum of spending, capped at the capacity ceiling.
- *  4. Unemployment (Okun's law) and inflation (Phillips curve) respond to the gap.
+ *     consumption, fixed investment, inventories, government, exports.
+ *  3. Industry: spending is split into products and run through the
+ *     input–output model. Sectors short of capacity draw in extra imports and
+ *     ration what is left. Output (GDP) and imports come out of this step.
+ *  4. Unemployment (Okun's law) and inflation (Phillips curve, with sector
+ *     bottlenecks and shortages) respond.
  *  5. The federal budget, the debt, disposable income and the balance of
  *     payments (gold) are settled in current dollars.
+ *  6. Investment is added to each sector's capital.
  *
- * See docs/models/economy.md for the equations in plain English.
+ * See docs/models/economy.md and docs/models/industry.md.
  */
 
 import { investorInflation, sumByKind, PURCHASE_KINDS } from './calibrate';
-import type { EconomyState, TaxId } from './types';
+import { accumulateCapital, importShares, normalCapacities, solveProduction, totalCapital } from './industry';
+import { sum, zeros, type Vector } from './linalg';
+import { DEMAND_COMPONENTS, type DemandComponent, type EconomyState, type TaxId } from './types';
 
 const QUARTER = 0.25;
-/** Rationing never squeezes consumption below this multiple of autonomous (subsistence) consumption. */
-const MIN_CONSUMPTION_SHARE = 1;
 /** Annualised inflation is kept within these bounds so extreme policies stay finite. */
 const INFLATION_FLOOR = -30;
 const INFLATION_CEILING = 1000;
@@ -32,13 +37,24 @@ function phaseInBudget(e: EconomyState) {
   }
 }
 
-/** Grows productive capacity: trend productivity times the public capital effect. */
+/**
+ * Grows productive capacity. Potential output follows a Cobb–Douglas
+ * production function in private capital and labour, scaled by total factor
+ * productivity and the public capital stock.
+ */
 function growSupply(e: EconomyState) {
   const p = e.params;
-  e.productivity *= Math.pow(1 + p.potential_growth, QUARTER);
+  const ind = e.industry;
+  e.productivity *= Math.pow(1 + p.tfp_growth, QUARTER);
+  ind.labourIndex *= Math.pow(1 + p.labour_force_growth, QUARTER);
   const publicInvestmentReal = sumByKind(e.budgetLines, e.budgetEffective, ['public_investment']) / e.priceLevel;
   e.publicCapital = e.publicCapital * (1 - p.public_capital_depreciation * QUARTER) + publicInvestmentReal * QUARTER;
-  e.potential = e.productivity * Math.pow(e.publicCapital / e.calib.publicCapital0, p.public_capital_elasticity);
+  const capitalIndex = totalCapital(ind) / ind.base.privateCapital;
+  e.potential =
+    e.productivity *
+    Math.pow(capitalIndex, p.capital_share) *
+    Math.pow(ind.labourIndex / ind.base.labourIndex, 1 - p.capital_share) *
+    Math.pow(e.publicCapital / e.calib.publicCapital0, p.public_capital_elasticity);
 }
 
 /**
@@ -57,11 +73,15 @@ function indexBudget(e: EconomyState, potentialBefore: number) {
   }
 }
 
+const scaled = (shares: Vector, amount: number): Vector => shares.map((s) => s * amount);
+const add = (a: Vector, b: Vector): Vector => a.map((x, i) => x + b[i]!);
+
 export function stepEconomy(e: EconomyState, population: number): Record<string, number> {
   const p = e.params;
   const c = e.calib;
+  const ind = e.industry;
+  const n = ind.sectors.length;
 
-  const previousGdp = e.gdpReal;
   const previousGap = e.gdpReal / e.potential - 1;
   const previousPrice = e.priceLevel;
   const previousFinalSales = e.gdpReal - e.inventoryInvestment;
@@ -71,20 +91,21 @@ export function stepEconomy(e: EconomyState, population: number): Record<string,
   indexBudget(e, potentialBefore);
   phaseInBudget(e);
   const scale = e.potential / c.potential0;
+  ind.importIndex *= Math.pow(1 + p.import_propensity_trend, QUARTER);
 
   // --- Expectations and the real interest rate ---------------------------
   e.expectedInflation = p.expectations_persistence * e.inflation + (1 - p.expectations_persistence) * p.inflation_anchor;
   // Investors look through short-run price swings to long-horizon expectations.
   const realRate = e.shortRate - investorInflation(e.expectedInflation, p);
 
-  // --- Spending (real) ----------------------------------------------------
+  // --- Desired spending (real) --------------------------------------------------
   // Households spend out of a blend of current income and expected long-run
   // income (which follows the economy's potential).
   const permanentIncome = c.disposableIncome0 * scale;
   const perceivedIncome =
     p.current_income_weight * e.disposableIncomeReal + (1 - p.current_income_weight) * permanentIncome;
   const desiredConsumption = c.autonomousConsumption * scale + p.mpc * perceivedIncome;
-  e.consumption += p.consumption_adjustment * (desiredConsumption - e.consumption);
+  const consumptionDemand = e.consumption + p.consumption_adjustment * (desiredConsumption - e.consumption);
 
   const desiredInvestment =
     c.investmentShare *
@@ -92,45 +113,75 @@ export function stepEconomy(e: EconomyState, population: number): Record<string,
     (1 + p.accelerator * previousGap) *
     Math.exp(-p.investment_rate_sensitivity * (realRate - c.realRate0)) *
     (1 - (p.investment_corporate_tax_sensitivity * (e.taxRates.corporate - c.corporateRate0)) / 100);
-  e.fixedInvestment += p.investment_adjustment * (Math.max(0, desiredInvestment) - e.fixedInvestment);
+  const investmentDemand = e.fixedInvestment + p.investment_adjustment * (Math.max(0, desiredInvestment) - e.fixedInvestment);
 
   const desiredStock = p.inventory_ratio * previousFinalSales;
-  e.inventoryInvestment = 4 * p.inventory_adjustment * (desiredStock - e.inventoryStock);
+  const inventoryDemand = 4 * p.inventory_adjustment * (desiredStock - e.inventoryStock);
 
-  const federalPurchases = sumByKind(e.budgetLines, e.budgetEffective, PURCHASE_KINDS);
+  // Government: each budget line's purchases, plus state and local government.
   const stateLocal = c.stateLocal0 * scale;
-  e.government = federalPurchases / previousPrice + stateLocal;
+  let workforce = ind.workforceShare.state_local * stateLocal;
+  let governmentProducts = scaled(ind.bridges.state_local, stateLocal);
+  for (const line of e.budgetLines) {
+    if (!line.kind || !(PURCHASE_KINDS as readonly string[]).includes(line.kind)) continue;
+    const real = (e.budgetEffective[line.id] ?? 0) / previousPrice;
+    workforce += (ind.workforceShare.budget[line.id] ?? 0) * real;
+    governmentProducts = add(governmentProducts, scaled(ind.bridges.budget[line.id] ?? zeros(n), real));
+  }
 
   const aid = sumByKind(e.budgetLines, e.budgetEffective, ['foreign_aid']);
   e.exportBase *= Math.pow(1 + p.world_demand_growth, QUARTER);
-  e.exports = e.exportBase + (c.aidTiedShare * aid) / previousPrice;
+  const aidExports = (c.aidTiedShare * aid) / previousPrice;
 
+  // --- Industry: products, capacity, rationing --------------------------------------
+  const demand: Record<DemandComponent, Vector> = {
+    consumption: scaled(ind.bridges.consumption, consumptionDemand),
+    fixed_investment: scaled(ind.bridges.fixed_investment, investmentDemand),
+    inventories: scaled(ind.bridges.inventory_investment, inventoryDemand),
+    government: governmentProducts,
+    exports: add(scaled(ind.bridges.exports, e.exportBase), scaled(ind.bridges.aid_exports, aidExports)),
+  };
   const tariffFactor = Math.pow((1 + c.tariffRate0 / 100) / (1 + e.taxRates.tariff / 100), p.import_tariff_elasticity);
-  e.importPropensity *= Math.pow(1 + p.import_propensity_trend, QUARTER);
-  e.imports = e.importPropensity * previousGdp * tariffFactor;
+  const normalCapacity = normalCapacities(ind, e.potential);
+  const production = solveProduction({
+    A: ind.A,
+    valueAdded: ind.valueAdded,
+    importShare: importShares(ind, tariffFactor),
+    tradable: ind.tradable,
+    sectorCeiling: normalCapacity.map((cap) => cap * (1 + p.sector_capacity_ceiling / 100)),
+    businessCeiling: e.potential * (1 + p.capacity_ceiling / 100) - workforce,
+    demand,
+    weights: {
+      consumption: p.ration_weight_consumption,
+      fixed_investment: p.ration_weight_investment,
+      inventories: p.ration_weight_inventories,
+      government: p.ration_weight_government,
+      exports: p.ration_weight_exports,
+    },
+    surgeShare: p.surge_import_share,
+    surgeCap: p.surge_import_cap,
+  });
 
-  // --- Output ---------------------------------------------------------------
-  let output = e.consumption + e.fixedInvestment + e.inventoryInvestment + e.government + e.exports - e.imports;
-  const ceiling = e.potential * (1 + p.capacity_ceiling / 100);
-  let excessDemand = 0;
-  if (output > ceiling) {
-    // Demand the economy cannot supply. Private spending is rationed in
-    // proportion (consumers queue, investment projects wait for steel), down
-    // to a subsistence floor for consumption; whatever is still unmet comes
-    // out of inventories. The unmet demand shows up as inflation.
-    excessDemand = output - ceiling;
-    const floor = MIN_CONSUMPTION_SHARE * c.autonomousConsumption * scale;
-    const privateDemand = e.consumption + e.fixedInvestment;
-    const consumptionCut = Math.min(e.consumption - floor, excessDemand * (e.consumption / privateDemand));
-    const investmentCut = Math.min(e.fixedInvestment, excessDemand * (e.fixedInvestment / privateDemand));
-    e.consumption -= Math.max(0, consumptionCut);
-    e.fixedInvestment -= Math.max(0, investmentCut);
-    e.inventoryInvestment -= excessDemand - Math.max(0, consumptionCut) - Math.max(0, investmentCut);
-    output = ceiling;
-  }
+  const delivered = (k: DemandComponent) => sum(production.delivered[k]);
+  e.consumption = delivered('consumption');
+  e.fixedInvestment = delivered('fixed_investment');
+  e.inventoryInvestment = delivered('inventories');
+  e.government = delivered('government') + workforce;
+  e.exports = delivered('exports');
+  e.imports = sum(production.imports) + sum(production.surgeImports);
+  const output = production.businessValueAdded + workforce;
   e.gdpReal = output;
   e.inventoryStock += e.inventoryInvestment * QUARTER;
   const gapPct = (output / e.potential - 1) * 100;
+
+  ind.output = production.output;
+  ind.normalCapacity = normalCapacity;
+  ind.imports = production.imports;
+  ind.surgeImports = production.surgeImports;
+  ind.unmet = production.unmet;
+  ind.unmetByProduct = production.unmetByProduct;
+  ind.governmentWorkforce = workforce;
+  const utilisation = production.output.map((x, j) => x / normalCapacity[j]!);
 
   // --- Jobs (Okun's law) ------------------------------------------------------
   const okunRaw = p.natural_unemployment - p.okun_coefficient * gapPct;
@@ -145,15 +196,26 @@ export function stepEconomy(e: EconomyState, population: number): Record<string,
   ];
 
   // --- Prices (Phillips curve) -----------------------------------------------
+  // Bottlenecks: each sector running well above normal capacity pushes up
+  // prices, weighted by its share of value added. Shortages: demand that could
+  // not be met at all bids prices up further.
+  const valueAdded = production.output.map((x, j) => ind.valueAdded[j]! * x);
+  const valueAddedTotal = sum(valueAdded);
   const gapPressure = p.phillips_slope * gapPct;
-  const bottlenecks = p.overheating_slope * Math.max(0, gapPct - p.overheating_threshold);
-  const shortages = (excessDemand / ceiling) * 100;
+  const bottlenecks =
+    p.overheating_slope *
+    utilisation.reduce(
+      (s, u, j) => s + (valueAdded[j]! / valueAddedTotal) * Math.max(0, (u - 1) * 100 - p.overheating_threshold),
+      0,
+    );
+  const unmetTotal = DEMAND_COMPONENTS.reduce((s, k) => s + production.unmet[k], 0);
+  const shortages = (unmetTotal / e.potential) * 100;
   const rawInflation = e.expectedInflation + gapPressure + bottlenecks + shortages;
   e.inflation = Math.min(INFLATION_CEILING, Math.max(INFLATION_FLOOR, rawInflation));
   e.breakdown.inflation = [
     { label: 'Expected inflation', value: e.expectedInflation },
     { label: 'Output gap', value: gapPressure },
-    { label: 'Capacity bottlenecks', value: bottlenecks },
+    { label: 'Industry bottlenecks', value: bottlenecks },
     { label: 'Shortages', value: shortages },
   ];
   e.priceLevel *= Math.pow(1 + e.inflation / 100, QUARTER);
@@ -221,13 +283,16 @@ export function stepEconomy(e: EconomyState, population: number): Record<string,
     e.foreignDollarClaims += (1 - p.gold_settlement_share) * -e.balanceOfPayments * QUARTER;
   }
 
+  // --- Capital: this quarter's investment builds next quarter's capacity ------------
+  accumulateCapital(ind, e.fixedInvestment, utilisation, p);
+
   // --- Year-on-year rates ---------------------------------------------------------
   const gdpYearAgo = e.recentGdpReal[0]!;
   const priceYearAgo = e.recentPrice[0]!;
   e.recentGdpReal = [...e.recentGdpReal.slice(1), output];
   e.recentPrice = [...e.recentPrice.slice(1), P];
 
-  return {
+  const headline: Record<string, number> = {
     gdp_nominal: gdpNominal,
     gdp_real: output,
     real_growth: (output / gdpYearAgo - 1) * 100,
@@ -239,5 +304,12 @@ export function stepEconomy(e: EconomyState, population: number): Record<string,
     debt_to_gdp: (e.debt / gdpNominal) * 100,
     gold_reserves: e.gold,
     defence_spending: defence,
+    industrial_output:
+      (100 * production.output.reduce((s, x, j) => s + (ind.industrial[j] ? ind.valueAdded[j]! * x : 0), 0)) /
+      ind.base.industrialValueAdded,
   };
+  for (const indicator of ind.base.physical) {
+    headline[indicator.stat] = indicator.perUnit * production.output[indicator.sector]!;
+  }
+  return headline;
 }

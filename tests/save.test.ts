@@ -39,6 +39,33 @@ describe('save and load', () => {
     expect(() => deserializeGame(text, content)).toThrow(/damaged/);
   });
 
+  it('upgrades a Phase 2A (schema 2) save by adding industry, keeping potential output unchanged', () => {
+    let modern = createGame(content, 'usa-1949', 'phase-2a-save');
+    for (let i = 0; i < 9; i++) modern = advanceTurn(modern, i === 0 ? { budget: { defence: 20 } } : {});
+    const old = structuredClone(modern) as unknown as Record<string, any>;
+    const e = old.nations.usa.economy;
+    delete e.industry;
+    e.importPropensity = (9.7 / 272.5) * 1.02;
+    delete e.params.capital_share;
+    e.params.potential_growth = 0.032;
+    delete old.nations.usa.stats.industrial_output;
+    old.history = old.history.map(({ date, stats }: Record<string, unknown>) => ({ date, stats }));
+    const text = JSON.stringify({ format: SAVE_FORMAT, schemaVersion: 2, state: { ...old, schemaVersion: 2 } });
+
+    const upgraded = deserializeGame(text, content);
+    const ind = upgraded.nations.usa!.economy!.industry;
+    expect(ind.sectors).toHaveLength(7);
+    expect(upgraded.nations.usa!.economy!.params.capital_share).toBe(0.3);
+    expect(upgraded.nations.usa!.stats.industrial_output).toBeDefined();
+    expect(ind.importIndex).toBeCloseTo(1.02, 9);
+    expect(upgraded.nations.usa!.economy!.potential).toBeCloseTo(modern.nations.usa!.economy!.potential, 9);
+
+    const next = advanceTurn(upgraded);
+    const gap = (next.nations.usa!.economy!.gdpReal / next.nations.usa!.economy!.potential - 1) * 100;
+    expect(Math.abs(gap)).toBeLessThan(8);
+    expect(next.history.at(-1)!.sectors?.usa).toBeDefined();
+  });
+
   it('upgrades a Phase 1 (schema 1) save by adding the economy', () => {
     const modern = advanceTurn(createGame(content, 'usa-1949', 'old-save'));
     const old = structuredClone(modern) as unknown as Record<string, any>;

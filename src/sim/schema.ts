@@ -23,8 +23,8 @@ import type { GameDate } from './time';
 export const PILLARS = ['economy', 'military', 'politics', 'society', 'world', 'intelligence'] as const;
 export type Pillar = (typeof PILLARS)[number];
 
-export const STAT_UNITS = ['people', 'usd_bn', 'percent', 'count', 'mt'] as const;
-/** people = persons · usd_bn = billions of current US dollars · percent · count · mt = million metric tonnes */
+export const STAT_UNITS = ['people', 'usd_bn', 'percent', 'count', 'mt', 'index'] as const;
+/** people = persons · usd_bn = billions of current US dollars · percent · count · mt = million metric tonnes · index = base year 100 */
 export type StatUnit = (typeof STAT_UNITS)[number];
 
 export interface StatDef {
@@ -124,10 +124,20 @@ export interface NationState {
   economy?: EconomyState;
 }
 
+/** One sector's figures in a history snapshot. */
+export interface SectorSnapshot {
+  /** Real gross output, $bn a year (1949 dollars). */
+  output: number;
+  /** Output ÷ normal capacity (1 = normal). */
+  utilisation: number;
+}
+
 /** A snapshot of every nation's stats at one date. One per quarter, never pruned. */
 export interface HistoryEntry {
   date: GameDate;
   stats: Record<string, Record<string, number>>;
+  /** Sector figures for nations with a simulated industry: nation → sector → figures. */
+  sectors?: Record<string, Record<string, SectorSnapshot>>;
 }
 
 /** What happened when a turn resolved. */
@@ -167,4 +177,4 @@ export interface PlayerOrders {
   budgetIndexed?: boolean;
 }
 
-export const SCHEMA_VERSION = 2;
+export const SCHEMA_VERSION = 3;

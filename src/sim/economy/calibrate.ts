@@ -3,12 +3,13 @@
  *
  * The data files give observed 1949 flows (investment, exports, tax receipts,
  * outlays) and model parameters. Calibration derives the few hidden constants
- * (autonomous consumption, tax bases, import propensity…) so that the model's
+ * (autonomous consumption, tax bases, the input–output structure…) so that the model's
  * first quarter reproduces the 1949 figures exactly. Nothing here is tuned by
  * hand: change a data figure and the constants follow.
  */
 
 import type { NationData } from '../schema';
+import { PURCHASE_KINDS, createIndustry } from './industry';
 import {
   MODEL_PARAM_KEYS,
   TAX_IDS,
@@ -17,7 +18,9 @@ import {
   type EconomyModelData,
   type EconomyState,
   type FiscalAccounts,
+  type IndustryTableData,
   type ModelParamKey,
+  type SectorDef,
   type TaxId,
   type TaxLineDef,
 } from './types';
@@ -36,6 +39,8 @@ export interface EconomyDefs {
   models: Record<string, EconomyModelData>;
   budgetLines: BudgetLineDef[];
   taxLines: TaxLineDef[];
+  sectors: SectorDef[];
+  industryTables: Record<string, IndustryTableData>;
 }
 
 export function sumByKind(
@@ -46,8 +51,12 @@ export function sumByKind(
   return lines.filter((l) => l.kind && kinds.includes(l.kind)).reduce((sum, l) => sum + (values[l.id] ?? 0), 0);
 }
 
-/** Government purchases in the federal budget (defence, purchases, public investment). */
-export const PURCHASE_KINDS = ['defence', 'purchase', 'public_investment'] as const;
+export { PURCHASE_KINDS };
+
+/** Reads a model's parameters from its data file. */
+export function modelParams(model: EconomyModelData): Record<ModelParamKey, number> {
+  return Object.fromEntries(MODEL_PARAM_KEYS.map((k) => [k, model.params[k]!.value])) as Record<ModelParamKey, number>;
+}
 
 /** Long-horizon inflation expectations used by investors: mostly the anchor, partly recent experience. */
 export function investorInflation(expected: number, params: Pick<Record<ModelParamKey, number>, 'inflation_anchor' | 'long_expectations_weight'>): number {
@@ -69,10 +78,9 @@ export function createEconomy(nation: NationData, defs: EconomyDefs): EconomySta
     keyof typeof data.start,
     number
   >;
-  const params = Object.fromEntries(MODEL_PARAM_KEYS.map((k) => [k, model.params[k]!.value])) as Record<
-    ModelParamKey,
-    number
-  >;
+  const params = modelParams(model);
+  const table = defs.industryTables[data.industry];
+  if (!table) throw new Error(`${nation.id}: unknown industry table "${data.industry}"`);
 
   const budget: Record<string, number> = {};
   for (const line of defs.budgetLines) budget[line.id] = data.budget[line.id]?.value ?? 0;
@@ -131,6 +139,20 @@ export function createEconomy(nation: NationData, defs: EconomyDefs): EconomySta
   const expected0 = params.expectations_persistence * inflation0 + (1 - params.expectations_persistence) * params.inflation_anchor;
   const publicInvestment0 = sumByKind(defs.budgetLines, budget, ['public_investment']);
   const publicCapital0 = publicInvestment0 / params.public_capital_depreciation;
+
+  const industry = createIndustry(nation, table, defs.sectors, defs.budgetLines, {
+    gdp: Y0,
+    outputGap: gap0,
+    potential: potential0,
+    fixedInvestment: s.fixed_investment,
+    inventoryInvestment: s.inventory_investment,
+    consumption: consumption0,
+    exports: s.exports,
+    imports: s.imports,
+    aidTiedExports: s.aid_tied_share * aid0,
+    stateLocal: stateLocal0,
+    budget,
+  });
 
   const calib: Calibration = {
     potential0,
@@ -193,7 +215,6 @@ export function createEconomy(nation: NationData, defs: EconomyDefs): EconomySta
     imports: s.imports,
     gdpReal: Y0,
     exportBase: exportBase0,
-    importPropensity: s.imports / Y0,
     disposableIncomeReal: disposable0,
 
     priceLevel: 1,
@@ -212,6 +233,8 @@ export function createEconomy(nation: NationData, defs: EconomyDefs): EconomySta
 
     recentGdpReal,
     recentPrice,
+
+    industry,
 
     fiscal,
     breakdown: { inflation: [], unemployment: [] },

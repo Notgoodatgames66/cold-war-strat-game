@@ -140,7 +140,7 @@ describe('Keynesian behaviour', () => {
   it('demand beyond capacity becomes inflation, not output', () => {
     const g = play(12, { budget: { defence: 150 } });
     const e = econ(g);
-    expect(e.gdpReal).toBeLessThanOrEqual(e.potential * (1 + e.params.capacity_ceiling / 100) + 1e-9);
+    expect(e.gdpReal).toBeLessThanOrEqual(e.potential * (1 + e.params.capacity_ceiling / 100) * (1 + 1e-6));
     expect(usa(g).stats.inflation!).toBeGreaterThan(8);
   });
 

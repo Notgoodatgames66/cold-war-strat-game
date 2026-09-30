@@ -6,15 +6,18 @@
  * clear message, not a silent wrong number.
  */
 
-import { REQUIRED_STATS, createEconomy, type EconomyDefs } from './economy/calibrate';
+import { PURCHASE_KINDS, REQUIRED_STATS, createEconomy, type EconomyDefs } from './economy/calibrate';
 import {
   BUDGET_KINDS,
   ECONOMY_START_KEYS,
   MODEL_PARAM_KEYS,
   MONETARY_REGIMES,
   TAX_IDS,
+  WORKFORCE,
   type BudgetLineDef,
   type EconomyModelData,
+  type IndustryTableData,
+  type SectorDef,
   type TaxLineDef,
 } from './economy/types';
 import { PILLARS, STAT_UNITS, TIERS, type NationData, type ScenarioData, type StatDef } from './schema';
@@ -129,11 +132,144 @@ export function validateTaxLines(raw: unknown, file: string): string[] {
   return errors;
 }
 
+// ---------------------------------------------------------------------------
+// Industry: sectors and input–output tables
+// ---------------------------------------------------------------------------
+
+export function validateSectors(raw: unknown, file: string): string[] {
+  if (!Array.isArray(raw) || raw.length === 0) return [`${file}: must be a list of sectors`];
+  const errors: string[] = [];
+  const seen = new Set<string>();
+  raw.forEach((s, i) => {
+    const where = `${file}[${i}]`;
+    if (!isObj(s)) {
+      errors.push(`${where}: must be an object`);
+      return;
+    }
+    if (!isStr(s.id)) errors.push(`${where}: missing id`);
+    else if (s.id === WORKFORCE) errors.push(`${where}: "${WORKFORCE}" is reserved`);
+    else if (seen.has(s.id)) errors.push(`${where}: duplicate id "${s.id}"`);
+    else seen.add(s.id);
+    if (!isStr(s.label)) errors.push(`${where}: missing label`);
+    if (!isStr(s.description)) errors.push(`${where}: missing description`);
+    if (typeof s.tradable !== 'boolean') errors.push(`${where}: tradable must be true or false`);
+    if (typeof s.industrial !== 'boolean') errors.push(`${where}: industrial must be true or false`);
+  });
+  return errors;
+}
+
+const SHARE_TOLERANCE = 0.002;
+
+/** Checks a { value: {key: share}, provenance, note } block: known keys, no negatives, sums to 1. */
+function validateShares(raw: unknown, where: string, allowed: Set<string>): string[] {
+  if (!isObj(raw) || !isObj(raw.value)) return [`${where}: must be { value: { … }, provenance, note }`];
+  const errors: string[] = [];
+  let total = 0;
+  for (const [key, share] of Object.entries(raw.value)) {
+    if (!allowed.has(key)) errors.push(`${where}: "${key}" is not allowed here`);
+    if (!isNum(share) || share < 0) errors.push(`${where}.${key}: must be a number ≥ 0`);
+    else total += share;
+  }
+  if (Math.abs(total - 1) > SHARE_TOLERANCE) errors.push(`${where}: shares sum to ${total.toFixed(3)}, not 1`);
+  if (raw.provenance !== 'measured' && raw.provenance !== 'estimate') errors.push(`${where}.provenance: must be "measured" or "estimate"`);
+  if (!isStr(raw.note)) errors.push(`${where}.note: every figure needs a note saying where it came from`);
+  return errors;
+}
+
+const SECTOR_FIELDS = ['valueAddedShare', 'valueAddedRatio', 'imports', 'capitalShare', 'investmentShare'] as const;
+
+export function validateIndustryTable(
+  raw: unknown,
+  file: string,
+  sectors: SectorDef[],
+  budgetLines: BudgetLineDef[],
+  statIds: Set<string>,
+): string[] {
+  if (!isObj(raw)) return [`${file}: must be an object`];
+  const errors: string[] = [];
+  if (!isStr(raw.id)) errors.push(`${file}: missing id`);
+  if (!isStr(raw.description)) errors.push(`${file}: missing description`);
+  if (raw.verification !== 'unchecked' && raw.verification !== 'checked')
+    errors.push(`${file}: verification must be "unchecked" or "checked"`);
+  if (!Array.isArray(raw.sources) || raw.sources.length === 0) errors.push(`${file}: list at least one source`);
+
+  const ids = new Set(sectors.map((s) => s.id));
+  const withWorkforce = new Set([...ids, WORKFORCE]);
+  if (!isObj(raw.sectors)) return [...errors, `${file}: sectors must be an object`];
+  for (const id of Object.keys(raw.sectors)) {
+    if (!ids.has(id)) errors.push(`${file}: sectors.${id} is not in data/economy/sectors.json`);
+  }
+  const sums = { valueAddedShare: 0, capitalShare: 0, investmentShare: 0 };
+  for (const s of sectors) {
+    const entry = raw.sectors[s.id];
+    const at = `${file}: sectors.${s.id}`;
+    if (!isObj(entry)) {
+      errors.push(`${at}: missing`);
+      continue;
+    }
+    errors.push(...validateSourcedMap(Object.fromEntries(SECTOR_FIELDS.map((f) => [f, entry[f]])), at, null, SECTOR_FIELDS));
+    errors.push(...validateShares(entry.inputs, `${at}.inputs`, ids));
+    const num = (f: (typeof SECTOR_FIELDS)[number]) => (isObj(entry[f]) && isNum((entry[f] as Obj).value) ? ((entry[f] as Obj).value as number) : NaN);
+    const ratio = num('valueAddedRatio');
+    if (!(ratio > 0 && ratio < 1)) errors.push(`${at}.valueAddedRatio: must be between 0 and 1`);
+    if (!(num('imports') >= 0)) errors.push(`${at}.imports: must be 0 or more`);
+    for (const f of ['valueAddedShare', 'capitalShare', 'investmentShare'] as const) {
+      if (!(num(f) >= 0)) errors.push(`${at}.${f}: must be 0 or more`);
+      else sums[f] += num(f);
+    }
+  }
+  for (const [f, total] of Object.entries(sums)) {
+    if (Math.abs(total - 1) > SHARE_TOLERANCE) errors.push(`${file}: ${f} across sectors sums to ${total.toFixed(3)}, not 1`);
+  }
+
+  if (!isObj(raw.capital)) errors.push(`${file}: capital must be an object`);
+  else {
+    errors.push(...validateSourcedMap(raw.capital, `${file}: capital`, new Set(['capitalOutputRatio', 'depreciation']), ['capitalOutputRatio', 'depreciation']));
+  }
+
+  const bridges = raw.bridges;
+  if (!isObj(bridges)) errors.push(`${file}: bridges must be an object`);
+  else {
+    for (const key of ['fixed_investment', 'inventory_investment', 'exports', 'aid_exports'] as const) {
+      errors.push(...validateShares(bridges[key], `${file}: bridges.${key}`, ids));
+    }
+    errors.push(...validateShares(bridges.state_local, `${file}: bridges.state_local`, withWorkforce));
+    if (!isObj(bridges.budget)) errors.push(`${file}: bridges.budget must be an object`);
+    else {
+      for (const line of budgetLines) {
+        const buys = (PURCHASE_KINDS as readonly string[]).includes(line.kind);
+        if (buys && !(line.id in bridges.budget)) errors.push(`${file}: bridges.budget is missing "${line.id}"`);
+      }
+      for (const [id, bridge] of Object.entries(bridges.budget)) {
+        const line = budgetLines.find((l) => l.id === id);
+        if (!line || !(PURCHASE_KINDS as readonly string[]).includes(line.kind))
+          errors.push(`${file}: bridges.budget.${id} is not a government-purchase budget line`);
+        errors.push(...validateShares(bridge, `${file}: bridges.budget.${id}`, withWorkforce));
+      }
+    }
+  }
+
+  if (!Array.isArray(raw.physicalIndicators)) errors.push(`${file}: physicalIndicators must be a list`);
+  else {
+    raw.physicalIndicators.forEach((ind, i) => {
+      const at = `${file}: physicalIndicators[${i}]`;
+      if (!isObj(ind)) return errors.push(`${at}: must be an object`);
+      if (!isStr(ind.stat) || !statIds.has(ind.stat)) errors.push(`${at}.stat: "${String(ind.stat)}" is not in data/stats.json`);
+      if (!isStr(ind.sector) || !ids.has(ind.sector)) errors.push(`${at}.sector: "${String(ind.sector)}" is not a sector`);
+      if (!isStr(ind.note)) errors.push(`${at}.note: missing`);
+      return undefined;
+    });
+  }
+  return errors;
+}
+
 export function validateNationEconomy(raw: unknown, file: string, defs: EconomyDefs): string[] {
   const where = `${file}: economy`;
   if (!isObj(raw)) return [`${where}: must be an object`];
   const errors: string[] = [];
   if (!isStr(raw.model) || !defs.models[raw.model]) errors.push(`${where}.model: unknown model "${String(raw.model)}"`);
+  if (!isStr(raw.industry) || !defs.industryTables[raw.industry])
+    errors.push(`${where}.industry: unknown input–output table "${String(raw.industry)}"`);
   if (!MONETARY_REGIMES.includes(raw.monetaryRegime as never))
     errors.push(`${where}.monetaryRegime: must be one of ${MONETARY_REGIMES.join(', ')}`);
   errors.push(...validateSourcedMap(raw.start, `${where}.start`, new Set(ECONOMY_START_KEYS), ECONOMY_START_KEYS));
@@ -246,6 +382,8 @@ export interface RawContent {
   economyModels: Record<string, unknown>;
   budgetLines: unknown;
   taxLines: unknown;
+  sectors: unknown;
+  industryTables: Record<string, unknown>;
 }
 
 /** Validates raw file contents and assembles them. Throws with every problem listed. */
@@ -262,11 +400,28 @@ export function buildContent(raw: RawContent): Content {
   }
   const budgetErrors = validateBudgetLines(raw.budgetLines, 'data/economy/budget-lines.json');
   const taxErrors = validateTaxLines(raw.taxLines, 'data/economy/tax-lines.json');
-  errors.push(...budgetErrors, ...taxErrors);
+  const sectorErrors = validateSectors(raw.sectors, 'data/economy/sectors.json');
+  errors.push(...budgetErrors, ...taxErrors, ...sectorErrors);
+  const budgetLines = budgetErrors.length === 0 ? (raw.budgetLines as BudgetLineDef[]) : [];
+  const sectors = sectorErrors.length === 0 ? (raw.sectors as SectorDef[]) : [];
+
+  const industryTables: Record<string, IndustryTableData> = {};
+  for (const [file, tableRaw] of Object.entries(raw.industryTables)) {
+    const problems = validateIndustryTable(tableRaw, file, sectors, budgetLines, statIds);
+    errors.push(...problems);
+    if (problems.length === 0) {
+      const table = tableRaw as IndustryTableData;
+      if (industryTables[table.id]) errors.push(`${file}: duplicate table id "${table.id}"`);
+      industryTables[table.id] = table;
+    }
+  }
+
   const economy: EconomyDefs = {
     models,
-    budgetLines: budgetErrors.length === 0 ? (raw.budgetLines as BudgetLineDef[]) : [],
+    budgetLines,
     taxLines: taxErrors.length === 0 ? (raw.taxLines as TaxLineDef[]) : [],
+    sectors,
+    industryTables,
   };
 
   const nations: Record<string, NationData> = {};

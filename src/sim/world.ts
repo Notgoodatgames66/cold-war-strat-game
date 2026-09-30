@@ -29,11 +29,20 @@ export function nationStateFrom(data: NationData, economyDefs: EconomyDefs): Nat
   };
 }
 
-/** Every nation's stats at the current date. */
+/** Every nation's stats (and sector figures, where simulated) at the current date. */
 export function snapshot(state: Pick<GameState, 'date' | 'nations'>): HistoryEntry {
   const stats: HistoryEntry['stats'] = {};
-  for (const nation of Object.values(state.nations)) stats[nation.id] = { ...nation.stats };
-  return { date: { ...state.date }, stats };
+  const sectors: NonNullable<HistoryEntry['sectors']> = {};
+  for (const nation of Object.values(state.nations)) {
+    stats[nation.id] = { ...nation.stats };
+    const ind = nation.economy?.industry;
+    if (ind) {
+      sectors[nation.id] = Object.fromEntries(
+        ind.sectors.map((id, j) => [id, { output: ind.output[j]!, utilisation: ind.output[j]! / ind.normalCapacity[j]! }]),
+      );
+    }
+  }
+  return Object.keys(sectors).length > 0 ? { date: { ...state.date }, stats, sectors } : { date: { ...state.date }, stats };
 }
 
 export function createGame(content: Content, scenarioId: string, seed?: string): GameState {

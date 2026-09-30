@@ -20,6 +20,7 @@ export function formatStat(value: number, def: Pick<StatDef, 'unit' | 'decimals'
     case 'mt':
       return `${sign(value)}${number(value, def.decimals)} Mt`;
     case 'count':
+    case 'index':
       return `${sign(value)}${number(value, def.decimals)}`;
   }
 }
