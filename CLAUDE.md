@@ -71,6 +71,7 @@ docs/models/     plain-English papers explaining each model
 ## Design decisions made by Ryan
 
 - **Budget indexation is off by default** (decided 30 Sep 2026). Budgets stay fixed in dollars, so a hands-off player meets fiscal drag; the Treasury desk switch turns indexation on.
+- **Price controls and ending the Fed peg wait for Phase 3** (decided 30 Sep 2026). They arrive as political decisions with costs (political capital, Congress, interest groups), not as free Treasury-desk switches.
 
 ## Open design questions for Ryan
 
