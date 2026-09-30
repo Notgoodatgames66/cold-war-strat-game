@@ -96,6 +96,14 @@
     "description": "Crude steel production, million metric tonnes per year."
   },
   {
+    "id": "savings_overhang",
+    "label": "Savings overhang",
+    "pillar": "economy",
+    "unit": "usd_bn",
+    "decimals": 1,
+    "description": "Money households hold because there was nothing to buy: repressed inflation in an economy with fixed prices. Valued at 1949 US prices."
+  },
+  {
     "id": "defence_spending",
     "label": "Defence spending",
     "pillar": "military",
@@ -126,5 +134,13 @@
     "unit": "people",
     "decimals": 1,
     "description": "Resident population."
+  },
+  {
+    "id": "consumer_shortage",
+    "label": "Consumer shortages",
+    "pillar": "society",
+    "unit": "percent",
+    "decimals": 1,
+    "description": "Share of what households tried to buy that the shops could not supply: queues and empty shelves."
   }
 ]

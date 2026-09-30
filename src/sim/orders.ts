@@ -12,7 +12,8 @@ const clamp = (value: number, min: number, max: number) => Math.min(max, Math.ma
 
 export function applyOrders(state: GameState, orders: PlayerOrders): void {
   const economy = state.nations[state.playerNation]?.economy;
-  if (!economy) return;
+  // The Treasury desk exists only for Keynesian economies; a planned economy runs on its Plan.
+  if (economy?.engine !== 'keynesian') return;
 
   if (typeof orders.budgetIndexed === 'boolean') economy.budgetIndexed = orders.budgetIndexed;
 

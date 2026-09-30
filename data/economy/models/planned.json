@@ -1,0 +1,103 @@
+{
+  "id": "planned",
+  "engine": "planned",
+  "label": "Centrally planned economy",
+  "description": "Output is set by capacity, not demand. The Plan divides it between investment, defence, civil government and exports; households get the rest. Everyone has a job and prices are fixed, so excess demand shows up as shortages and unspendable savings, not inflation.",
+  "params": {
+    "capital_share": {
+      "value": 0.3,
+      "provenance": "estimate",
+      "note": "Capital's share in the production function, as for the United States."
+    },
+    "tfp_growth": {
+      "value": 0.022,
+      "provenance": "estimate",
+      "note": "Growth of total factor productivity in 1949. Western estimates for the 1950s run near 2%, helped by post-war recovery and borrowed technology."
+    },
+    "tfp_growth_decay": {
+      "value": 0.045,
+      "provenance": "estimate",
+      "note": "Yearly rate at which productivity growth fades. Western estimates show Soviet productivity growth falling from about 2% in the 1950s to near zero by the late 1970s: the planned economy's growing difficulty in innovating and allocating efficiently."
+    },
+    "labour_force_growth": {
+      "value": 0.014,
+      "provenance": "estimate",
+      "note": "Yearly growth of the Soviet labour force in the 1950s. A placeholder until pops and demography drive it in Phase 3."
+    },
+    "sector_capacity_ceiling": {
+      "value": 12.0,
+      "provenance": "estimate",
+      "note": "How far (%) one industry can be pushed above normal capacity by 'storming'."
+    },
+    "overhang_spend_rate": {
+      "value": 0.25,
+      "provenance": "estimate",
+      "note": "Share of the savings overhang households try to spend each year when goods appear in the shops."
+    },
+    "income_balancing": {
+      "value": 0.3,
+      "provenance": "estimate",
+      "note": "Share of any gap between households' money incomes and the consumer goods the Plan provides that the planners close each year: through compulsory state loans (which took several per cent of wages until 1957), price rises and wage controls."
+    },
+    "investment_allocation_sensitivity": {
+      "value": 4.0,
+      "provenance": "estimate",
+      "note": "How far planners steer investment towards bottlenecks on top of the Plan's priorities, through the 'material balances' that matched supplies to needs. An industry 10% more stretched than average gets 40% more than its planned share."
+    },
+    "utilisation_smoothing": {
+      "value": 0.5,
+      "provenance": "estimate",
+      "note": "Weight on the latest quarter when planners judge how stretched an industry is."
+    },
+    "surge_import_share": {
+      "value": 0.1,
+      "provenance": "estimate",
+      "note": "Share of a shortage met by extra imports. Low: the USSR had little hard currency and preferred autarky."
+    },
+    "surge_import_cap": {
+      "value": 0.1,
+      "provenance": "estimate",
+      "note": "Extra imports can cover at most this share of a product's normal home use in a quarter."
+    },
+    "ration_weight_consumption": {
+      "value": 2.0,
+      "provenance": "estimate",
+      "note": "Households are cut first when goods run short: queues and empty shelves."
+    },
+    "ration_weight_investment": {
+      "value": 0.5,
+      "provenance": "estimate",
+      "note": "Plan investment is protected, though projects still overrun."
+    },
+    "ration_weight_inventories": {
+      "value": 1.0,
+      "provenance": "estimate",
+      "note": "Stockbuilding is cut when goods are short."
+    },
+    "ration_weight_government": {
+      "value": 0.2,
+      "provenance": "estimate",
+      "note": "Defence and state orders have first call on output."
+    },
+    "ration_weight_exports": {
+      "value": 0.5,
+      "provenance": "estimate",
+      "note": "Export commitments, largely to the bloc, are protected."
+    },
+    "arms_race_reaction": {
+      "value": 0.6,
+      "provenance": "estimate",
+      "note": "Points of GDP the Soviets add to defence for each point by which the rival spends above what the Plan expected (and cut when it spends less)."
+    },
+    "max_defence_share": {
+      "value": 0.3,
+      "provenance": "estimate",
+      "note": "Most of GDP the planners will give defence in peacetime."
+    },
+    "min_defence_share": {
+      "value": 0.05,
+      "provenance": "estimate",
+      "note": "Least of GDP the planners will give defence, however little the rival spends."
+    }
+  }
+}

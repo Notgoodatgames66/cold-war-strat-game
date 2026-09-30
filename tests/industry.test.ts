@@ -3,13 +3,14 @@ import { solveProduction, type ProductionInput } from '../src/sim/economy/indust
 import { leontiefInverse, matVec, sum } from '../src/sim/economy/linalg';
 import { DEMAND_COMPONENTS, type DemandComponent } from '../src/sim/economy/types';
 import { validateIndustryTable } from '../src/sim/content';
+import type { EconomyState } from '../src/sim/economy/types';
 import { content } from '../src/sim/loadContent';
 import type { GameState, PlayerOrders } from '../src/sim/schema';
 import { advanceTurn } from '../src/sim/turn';
 import { createGame } from '../src/sim/world';
 
 const newGame = () => createGame(content, 'usa-1949', 'industry-test');
-const econ = (g: GameState) => g.nations.usa!.economy!;
+const econ = (g: GameState) => g.nations.usa!.economy as EconomyState;
 const ind = (g: GameState) => econ(g).industry;
 const stats = (g: GameState) => g.nations.usa!.stats;
 const sector = (g: GameState, id: string) => ind(g).sectors.indexOf(id);

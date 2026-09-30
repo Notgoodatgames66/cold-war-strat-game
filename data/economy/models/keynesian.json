@@ -1,5 +1,6 @@
 {
   "id": "keynesian",
+  "engine": "keynesian",
   "label": "Keynesian mixed economy (post-war consensus)",
   "description": "A demand-led short run (consumption, investment, government, trade) on top of a slowly growing supply side (potential output). Prices respond to the output gap through an expectations-augmented Phillips curve.",
   "params": {

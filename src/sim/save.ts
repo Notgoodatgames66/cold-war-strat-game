@@ -8,8 +8,10 @@
 
 import type { Content } from './content';
 import { createEconomy } from './economy/calibrate';
+import { createNationEconomy } from './economy/create';
 import { normalCapacities } from './economy/industry';
-import { SCHEMA_VERSION, type GameState, type NationState } from './schema';
+import { stepPlanned } from './economy/planned';
+import { SCHEMA_VERSION, type GameState, type HistoryEntry, type NationState } from './schema';
 import { isValidDate } from './time';
 
 export const SAVE_FORMAT = 'cold-war-strat-save';
@@ -74,6 +76,48 @@ function addIndustry(e: Record<string, any>, nationId: string, turn: number, con
   delete e.importPropensity;
 }
 
+/**
+ * v3 → v4: a nation that gains a planned economy (the USSR) is created at its
+ * 1949 calibration and replayed through every quarter already played, using
+ * the rival's recorded figures from the save's history. Its history is filled
+ * in as if it had been running all along.
+ */
+function addPlannedEconomy(state: Record<string, unknown>, nation: NationState, content: Content): void {
+  const data = content.nations[nation.id];
+  if (!data?.economy) return;
+  const e = createNationEconomy(data, content.economy);
+  nation.economy = e;
+  if (e.engine !== 'planned') return;
+
+  const history = state.history as HistoryEntry[];
+  const first = history[0];
+  if (first) {
+    const stats = (first.stats[nation.id] ??= {});
+    for (const [id, entry] of Object.entries(data.stats)) if (!(id in stats)) stats[id] = entry.value;
+  }
+  for (let k = 1; k < history.length; k++) {
+    const entry = history[k]!;
+    const rival = entry.stats[e.rival];
+    const valuation = entry.stats[e.valuation];
+    const headline = stepPlanned(e, {
+      date: history[k - 1]!.date,
+      rivalDefenceShare:
+        rival?.defence_spending !== undefined && rival.gdp_nominal ? rival.defence_spending / rival.gdp_nominal : null,
+      valuationPrice: valuation?.gdp_nominal && valuation.gdp_real ? valuation.gdp_nominal / valuation.gdp_real : 1,
+    });
+    const stats = (entry.stats[nation.id] ??= { ...nation.stats });
+    for (const [id, value] of Object.entries(headline)) if (id in nation.stats) stats[id] = value;
+    const ind = e.industry;
+    entry.sectors = {
+      ...(entry.sectors ?? {}),
+      [nation.id]: Object.fromEntries(
+        ind.sectors.map((id, j) => [id, { output: ind.output[j]!, utilisation: ind.output[j]! / ind.normalCapacity[j]! }]),
+      ),
+    };
+    if (k === history.length - 1) for (const id of Object.keys(headline)) if (id in nation.stats) nation.stats[id] = stats[id]!;
+  }
+}
+
 /** Upgrades a save from one schema version to the next, keyed by the version it upgrades FROM. */
 const MIGRATIONS: Record<number, Migration> = {
   /**
@@ -87,7 +131,7 @@ const MIGRATIONS: Record<number, Migration> = {
       const data = content.nations[nation.id];
       if (!data) continue;
       addMissingStats(nation, content);
-      if (data.economy && !nation.economy) nation.economy = createEconomy(data, content.economy);
+      if (data.economy && !nation.economy) nation.economy = createNationEconomy(data, content.economy);
     }
     return state;
   },
@@ -100,6 +144,20 @@ const MIGRATIONS: Record<number, Migration> = {
       addMissingStats(nation, content);
       const e = nation.economy as unknown as Record<string, any> | undefined;
       if (e && !e.industry) addIndustry(e, nation.id, turn, content);
+    }
+    return state;
+  },
+
+  /** v3 (Phase 2B) → v4 (Phase 2C): economies name their engine, and the USSR gains a planned economy. */
+  3: (state, content) => {
+    const nations = state.nations as Record<string, NationState>;
+    for (const nation of Object.values(nations)) {
+      const e = nation.economy as unknown as Record<string, unknown> | undefined;
+      if (e && !e.engine) e.engine = 'keynesian';
+    }
+    for (const nation of Object.values(nations)) {
+      addMissingStats(nation, content);
+      if (!nation.economy && content.nations[nation.id]?.economy) addPlannedEconomy(state, nation, content);
     }
     return state;
   },

@@ -439,13 +439,15 @@ export function solveProduction(input: ProductionInput): ProductionResult {
 
 /**
  * Adds a quarter's real fixed investment to sector capital. Sectors running
- * hotter than average attract more than their usual share.
+ * hotter than average attract more than their usual share. `baseShares`
+ * overrides the usual shares (a planner's priorities).
  */
 export function accumulateCapital(
   ind: IndustryState,
   investment: number,
   utilisation: Vector,
   params: { investment_allocation_sensitivity: number; utilisation_smoothing: number },
+  baseShares: Vector = ind.investmentShare,
 ): void {
   const lambda = params.utilisation_smoothing;
   ind.utilisationSmoothed = ind.utilisationSmoothed.map((u, j) => (1 - lambda) * u + lambda * utilisation[j]!);
@@ -453,7 +455,7 @@ export function accumulateCapital(
   const va = ind.output.map((x, j) => ind.valueAdded[j]! * x);
   const vaTotal = sum(va);
   const average = ind.utilisationSmoothed.reduce((s, u, j) => s + (u * va[j]!) / vaTotal, 0);
-  const raw = ind.investmentShare.map(
+  const raw = baseShares.map(
     (share, j) =>
       share * Math.max(0.1, 1 + params.investment_allocation_sensitivity * (ind.utilisationSmoothed[j]! - average)),
   );

@@ -45,8 +45,13 @@ export interface TaxLineDef {
   description: string;
 }
 
+export const ECONOMY_ENGINES = ['keynesian', 'planned'] as const;
+/** Which simulation engine a model runs on. Switching engine switches the whole economic system. */
+export type EconomyEngine = (typeof ECONOMY_ENGINES)[number];
+
 export interface EconomyModelData {
   id: string;
+  engine: EconomyEngine;
   label: string;
   description: string;
   params: Record<string, SourcedValue>;
@@ -77,7 +82,7 @@ export const ECONOMY_START_KEYS = [
 ] as const;
 export type EconomyStartKey = (typeof ECONOMY_START_KEYS)[number];
 
-/** Parameters every economy model file must define. */
+/** Parameters every Keynesian model file must define. */
 export const MODEL_PARAM_KEYS = [
   'mpc',
   'consumption_adjustment',
@@ -131,7 +136,34 @@ export const MODEL_PARAM_KEYS = [
 ] as const;
 export type ModelParamKey = (typeof MODEL_PARAM_KEYS)[number];
 
-export interface NationEconomyData {
+/** Parameters every planned-economy model file must define. */
+export const PLANNED_PARAM_KEYS = [
+  'capital_share',
+  'tfp_growth',
+  'tfp_growth_decay',
+  'labour_force_growth',
+  'sector_capacity_ceiling',
+  'overhang_spend_rate',
+  'income_balancing',
+  'investment_allocation_sensitivity',
+  'utilisation_smoothing',
+  'surge_import_share',
+  'surge_import_cap',
+  'ration_weight_consumption',
+  'ration_weight_investment',
+  'ration_weight_inventories',
+  'ration_weight_government',
+  'ration_weight_exports',
+  'arms_race_reaction',
+  'max_defence_share',
+  'min_defence_share',
+] as const;
+export type PlannedParamKey = (typeof PLANNED_PARAM_KEYS)[number];
+
+export const PLANNED_START_KEYS = ['output_gap', 'inventory_investment'] as const;
+
+/** A nation on the Keynesian engine (the United States). */
+export interface KeynesianEconomyData {
   model: string;
   monetaryRegime: MonetaryRegime;
   /** Id of the input–output table in data/economy/industry/. */
@@ -143,6 +175,50 @@ export interface NationEconomyData {
   taxRates: Record<TaxId, SourcedValue>;
   /** Starting receipts per tax, nominal $bn a year (used to calibrate each tax base). */
   taxReceipts: Record<TaxId, SourcedValue>;
+}
+
+/** A nation on the planned engine (the Soviet Union). */
+export interface PlannedEconomyData {
+  model: string;
+  /** Id of the input–output table in data/economy/industry/. */
+  industry: string;
+  /** Id of the plan in data/economy/plans/. */
+  plan: string;
+  start: Record<(typeof PLANNED_START_KEYS)[number], SourcedValue>;
+}
+
+export type NationEconomyData = KeynesianEconomyData | PlannedEconomyData;
+
+// ---------------------------------------------------------------------------
+// Plans (data/economy/plans/*.json)
+// ---------------------------------------------------------------------------
+
+export interface PlanKeyframe {
+  /** The plan applies from the start of this year until the next keyframe. */
+  year: number;
+  label: string;
+  /** Shares of GDP. */
+  investment: number;
+  defence: number;
+  civil: number;
+  exports: number;
+  /** Investment priority per sector (1 = its usual share). */
+  priority: Record<string, number>;
+  /** What the planners expected the rival to spend on defence, as a share of its GDP. */
+  rivalDefenceShare: number;
+  provenance: Provenance;
+  note: string;
+}
+
+export interface PlanData {
+  id: string;
+  description: string;
+  /** Nation whose defence spending the plan reacts to. */
+  rival: string;
+  /** Nation whose price level values this economy's output (the CIA valued Soviet output at US prices). */
+  valuation: string;
+  sources: SourceRef[];
+  keyframes: PlanKeyframe[];
 }
 
 // ---------------------------------------------------------------------------
@@ -320,6 +396,7 @@ export interface FiscalAccounts {
 }
 
 export interface EconomyState {
+  engine: 'keynesian';
   model: string;
   monetaryRegime: MonetaryRegime;
   params: Record<ModelParamKey, number>;
@@ -382,3 +459,60 @@ export interface EconomyState {
     unemployment: Contribution[];
   };
 }
+
+/** Plan targets in force for one quarter. */
+export interface PlanTargets {
+  label: string;
+  investment: number;
+  /** After the arms-race reaction. */
+  defence: number;
+  civil: number;
+  exports: number;
+  priority: number[];
+  /** What the plan expected the rival to spend, and what it actually spent (shares of its GDP). */
+  rivalExpected: number;
+  rivalActual: number | null;
+}
+
+/** A centrally planned economy (the Soviet Union). Real values in 1949 US dollars. */
+export interface PlannedEconomyState {
+  engine: 'planned';
+  model: string;
+  plan: string;
+  params: Record<PlannedParamKey, number>;
+  /** The plan's keyframes, copied into the save so old games keep their rules. */
+  keyframes: PlanKeyframe[];
+  rival: string;
+  valuation: string;
+
+  industry: IndustryState;
+
+  // Supply
+  productivity: number;
+  potential: number;
+  potential0: number;
+  quartersElapsed: number;
+  /** How far above normal capacity the Plan aims ('taut planning'), as a fraction. */
+  tension: number;
+  /** How far households' money income exceeds the consumption the Plan provides, as a fraction. */
+  wageDrift: number;
+
+  // Last quarter
+  gdpReal: number;
+  consumption: number;
+  consumptionDemand: number;
+  fixedInvestment: number;
+  inventoryInvestment: number;
+  defence: number;
+  civilGovernment: number;
+  exports: number;
+  imports: number;
+  /** Money households hold because there was nothing to buy (repressed inflation). */
+  savingsOverhang: number;
+  /** Share of household demand the shops could not supply, %. */
+  shortageRate: number;
+  targets: PlanTargets;
+  recentGdpReal: number[];
+}
+
+export type NationEconomy = EconomyState | PlannedEconomyState;

@@ -44,6 +44,12 @@ export function NationDossier({ nation, previousStats }: Props) {
         </p>
       </header>
 
+      {nation.tier !== 'player' && nation.economy && (
+        <p className="devnote" role="note">
+          <span className="devnote__tag">Developer view</span> True figures. From Phase 3, intelligence estimates replace them.
+        </p>
+      )}
+
       {pillars.map((pillar) => (
         <section key={pillar} className="ledger" aria-label={PILLAR_LABELS[pillar]}>
           <h3 className="ledger__title">{PILLAR_LABELS[pillar]}</h3>

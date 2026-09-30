@@ -61,7 +61,9 @@ export function IndustryScreen({ game }: Props) {
   const ind = economy.industry;
   const p = economy.params;
   const ceiling = 1 + p.sector_capacity_ceiling / 100;
-  const stretchedFrom = 1 + p.overheating_threshold / 100;
+  // Planned economies have no price response, so use the same 3% line for "stretched".
+  const stretchedPct = economy.engine === 'keynesian' ? economy.params.overheating_threshold : 3;
+  const stretchedFrom = 1 + stretchedPct / 100;
   const defs = new Map(content.economy.sectors.map((s) => [s.id, s]));
   const label = (id: string) => defs.get(id)?.label ?? id;
   const utilisation = ind.output.map((x, j) => x / ind.normalCapacity[j]!);
@@ -78,7 +80,15 @@ export function IndustryScreen({ game }: Props) {
           Industry
         </h2>
         <p className="industry__lead">
-          {summary(ind, utilisation, ceiling, stretchedFrom, (economy.gdpReal / economy.potential - 1) * 100, p.capacity_ceiling)}
+          {summary(
+            ind,
+            utilisation,
+            ceiling,
+            stretchedFrom,
+            (economy.gdpReal / economy.potential - 1) * 100,
+            // A planned economy's ceiling is the Plan itself.
+            economy.engine === 'keynesian' ? economy.params.capacity_ceiling : economy.tension * 100,
+          )}
         </p>
 
         <div className="table-scroll">
@@ -132,7 +142,7 @@ export function IndustryScreen({ game }: Props) {
         </div>
         <p className="industry__note">
           Output is gross production at an annual rate. Industries can run up to {p.sector_capacity_ceiling}% above normal
-          capacity with overtime and extra shifts; above {p.overheating_threshold}% they push up prices. Investment flows to
+          capacity with overtime and extra shifts; above {stretchedPct}% they push up prices. Investment flows to
           the industries running hottest, so capacity follows demand over the years.
         </p>
       </section>

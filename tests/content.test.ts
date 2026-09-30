@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { buildContent, validateNation } from '../src/sim/content';
+import type { KeynesianEconomyData } from '../src/sim/economy/types';
 import { content } from '../src/sim/loadContent';
+import type { NationData } from '../src/sim/schema';
 
 describe('data files', () => {
   it('all load and validate', () => {
@@ -45,6 +47,7 @@ describe('data files', () => {
         taxLines: [],
         sectors: [],
         industryTables: {},
+        plans: {},
       }),
     ).toThrow(/data\/nations\/broken.json/);
   });
@@ -59,7 +62,7 @@ describe('data files', () => {
 
 describe('economy data', () => {
   const statIds = new Set(content.stats.map((s) => s.id));
-  const usa = content.nations.usa!;
+  const usa = content.nations.usa! as NationData & { economy: KeynesianEconomyData };
 
   it('rejects an economy missing a starting figure', () => {
     const { government: _dropped, ...start } = usa.economy!.start;

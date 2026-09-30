@@ -39,6 +39,33 @@ describe('save and load', () => {
     expect(() => deserializeGame(text, content)).toThrow(/damaged/);
   });
 
+  it('upgrades a Phase 2B (schema 3) save by replaying the Soviet economy through the quarters already played', () => {
+    let modern = createGame(content, 'usa-1949', 'phase-2b-save');
+    for (let i = 0; i < 12; i++) modern = advanceTurn(modern, i === 0 ? { budget: { defence: 30 } } : {});
+    const old = structuredClone(modern) as unknown as Record<string, any>;
+    delete old.nations.usa.economy.engine;
+    delete old.nations.ussr.economy;
+    for (const id of ['gdp_real', 'real_growth', 'industrial_output', 'savings_overhang', 'defence_spending', 'consumer_shortage']) {
+      delete old.nations.ussr.stats[id];
+      delete old.nations.ussr.statProvenance[id];
+    }
+    old.history = old.history.map((h: Record<string, any>) => ({
+      date: h.date,
+      stats: { usa: h.stats.usa, ussr: { steel_output: 23.3, population: h.stats.ussr.population } },
+      sectors: { usa: h.sectors.usa },
+    }));
+    const text = JSON.stringify({ format: SAVE_FORMAT, schemaVersion: 3, state: { ...old, schemaVersion: 3 } });
+
+    const upgraded = deserializeGame(text, content);
+    expect(upgraded.nations.usa!.economy?.engine).toBe('keynesian');
+    expect(upgraded.nations.ussr!.economy?.engine).toBe('planned');
+    // The replay reproduces exactly what a game that always had the Soviet economy would show.
+    expect(upgraded.nations.ussr!.stats.gdp_real).toBeCloseTo(modern.nations.ussr!.stats.gdp_real!, 9);
+    expect(upgraded.history.at(-1)!.stats.ussr!.steel_output).toBeCloseTo(modern.history.at(-1)!.stats.ussr!.steel_output!, 9);
+    expect(upgraded.history[5]!.sectors?.ussr?.heavy_industry?.output).toBeGreaterThan(0);
+    expect(() => advanceTurn(upgraded)).not.toThrow();
+  });
+
   it('upgrades a Phase 2A (schema 2) save by adding industry, keeping potential output unchanged', () => {
     let modern = createGame(content, 'usa-1949', 'phase-2a-save');
     for (let i = 0; i < 9; i++) modern = advanceTurn(modern, i === 0 ? { budget: { defence: 20 } } : {});
@@ -83,7 +110,7 @@ describe('save and load', () => {
     expect(upgraded.schemaVersion).toBe(SCHEMA_VERSION);
     expect(upgraded.nations.usa!.economy).toBeDefined();
     expect(upgraded.nations.usa!.stats.gdp_real).toBeDefined();
-    expect(upgraded.nations.ussr!.economy).toBeUndefined();
+    expect(upgraded.nations.ussr!.economy?.engine).toBe('planned');
     expect(() => advanceTurn(upgraded)).not.toThrow();
   });
 });

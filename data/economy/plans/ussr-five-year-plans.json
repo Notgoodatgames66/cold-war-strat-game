@@ -1,0 +1,223 @@
+{
+  "id": "ussr-five-year-plans",
+  "description": "The Soviet Five-Year Plans as the game's planner follows them: how output is divided between investment, defence, civil government and exports (shares of GDP), how investment priorities shift between industries (relative to the 1949 allocation recorded in the input–output table, so 1.0 means 'as in 1949'), and what Moscow expected America to spend on defence. Households get whatever is left. Shares follow Western reconstructions (Bergson, the CIA) rather than official Soviet figures.",
+  "rival": "usa",
+  "valuation": "usa",
+  "sources": [
+    {
+      "label": "Abram Bergson, The Real National Income of Soviet Russia since 1928 (1961)"
+    },
+    {
+      "label": "CIA, Handbook of Economic Statistics and estimates of Soviet defence spending (declassified)"
+    },
+    {
+      "label": "Alec Nove, An Economic History of the USSR (1969; later editions)"
+    },
+    {
+      "label": "OMB historical tables (US defence as a share of GDP)",
+      "url": "https://www.whitehouse.gov/omb/budget/historical-tables/"
+    }
+  ],
+  "keyframes": [
+    {
+      "year": 1949,
+      "label": "Fourth Five-Year Plan (1946–50)",
+      "investment": 0.16,
+      "defence": 0.12,
+      "civil": 0.1,
+      "exports": 0.022,
+      "priority": {
+        "agriculture": 1.0,
+        "heavy_industry": 1.0,
+        "energy": 1.0,
+        "consumer_goods": 1.0,
+        "technology": 1.0,
+        "services": 1.0,
+        "shipping_trade": 1.0
+      },
+      "rivalDefenceShare": 0.048,
+      "provenance": "estimate",
+      "note": "Post-war reconstruction: rebuild heavy industry and the railways first. Investment about 16% of GNP and rising fast; defence about 12% after demobilisation."
+    },
+    {
+      "year": 1951,
+      "label": "Fifth Five-Year Plan (1951–55)",
+      "investment": 0.17,
+      "defence": 0.14,
+      "civil": 0.1,
+      "exports": 0.025,
+      "priority": {
+        "agriculture": 0.9,
+        "heavy_industry": 1.15,
+        "energy": 1.05,
+        "consumer_goods": 0.9,
+        "technology": 1.2,
+        "services": 0.9,
+        "shipping_trade": 1.0
+      },
+      "rivalDefenceShare": 0.105,
+      "provenance": "estimate",
+      "note": "Stalin's Korean-era rearmament: jet aircraft, the atomic bomb, a larger army. Moscow expected America to rearm too."
+    },
+    {
+      "year": 1953,
+      "label": "The New Course (1953–55)",
+      "investment": 0.18,
+      "defence": 0.13,
+      "civil": 0.1,
+      "exports": 0.025,
+      "priority": {
+        "agriculture": 1.3,
+        "heavy_industry": 1.05,
+        "energy": 1.05,
+        "consumer_goods": 1.5,
+        "technology": 1.1,
+        "services": 1.1,
+        "shipping_trade": 1.0
+      },
+      "rivalDefenceShare": 0.138,
+      "provenance": "estimate",
+      "note": "After Stalin's death, Malenkov promised more consumer goods and better prices for farmers."
+    },
+    {
+      "year": 1956,
+      "label": "Sixth Five-Year Plan (1956–60)",
+      "investment": 0.21,
+      "defence": 0.1,
+      "civil": 0.11,
+      "exports": 0.028,
+      "priority": {
+        "agriculture": 1.4,
+        "heavy_industry": 1.1,
+        "energy": 1.1,
+        "consumer_goods": 1.1,
+        "technology": 1.1,
+        "services": 1.5,
+        "shipping_trade": 1.0
+      },
+      "rivalDefenceShare": 0.1,
+      "provenance": "estimate",
+      "note": "Khrushchev: the Virgin Lands, the mass housing campaign, and large troop cuts from 1955."
+    },
+    {
+      "year": 1959,
+      "label": "Seven-Year Plan (1959–65)",
+      "investment": 0.24,
+      "defence": 0.1,
+      "civil": 0.11,
+      "exports": 0.032,
+      "priority": {
+        "agriculture": 1.1,
+        "heavy_industry": 1.1,
+        "energy": 1.35,
+        "consumer_goods": 1.0,
+        "technology": 1.4,
+        "services": 1.3,
+        "shipping_trade": 1.0
+      },
+      "rivalDefenceShare": 0.093,
+      "provenance": "estimate",
+      "note": "'Chemicalisation', the shift from coal to oil and gas, and missiles in place of bombers."
+    },
+    {
+      "year": 1966,
+      "label": "Eighth Five-Year Plan (1966–70)",
+      "investment": 0.27,
+      "defence": 0.12,
+      "civil": 0.11,
+      "exports": 0.035,
+      "priority": {
+        "agriculture": 1.6,
+        "heavy_industry": 1.1,
+        "energy": 1.35,
+        "consumer_goods": 1.1,
+        "technology": 1.3,
+        "services": 1.1,
+        "shipping_trade": 1.0
+      },
+      "rivalDefenceShare": 0.078,
+      "provenance": "estimate",
+      "note": "Kosygin's reform and Brezhnev's farm investment drive; the strategic arms build-up begins."
+    },
+    {
+      "year": 1971,
+      "label": "Ninth Five-Year Plan (1971–75)",
+      "investment": 0.28,
+      "defence": 0.13,
+      "civil": 0.11,
+      "exports": 0.04,
+      "priority": {
+        "agriculture": 1.6,
+        "heavy_industry": 1.0,
+        "energy": 1.5,
+        "consumer_goods": 1.3,
+        "technology": 1.2,
+        "services": 1.1,
+        "shipping_trade": 1.0
+      },
+      "rivalDefenceShare": 0.073,
+      "provenance": "estimate",
+      "note": "The first plan to promise faster growth of consumer goods than producer goods; West Siberian oil comes on stream."
+    },
+    {
+      "year": 1976,
+      "label": "Tenth Five-Year Plan (1976–80)",
+      "investment": 0.3,
+      "defence": 0.14,
+      "civil": 0.11,
+      "exports": 0.05,
+      "priority": {
+        "agriculture": 1.7,
+        "heavy_industry": 1.0,
+        "energy": 1.8,
+        "consumer_goods": 1.1,
+        "technology": 1.1,
+        "services": 1.0,
+        "shipping_trade": 1.0
+      },
+      "rivalDefenceShare": 0.052,
+      "provenance": "estimate",
+      "note": "'The plan of efficiency and quality'. In practice, energy and agriculture swallow ever more investment."
+    },
+    {
+      "year": 1981,
+      "label": "Eleventh Five-Year Plan (1981–85)",
+      "investment": 0.3,
+      "defence": 0.15,
+      "civil": 0.11,
+      "exports": 0.06,
+      "priority": {
+        "agriculture": 1.8,
+        "heavy_industry": 0.95,
+        "energy": 2.0,
+        "consumer_goods": 1.1,
+        "technology": 1.1,
+        "services": 1.0,
+        "shipping_trade": 1.0
+      },
+      "rivalDefenceShare": 0.058,
+      "provenance": "estimate",
+      "note": "Stagnation: growth slows while defence and the Food Programme take a rising share."
+    },
+    {
+      "year": 1986,
+      "label": "Twelfth Five-Year Plan (1986–90)",
+      "investment": 0.31,
+      "defence": 0.15,
+      "civil": 0.11,
+      "exports": 0.06,
+      "priority": {
+        "agriculture": 1.5,
+        "heavy_industry": 1.4,
+        "energy": 1.7,
+        "consumer_goods": 1.0,
+        "technology": 1.4,
+        "services": 1.0,
+        "shipping_trade": 1.0
+      },
+      "rivalDefenceShare": 0.066,
+      "provenance": "estimate",
+      "note": "Gorbachev's 'acceleration': modernise machine-building to revive growth."
+    }
+  ]
+}

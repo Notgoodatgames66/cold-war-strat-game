@@ -3,7 +3,8 @@
  */
 
 import type { Content } from './content';
-import { createEconomy, type EconomyDefs } from './economy/calibrate';
+import type { EconomyDefs } from './economy/calibrate';
+import { createNationEconomy } from './economy/create';
 import { SCHEMA_VERSION, type GameState, type HistoryEntry, type NationData, type NationState } from './schema';
 
 export function nationStateFrom(data: NationData, economyDefs: EconomyDefs): NationState {
@@ -25,7 +26,7 @@ export function nationStateFrom(data: NationData, economyDefs: EconomyDefs): Nat
     stats,
     statProvenance,
     params,
-    ...(data.economy ? { economy: createEconomy(data, economyDefs) } : {}),
+    ...(data.economy ? { economy: createNationEconomy(data, economyDefs) } : {}),
   };
 }
 

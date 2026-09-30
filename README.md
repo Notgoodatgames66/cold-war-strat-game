@@ -6,7 +6,7 @@ A deep, calculation-driven grand strategy simulator of the Cold War. Guide the U
 
 ## Status
 
-Phase 2B is complete: a live, 1949-calibrated Keynesian economy for the United States, built on seven industries linked by an input–output table, with capital, capacity limits, shortages and rationing, a federal budget, five taxes, the Treasury peg, and gold under Bretton Woods. The Soviet economy, politics and events arrive in the phases that follow. The models are explained in [`docs/models/economy.md`](docs/models/economy.md) and [`docs/models/industry.md`](docs/models/industry.md). See [`docs/GDD.md`](docs/GDD.md) for the full design and roadmap.
+Phase 2 is complete, and 1949–55 is playable. The United States runs a live, 1949-calibrated Keynesian economy built on seven industries linked by an input–output table, with capital, capacity limits, shortages and rationing, a federal budget, five taxes, the Treasury peg, and gold under Bretton Woods. The Soviet Union runs a planned economy on the same seven industries: the Five-Year Plans divide its output, households queue for what is left, and Moscow answers American rearmament with its own. Pops, politics, events and intelligence arrive in Phase 3. The models are explained in [`docs/models/economy.md`](docs/models/economy.md), [`docs/models/industry.md`](docs/models/industry.md) and [`docs/models/planned.md`](docs/models/planned.md). See [`docs/GDD.md`](docs/GDD.md) for the full design and roadmap.
 
 ## Run it locally
 

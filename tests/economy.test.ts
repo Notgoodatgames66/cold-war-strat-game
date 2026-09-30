@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import type { EconomyState } from '../src/sim/economy/types';
 import { content } from '../src/sim/loadContent';
 import type { GameState, PlayerOrders } from '../src/sim/schema';
 import { advanceTurn } from '../src/sim/turn';
@@ -6,7 +7,7 @@ import { createGame } from '../src/sim/world';
 
 const newGame = () => createGame(content, 'usa-1949', 'economy-test');
 const usa = (g: GameState) => g.nations.usa!;
-const econ = (g: GameState) => usa(g).economy!;
+const econ = (g: GameState) => usa(g).economy as EconomyState;
 
 /** Plays `turns` quarters, sending `orders` on the first one only. */
 function play(turns: number, orders: PlayerOrders = {}, start = newGame()): GameState {

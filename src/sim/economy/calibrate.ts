@@ -19,7 +19,9 @@ import {
   type EconomyState,
   type FiscalAccounts,
   type IndustryTableData,
+  type KeynesianEconomyData,
   type ModelParamKey,
+  type PlanData,
   type SectorDef,
   type TaxId,
   type TaxLineDef,
@@ -41,6 +43,7 @@ export interface EconomyDefs {
   taxLines: TaxLineDef[];
   sectors: SectorDef[];
   industryTables: Record<string, IndustryTableData>;
+  plans: Record<string, PlanData>;
 }
 
 export function sumByKind(
@@ -63,11 +66,13 @@ export function investorInflation(expected: number, params: Pick<Record<ModelPar
   return params.inflation_anchor + params.long_expectations_weight * (expected - params.inflation_anchor);
 }
 
+/** Builds a Keynesian economy (the United States) from its data. */
 export function createEconomy(nation: NationData, defs: EconomyDefs): EconomyState {
-  const data = nation.economy;
-  if (!data) throw new Error(`${nation.id} has no economy block`);
-  const model = defs.models[data.model];
-  if (!model) throw new Error(`${nation.id}: unknown economy model "${data.model}"`);
+  if (!nation.economy) throw new Error(`${nation.id} has no economy block`);
+  const model = defs.models[nation.economy.model];
+  if (!model) throw new Error(`${nation.id}: unknown economy model "${nation.economy.model}"`);
+  if (model.engine !== 'keynesian') throw new Error(`${nation.id}: model "${model.id}" is not a Keynesian model`);
+  const data = nation.economy as KeynesianEconomyData;
 
   const stat = (id: (typeof REQUIRED_STATS)[number]) => {
     const value = nation.stats[id]?.value;
@@ -191,6 +196,7 @@ export function createEconomy(nation: NationData, defs: EconomyDefs): EconomySta
   const recentPrice = [4, 3, 2, 1].map((k) => 1 / Math.pow(quarterlyInflation, k));
 
   return {
+    engine: 'keynesian',
     model: data.model,
     monetaryRegime: data.monetaryRegime,
     params,

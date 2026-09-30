@@ -13,7 +13,7 @@
  * later, fewer pops and coarser sectors.
  */
 
-import type { EconomyState, NationEconomyData } from './economy/types';
+import type { NationEconomy, NationEconomyData } from './economy/types';
 import type { GameDate } from './time';
 
 // ---------------------------------------------------------------------------
@@ -120,8 +120,8 @@ export interface NationState {
   /** Provenance of each starting figure, kept so the interface can mark estimates. */
   statProvenance: Record<string, Provenance>;
   params: Record<string, number>;
-  /** The simulated economy, when the nation has one. */
-  economy?: EconomyState;
+  /** The simulated economy, when the nation has one: Keynesian or planned. */
+  economy?: NationEconomy;
 }
 
 /** One sector's figures in a history snapshot. */
@@ -177,4 +177,4 @@ export interface PlayerOrders {
   budgetIndexed?: boolean;
 }
 
-export const SCHEMA_VERSION = 3;
+export const SCHEMA_VERSION = 4;

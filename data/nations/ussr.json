@@ -18,10 +18,35 @@
       "provenance": "estimate",
       "note": "Western estimates put Soviet output at roughly a third of US output around 1949–50. Highly uncertain; will become a fogged range in Phase 3."
     },
+    "gdp_real": {
+      "value": 90,
+      "provenance": "estimate",
+      "note": "1949 is the base year, so real GDP equals GDP at 1949 US prices at the start."
+    },
+    "real_growth": {
+      "value": 8.0,
+      "provenance": "estimate",
+      "note": "Western estimates of Soviet growth during post-war reconstruction, 1948–50: lower than the official figures, but still rapid."
+    },
+    "industrial_output": {
+      "value": 100,
+      "provenance": "measured",
+      "note": "Index base: 1949 = 100."
+    },
     "steel_output": {
       "value": 23.3,
       "provenance": "measured",
       "note": "Soviet official figure for 1949 crude steel output."
+    },
+    "savings_overhang": {
+      "value": 3.0,
+      "provenance": "estimate",
+      "note": "Unspendable household savings after the confiscatory currency reform of December 1947 wiped out most wartime savings. Small but growing."
+    },
+    "defence_spending": {
+      "value": 10.8,
+      "provenance": "estimate",
+      "note": "About 12% of GNP at US prices, following CIA-style dollar valuations. Highly uncertain."
     },
     "active_personnel": {
       "value": 2900000,
@@ -37,6 +62,11 @@
       "value": 176000000,
       "provenance": "estimate",
       "note": "Back-projected from the official figure of about 178.5 million on 1 January 1950."
+    },
+    "consumer_shortage": {
+      "value": 5.0,
+      "provenance": "estimate",
+      "note": "Share of household demand left unmet in 1949: rationing ended in 1947, but queues and deficits were endemic."
     }
   },
   "params": {
@@ -48,8 +78,36 @@
   },
   "verification": "unchecked",
   "sources": [
-    { "label": "Maddison Project Database", "url": "https://www.rug.nl/ggdc/historicaldevelopment/maddison/" },
-    { "label": "B. R. Mitchell, International Historical Statistics" },
-    { "label": "Correlates of War, National Material Capabilities", "url": "https://correlatesofwar.org/data-sets/national-material-capabilities/" }
-  ]
+    {
+      "label": "Maddison Project Database",
+      "url": "https://www.rug.nl/ggdc/historicaldevelopment/maddison/"
+    },
+    {
+      "label": "B. R. Mitchell, International Historical Statistics"
+    },
+    {
+      "label": "Correlates of War, National Material Capabilities",
+      "url": "https://correlatesofwar.org/data-sets/national-material-capabilities/"
+    },
+    {
+      "label": "Abram Bergson, The Real National Income of Soviet Russia since 1928 (1961)"
+    }
+  ],
+  "economy": {
+    "model": "planned",
+    "industry": "ussr-1949",
+    "plan": "ussr-five-year-plans",
+    "start": {
+      "output_gap": {
+        "value": 1.0,
+        "provenance": "estimate",
+        "note": "'Taut planning': plans set targets slightly above normal capacity, so the economy ran about 1% above it."
+      },
+      "inventory_investment": {
+        "value": 0.0,
+        "provenance": "estimate",
+        "note": "Change in stocks, 1949. Assumed zero."
+      }
+    }
+  }
 }

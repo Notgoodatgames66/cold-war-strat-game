@@ -5,6 +5,7 @@ import type { GameState, PlayerOrders } from './sim/schema';
 import { formatDate, formatDateLong } from './sim/time';
 import { canAdvance, totalTurns } from './sim/turn';
 import { createGame } from './sim/world';
+import { BalanceOfPower } from './ui/BalanceOfPower';
 import { EconomyScreen } from './ui/EconomyScreen';
 import { EngineRoom } from './ui/EngineRoom';
 import { FilingCabinet } from './ui/FilingCabinet';
@@ -154,6 +155,7 @@ export function App() {
                 <NationDossier key={nation.id} nation={nation} previousStats={previous?.stats[nation.id]} />
               ))}
             </div>
+            <BalanceOfPower game={game} />
           </>
         )}
 
@@ -169,7 +171,7 @@ export function App() {
         )}
       </main>
 
-      <footer className="colophon">Phase 2B build · the US economy and its seven industries are live · the Soviet economy comes next</footer>
+      <footer className="colophon">Phase 2C build · the US and Soviet economies are live · pops, politics and events come next</footer>
     </div>
   );
 }

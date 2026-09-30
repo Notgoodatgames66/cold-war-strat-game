@@ -1,0 +1,444 @@
+{
+  "id": "ussr-1949",
+  "description": "The Soviet economy in 1949 as the same seven industries, valued at 1949 US prices (as the CIA valued Soviet output). Heavy industry and farming dominate; light industry and services are starved. Reconciled so the 1949 accounts close exactly. A first estimate built from Western reconstructions, not from Soviet input–output tables (the first was published for 1959).",
+  "verification": "unchecked",
+  "sources": [
+    {
+      "label": "Abram Bergson, The Real National Income of Soviet Russia since 1928 (1961)"
+    },
+    {
+      "label": "Richard Moorsteen and Raymond Powell, The Soviet Capital Stock, 1928–1962 (1966)"
+    },
+    {
+      "label": "CIA, dollar valuations of Soviet GNP (declassified series)"
+    },
+    {
+      "label": "Maddison Project Database (relative size of the Soviet economy)",
+      "url": "https://www.rug.nl/ggdc/historicaldevelopment/maddison/"
+    }
+  ],
+  "sectors": {
+    "agriculture": {
+      "valueAddedShare": {
+        "value": 0.285,
+        "provenance": "estimate",
+        "note": "Share of business value added. Collective and state farms employed about half the Soviet labour force in 1950."
+      },
+      "valueAddedRatio": {
+        "value": 0.55,
+        "provenance": "estimate",
+        "note": "Soviet farming bought fewer inputs per rouble of output than American farming: little fertiliser, few tractors."
+      },
+      "inputs": {
+        "value": {
+          "agriculture": 0.52,
+          "heavy_industry": 0.15,
+          "energy": 0.06,
+          "consumer_goods": 0.05,
+          "technology": 0.05,
+          "services": 0.07,
+          "shipping_trade": 0.1
+        },
+        "provenance": "estimate",
+        "note": "Seed and feed from farms, machinery and repairs from the machine–tractor stations (heavy industry), fuel, fertiliser, and haulage."
+      },
+      "imports": {
+        "value": 0.35,
+        "provenance": "estimate",
+        "note": "Imports of farm products, 1949, $bn at US prices: wool, hides, rubber and tropical produce, mostly from the bloc and China."
+      },
+      "capitalShare": {
+        "value": 0.12,
+        "provenance": "estimate",
+        "note": "Share of fixed capital: farm buildings, livestock, tractors."
+      },
+      "investmentShare": {
+        "value": 0.12,
+        "provenance": "estimate",
+        "note": "Share of 1949 investment."
+      }
+    },
+    "heavy_industry": {
+      "valueAddedShare": {
+        "value": 0.215,
+        "provenance": "estimate",
+        "note": "Share of business value added: coal and ore mining, metallurgy, machine-building, construction and armaments. Stalin's 'Group A'."
+      },
+      "valueAddedRatio": {
+        "value": 0.38,
+        "provenance": "estimate",
+        "note": "Soviet heavy industry was notoriously material-intensive: more metal and fuel per rouble of output than in the West."
+      },
+      "inputs": {
+        "value": {
+          "agriculture": 0.04,
+          "heavy_industry": 0.54,
+          "energy": 0.08,
+          "consumer_goods": 0.06,
+          "technology": 0.05,
+          "services": 0.07,
+          "shipping_trade": 0.16
+        },
+        "provenance": "estimate",
+        "note": "Mostly its own products (ore, coal, metal, machines), plus rail freight, timber, fuel and chemicals."
+      },
+      "imports": {
+        "value": 0.45,
+        "provenance": "estimate",
+        "note": "Imports of machinery and metals, 1949, $bn: much of it from East Germany and Czechoslovakia, including reparations."
+      },
+      "capitalShare": {
+        "value": 0.28,
+        "provenance": "estimate",
+        "note": "Share of fixed capital: mines, steelworks, machine plants."
+      },
+      "investmentShare": {
+        "value": 0.3,
+        "provenance": "estimate",
+        "note": "Share of 1949 investment: the post-war reconstruction of the Donbass and the Urals."
+      }
+    },
+    "energy": {
+      "valueAddedShare": {
+        "value": 0.06,
+        "provenance": "estimate",
+        "note": "Share of business value added: oil, gas and electricity (coal is in heavy industry)."
+      },
+      "valueAddedRatio": {
+        "value": 0.45,
+        "provenance": "estimate",
+        "note": "Value added per dollar of output."
+      },
+      "inputs": {
+        "value": {
+          "agriculture": 0.0,
+          "heavy_industry": 0.38,
+          "energy": 0.25,
+          "consumer_goods": 0.02,
+          "technology": 0.08,
+          "services": 0.1,
+          "shipping_trade": 0.17
+        },
+        "provenance": "estimate",
+        "note": "Coal for power stations, equipment, crude oil to refineries, rail and pipeline transport."
+      },
+      "imports": {
+        "value": 0.1,
+        "provenance": "estimate",
+        "note": "Imports of fuel from Romania and elsewhere in the bloc, 1949, $bn."
+      },
+      "capitalShare": {
+        "value": 0.1,
+        "provenance": "estimate",
+        "note": "Share of fixed capital: power stations, oilfields, refineries."
+      },
+      "investmentShare": {
+        "value": 0.12,
+        "provenance": "estimate",
+        "note": "Share of 1949 investment."
+      }
+    },
+    "consumer_goods": {
+      "valueAddedShare": {
+        "value": 0.14,
+        "provenance": "estimate",
+        "note": "Share of business value added: food processing, textiles, clothing and footwear. Stalin's 'Group B'."
+      },
+      "valueAddedRatio": {
+        "value": 0.3,
+        "provenance": "estimate",
+        "note": "Mostly farm materials processed, so value added per dollar is low."
+      },
+      "inputs": {
+        "value": {
+          "agriculture": 0.46,
+          "heavy_industry": 0.1,
+          "energy": 0.05,
+          "consumer_goods": 0.22,
+          "technology": 0.05,
+          "services": 0.04,
+          "shipping_trade": 0.08
+        },
+        "provenance": "estimate",
+        "note": "Grain, meat, cotton and flax from farms; its own intermediate goods; fuel, freight and some metal."
+      },
+      "imports": {
+        "value": 0.25,
+        "provenance": "estimate",
+        "note": "Imports of textiles and processed goods from the bloc, 1949, $bn."
+      },
+      "capitalShare": {
+        "value": 0.06,
+        "provenance": "estimate",
+        "note": "Share of fixed capital: mills and food plants."
+      },
+      "investmentShare": {
+        "value": 0.06,
+        "provenance": "estimate",
+        "note": "Share of 1949 investment: light industry was starved of investment."
+      }
+    },
+    "technology": {
+      "valueAddedShare": {
+        "value": 0.055,
+        "provenance": "estimate",
+        "note": "Share of business value added: chemicals, electrical engineering, aviation, instruments and communications."
+      },
+      "valueAddedRatio": {
+        "value": 0.4,
+        "provenance": "estimate",
+        "note": "Value added per dollar of output."
+      },
+      "inputs": {
+        "value": {
+          "agriculture": 0.03,
+          "heavy_industry": 0.3,
+          "energy": 0.08,
+          "consumer_goods": 0.05,
+          "technology": 0.25,
+          "services": 0.09,
+          "shipping_trade": 0.2
+        },
+        "provenance": "estimate",
+        "note": "Metals and machinery, its own components, fuel, freight and services."
+      },
+      "imports": {
+        "value": 0.1,
+        "provenance": "estimate",
+        "note": "Imports of chemicals and instruments, 1949, $bn."
+      },
+      "capitalShare": {
+        "value": 0.04,
+        "provenance": "estimate",
+        "note": "Share of fixed capital."
+      },
+      "investmentShare": {
+        "value": 0.06,
+        "provenance": "estimate",
+        "note": "Share of 1949 investment, including the atomic and aviation programmes."
+      }
+    },
+    "services": {
+      "valueAddedShare": {
+        "value": 0.095,
+        "provenance": "estimate",
+        "note": "Share of business value added: housing, personal services and finance. Health and education are government in the USSR and sit in its workforce."
+      },
+      "valueAddedRatio": {
+        "value": 0.7,
+        "provenance": "estimate",
+        "note": "Mostly labour and the (low, state-set) rental value of housing."
+      },
+      "inputs": {
+        "value": {
+          "agriculture": 0.05,
+          "heavy_industry": 0.15,
+          "energy": 0.1,
+          "consumer_goods": 0.27,
+          "technology": 0.08,
+          "services": 0.25,
+          "shipping_trade": 0.1
+        },
+        "provenance": "estimate",
+        "note": "Building repairs, fuel and power, supplies, and other services."
+      },
+      "imports": {
+        "value": 0.02,
+        "provenance": "estimate",
+        "note": "Imports of services, 1949, $bn: negligible."
+      },
+      "capitalShare": {
+        "value": 0.25,
+        "provenance": "estimate",
+        "note": "Share of fixed capital, mostly housing: less than in the West because Soviet cities were chronically overcrowded."
+      },
+      "investmentShare": {
+        "value": 0.2,
+        "provenance": "estimate",
+        "note": "Share of 1949 investment: rebuilding war-destroyed housing."
+      }
+    },
+    "shipping_trade": {
+      "valueAddedShare": {
+        "value": 0.15,
+        "provenance": "estimate",
+        "note": "Share of business value added: the railways (the backbone of Soviet freight), river and sea transport, and state and cooperative trade."
+      },
+      "valueAddedRatio": {
+        "value": 0.6,
+        "provenance": "estimate",
+        "note": "Value added per dollar of output."
+      },
+      "inputs": {
+        "value": {
+          "agriculture": 0.02,
+          "heavy_industry": 0.22,
+          "energy": 0.2,
+          "consumer_goods": 0.1,
+          "technology": 0.05,
+          "services": 0.16,
+          "shipping_trade": 0.25
+        },
+        "provenance": "estimate",
+        "note": "Coal and fuel, rolling stock and repairs, packaging and services."
+      },
+      "imports": {
+        "value": 0.03,
+        "provenance": "estimate",
+        "note": "Foreign shipping, 1949, $bn."
+      },
+      "capitalShare": {
+        "value": 0.15,
+        "provenance": "estimate",
+        "note": "Share of fixed capital: railways above all."
+      },
+      "investmentShare": {
+        "value": 0.14,
+        "provenance": "estimate",
+        "note": "Share of 1949 investment."
+      }
+    }
+  },
+  "capital": {
+    "capitalOutputRatio": {
+      "value": 1.5,
+      "provenance": "estimate",
+      "note": "Fixed capital divided by GNP, 1949. The war destroyed about a quarter of the pre-war stock (Moorsteen and Powell), leaving capital scarce relative to labour; that scarcity is why returns to post-war investment, and growth, were so high."
+    },
+    "depreciation": {
+      "value": 0.035,
+      "provenance": "estimate",
+      "note": "Soviet retirement rates were low: plant was kept running long past its Western lifetime."
+    }
+  },
+  "bridges": {
+    "fixed_investment": {
+      "value": {
+        "heavy_industry": 0.8,
+        "consumer_goods": 0.03,
+        "technology": 0.07,
+        "services": 0.03,
+        "shipping_trade": 0.07
+      },
+      "provenance": "estimate",
+      "note": "What Soviet investment bought: construction and machinery above all, some electrical equipment and freight."
+    },
+    "inventory_investment": {
+      "value": {
+        "agriculture": 0.3,
+        "heavy_industry": 0.3,
+        "energy": 0.05,
+        "consumer_goods": 0.25,
+        "technology": 0.05,
+        "shipping_trade": 0.05
+      },
+      "provenance": "estimate",
+      "note": "Which products are stocked or run down."
+    },
+    "state_local": {
+      "value": {
+        "workforce": 0.55,
+        "agriculture": 0.02,
+        "heavy_industry": 0.1,
+        "energy": 0.05,
+        "consumer_goods": 0.1,
+        "technology": 0.05,
+        "services": 0.1,
+        "shipping_trade": 0.03
+      },
+      "provenance": "estimate",
+      "note": "Civil government in the USSR: administration, health, education and science. Over half is pay for doctors, teachers, officials and scientists."
+    },
+    "exports": {
+      "value": {
+        "agriculture": 0.3,
+        "heavy_industry": 0.3,
+        "energy": 0.2,
+        "consumer_goods": 0.1,
+        "technology": 0.05,
+        "shipping_trade": 0.05
+      },
+      "provenance": "estimate",
+      "note": "Soviet exports: grain and timber, ores, metals, coal and machinery for the bloc, oil, furs and textiles."
+    },
+    "aid_exports": {
+      "value": {
+        "agriculture": 0.4,
+        "heavy_industry": 0.4,
+        "energy": 0.2
+      },
+      "provenance": "estimate",
+      "note": "Aid shipments abroad, if any: grain, machinery and fuel."
+    },
+    "budget": {
+      "defence": {
+        "value": {
+          "workforce": 0.2,
+          "agriculture": 0.05,
+          "heavy_industry": 0.35,
+          "energy": 0.06,
+          "consumer_goods": 0.1,
+          "technology": 0.18,
+          "services": 0.01,
+          "shipping_trade": 0.05
+        },
+        "provenance": "estimate",
+        "note": "Soviet defence: conscripts were paid little, so pay is a smaller share than in America; tanks, artillery, ammunition and fortifications (heavy industry), aircraft, radar and the atomic programme (technology), food and uniforms."
+      },
+      "general_government": {
+        "value": {
+          "workforce": 0.6,
+          "agriculture": 0.05,
+          "heavy_industry": 0.05,
+          "energy": 0.05,
+          "consumer_goods": 0.1,
+          "technology": 0.05,
+          "services": 0.05,
+          "shipping_trade": 0.05
+        },
+        "provenance": "estimate",
+        "note": "Party and state administration."
+      },
+      "infrastructure": {
+        "value": {
+          "workforce": 0.1,
+          "heavy_industry": 0.7,
+          "energy": 0.05,
+          "technology": 0.05,
+          "services": 0.05,
+          "shipping_trade": 0.05
+        },
+        "provenance": "estimate",
+        "note": "State construction projects."
+      },
+      "research": {
+        "value": {
+          "workforce": 0.35,
+          "heavy_industry": 0.1,
+          "technology": 0.45,
+          "services": 0.1
+        },
+        "provenance": "estimate",
+        "note": "Academy of Sciences institutes and design bureaux."
+      },
+      "education_health": {
+        "value": {
+          "workforce": 0.55,
+          "heavy_industry": 0.1,
+          "consumer_goods": 0.15,
+          "technology": 0.05,
+          "services": 0.15
+        },
+        "provenance": "estimate",
+        "note": "Schools, polyclinics and hospitals."
+      }
+    }
+  },
+  "physicalIndicators": [
+    {
+      "stat": "steel_output",
+      "sector": "heavy_industry",
+      "note": "Steel tonnage moves with heavy industry's real output."
+    }
+  ]
+}

@@ -6,17 +6,22 @@
  * clear message, not a silent wrong number.
  */
 
-import { PURCHASE_KINDS, REQUIRED_STATS, createEconomy, type EconomyDefs } from './economy/calibrate';
+import { PURCHASE_KINDS, REQUIRED_STATS, type EconomyDefs } from './economy/calibrate';
+import { createNationEconomy } from './economy/create';
 import {
   BUDGET_KINDS,
+  ECONOMY_ENGINES,
   ECONOMY_START_KEYS,
   MODEL_PARAM_KEYS,
   MONETARY_REGIMES,
+  PLANNED_PARAM_KEYS,
+  PLANNED_START_KEYS,
   TAX_IDS,
   WORKFORCE,
   type BudgetLineDef,
   type EconomyModelData,
   type IndustryTableData,
+  type PlanData,
   type SectorDef,
   type TaxLineDef,
 } from './economy/types';
@@ -88,7 +93,52 @@ export function validateEconomyModel(raw: unknown, file: string): string[] {
   for (const field of ['id', 'label', 'description'] as const) {
     if (!isStr(raw[field])) errors.push(`${file}: missing ${field}`);
   }
-  errors.push(...validateSourcedMap(raw.params, `${file}: params`, new Set(MODEL_PARAM_KEYS), MODEL_PARAM_KEYS));
+  if (!ECONOMY_ENGINES.includes(raw.engine as never)) {
+    errors.push(`${file}: engine must be one of ${ECONOMY_ENGINES.join(', ')}`);
+    return errors;
+  }
+  const keys: readonly string[] = raw.engine === 'planned' ? PLANNED_PARAM_KEYS : MODEL_PARAM_KEYS;
+  errors.push(...validateSourcedMap(raw.params, `${file}: params`, new Set(keys), keys));
+  return errors;
+}
+
+/** Checks a plan file's shape. Its rival and valuation nations are checked once nations are loaded. */
+export function validatePlan(raw: unknown, file: string, sectors: SectorDef[]): string[] {
+  if (!isObj(raw)) return [`${file}: must be an object`];
+  const errors: string[] = [];
+  for (const field of ['id', 'description', 'rival', 'valuation'] as const) {
+    if (!isStr(raw[field])) errors.push(`${file}: missing ${field}`);
+  }
+  if (!Array.isArray(raw.sources) || raw.sources.length === 0) errors.push(`${file}: list at least one source`);
+  if (!Array.isArray(raw.keyframes) || raw.keyframes.length === 0) return [...errors, `${file}: keyframes must be a non-empty list`];
+  const ids = new Set(sectors.map((s) => s.id));
+  let lastYear = -Infinity;
+  raw.keyframes.forEach((k, i) => {
+    const at = `${file}: keyframes[${i}]`;
+    if (!isObj(k)) return errors.push(`${at}: must be an object`);
+    if (!isNum(k.year) || !Number.isInteger(k.year)) errors.push(`${at}.year: must be a whole year`);
+    else if (k.year <= lastYear) errors.push(`${at}.year: keyframes must be in increasing year order`);
+    else lastYear = k.year;
+    if (!isStr(k.label)) errors.push(`${at}: missing label`);
+    let committed = 0;
+    for (const f of ['investment', 'defence', 'civil', 'exports', 'rivalDefenceShare'] as const) {
+      const v = k[f];
+      if (!isNum(v) || v < 0 || v >= 1) errors.push(`${at}.${f}: must be a share between 0 and 1`);
+      else if (f !== 'rivalDefenceShare') committed += v;
+    }
+    if (committed >= 0.9) errors.push(`${at}: investment, defence, civil and exports leave households almost nothing`);
+    if (!isObj(k.priority)) errors.push(`${at}.priority: must be an object`);
+    else {
+      for (const id of ids) if (!(id in k.priority)) errors.push(`${at}.priority: missing "${id}"`);
+      for (const [id, v] of Object.entries(k.priority)) {
+        if (!ids.has(id)) errors.push(`${at}.priority: "${id}" is not a sector`);
+        if (!isNum(v) || v <= 0) errors.push(`${at}.priority.${id}: must be above zero`);
+      }
+    }
+    if (k.provenance !== 'measured' && k.provenance !== 'estimate') errors.push(`${at}.provenance: must be "measured" or "estimate"`);
+    if (!isStr(k.note)) errors.push(`${at}.note: every figure needs a note saying where it came from`);
+    return undefined;
+  });
   return errors;
 }
 
@@ -263,13 +313,25 @@ export function validateIndustryTable(
   return errors;
 }
 
+/** Stats a planned economy needs from its nation file. */
+const PLANNED_REQUIRED_STATS = ['gdp_nominal', 'real_growth', 'population', 'consumer_shortage', 'savings_overhang'] as const;
+
 export function validateNationEconomy(raw: unknown, file: string, defs: EconomyDefs): string[] {
   const where = `${file}: economy`;
   if (!isObj(raw)) return [`${where}: must be an object`];
   const errors: string[] = [];
-  if (!isStr(raw.model) || !defs.models[raw.model]) errors.push(`${where}.model: unknown model "${String(raw.model)}"`);
+  const model = isStr(raw.model) ? defs.models[raw.model] : undefined;
+  if (!model) errors.push(`${where}.model: unknown model "${String(raw.model)}"`);
   if (!isStr(raw.industry) || !defs.industryTables[raw.industry])
     errors.push(`${where}.industry: unknown input–output table "${String(raw.industry)}"`);
+  if (!model) return errors;
+
+  if (model.engine === 'planned') {
+    if (!isStr(raw.plan) || !defs.plans[raw.plan]) errors.push(`${where}.plan: unknown plan "${String(raw.plan)}"`);
+    errors.push(...validateSourcedMap(raw.start, `${where}.start`, new Set(PLANNED_START_KEYS), PLANNED_START_KEYS));
+    return errors;
+  }
+
   if (!MONETARY_REGIMES.includes(raw.monetaryRegime as never))
     errors.push(`${where}.monetaryRegime: must be one of ${MONETARY_REGIMES.join(', ')}`);
   errors.push(...validateSourcedMap(raw.start, `${where}.start`, new Set(ECONOMY_START_KEYS), ECONOMY_START_KEYS));
@@ -325,14 +387,16 @@ export function validateNation(raw: unknown, file: string, statIds: Set<string>,
     } else {
       const economyErrors = validateNationEconomy(raw.economy, file, defs);
       errors.push(...economyErrors);
+      const model = isObj(raw.economy) && isStr(raw.economy.model) ? defs.models[raw.economy.model] : undefined;
+      const required: readonly string[] = model?.engine === 'planned' ? PLANNED_REQUIRED_STATS : REQUIRED_STATS;
       if (isObj(raw.stats)) {
-        for (const id of REQUIRED_STATS) {
-          if (!(id in raw.stats)) errors.push(`${file}: a nation with an economy needs the "${id}" stat`);
+        for (const id of required) {
+          if (!(id in raw.stats)) errors.push(`${file}: a nation with this economy needs the "${id}" stat`);
         }
       }
       if (economyErrors.length === 0 && errors.length === 0) {
         try {
-          createEconomy(raw as unknown as NationData, defs);
+          createNationEconomy(raw as unknown as NationData, defs);
         } catch (err) {
           errors.push(`${file}: ${err instanceof Error ? err.message : String(err)}`);
         }
@@ -384,6 +448,7 @@ export interface RawContent {
   taxLines: unknown;
   sectors: unknown;
   industryTables: Record<string, unknown>;
+  plans: Record<string, unknown>;
 }
 
 /** Validates raw file contents and assembles them. Throws with every problem listed. */
@@ -416,12 +481,24 @@ export function buildContent(raw: RawContent): Content {
     }
   }
 
+  const plans: Record<string, PlanData> = {};
+  for (const [file, planRaw] of Object.entries(raw.plans)) {
+    const problems = validatePlan(planRaw, file, sectors);
+    errors.push(...problems);
+    if (problems.length === 0) {
+      const plan = planRaw as PlanData;
+      if (plans[plan.id]) errors.push(`${file}: duplicate plan id "${plan.id}"`);
+      plans[plan.id] = plan;
+    }
+  }
+
   const economy: EconomyDefs = {
     models,
     budgetLines,
     taxLines: taxErrors.length === 0 ? (raw.taxLines as TaxLineDef[]) : [],
     sectors,
     industryTables,
+    plans,
   };
 
   const nations: Record<string, NationData> = {};
@@ -436,6 +513,11 @@ export function buildContent(raw: RawContent): Content {
   }
 
   const nationIds = new Set(Object.keys(nations));
+  for (const plan of Object.values(plans)) {
+    for (const field of ['rival', 'valuation'] as const) {
+      if (!nationIds.has(plan[field])) errors.push(`plan "${plan.id}": ${field} "${plan[field]}" has no file in data/nations`);
+    }
+  }
   const scenarios: Record<string, ScenarioData> = {};
   for (const [file, scenarioRaw] of Object.entries(raw.scenarios)) {
     const problems = validateScenario(scenarioRaw, file, nationIds);

@@ -41,7 +41,9 @@ const signed = (v: number) => `${v < 0 ? '−' : '+'}${Math.abs(v).toFixed(1)}`;
 export function EconomyScreen({ game, draft, onDraft }: Props) {
   const nation = game.nations[game.playerNation];
   const economy = nation?.economy;
-  if (!nation || !economy) return <p className="empty">This nation's economy is not simulated yet.</p>;
+  if (!nation || economy?.engine !== 'keynesian') {
+    return <p className="empty">The Treasury desk is for market economies; this nation's economy runs on a plan.</p>;
+  }
 
   const history = (stat: string): ChartPoint[] =>
     game.history

@@ -51,9 +51,9 @@ A deep, calculation-driven Cold War grand strategy simulator. Alpha scenario: th
 ## Layout
 
 ```
-data/            stats.json (stat registry), nations/, scenarios/, economy/ (models, levers, sectors, industry tables)
+data/            stats.json (stat registry), nations/, scenarios/, economy/ (models, levers, sectors, industry tables, plans)
 src/sim/         the engine: rng, time, schema, content, world, turn, orders, save, worker, systems/, economy/
-src/ui/          interface components and helpers (tabs, charts, Treasury desk, Industry screen)
+src/ui/          interface components and helpers (tabs, charts, Treasury desk, Industry screen, balance of power)
 src/App.tsx      the main screen
 tests/           automated tests
 docs/GDD.md      the game design document
@@ -66,12 +66,18 @@ docs/models/     plain-English papers explaining each model
 - **Phase 1 (Foundations): complete.** Seeded RNG, quarterly turn loop to Q4 2000, staggered system scheduler, universal nation schema, USA and USSR 1949 data, save/load/export/import, autosave, web worker, state checksums, GitHub Pages deployment.
 - **Phase 2A (Macroeconomy): complete.** Keynesian model for the USA (C, I, inventories, G, trade, potential, Okun, Phillips, Treasury peg, federal budget, debt, gold), calibrated to 1949 from data files; budget and tax orders with phase-in and optional indexation; Economy tab with charts, accounts and the Treasury desk; save schema 2 with a migration from schema 1. Model paper: `docs/models/economy.md`.
 - **Phase 2B (Industry): complete.** Seven sectors with a 1949 input–output table (`data/economy/industry/usa-1949.json`), competitive imports, government's own workforce split out, sector capacity from sector capital, rationing with priorities and emergency imports, investment flowing to hot sectors, Cobb–Douglas potential, industrial production index and steel tonnage; Industry tab; save schema 3. Model paper: `docs/models/industry.md`.
-- **Next: Phase 2C.** A simpler Soviet economy (same universal schema, planned-economy flavour later), then the Phase 2 gate: 1949–55 is playable.
+- **Phase 2C (Soviet economy): complete. Phase 2 gate passed (1949–55 is playable).** A planned engine for the USSR on the same seven-industry model (`src/sim/economy/planned.ts`): a taut plan sets output, Five-Year Plan keyframes (`data/economy/plans/`) split it between investment, defence, civil government and exports, households get the rest; shortages and a savings overhang instead of inflation; productivity growth that fades; investment steered by plan priorities and bottlenecks; an arms-race reaction to US defence spending; Soviet output valued at US prices. Balance-of-power charts on the Situation tab (true Soviet figures, labelled as a developer view). Save schema 4 with a migration that replays the Soviet economy through an old save's history. Model paper: `docs/models/planned.md`.
+- **Next: Phase 3 (Alpha systems).** Pops and opinion, factions and interest groups, the events engine, military units, intelligence fog, the commodity market. Pops should also bring structural change (Engel's law in household spending, farm-to-factory migration), which fixes the known gap that industry and steel grow too slowly in the USSR and never lose ground to services in the USA (see "Known gaps" in `docs/models/planned.md`).
 
 ## Design decisions made by Ryan
 
 - **Budget indexation is off by default** (decided 30 Sep 2026). Budgets stay fixed in dollars, so a hands-off player meets fiscal drag; the Treasury desk switch turns indexation on.
 - **Price controls and ending the Fed peg wait for Phase 3** (decided 30 Sep 2026). They arrive as political decisions with costs (political capital, Congress, interest groups), not as free Treasury-desk switches.
+- **Phase 2C scope** (decided 30 Sep 2026):
+  - The USSR runs a **simple planned economy**: output set by capacity, the Plan splits it between investment, defence, civil government and exports, households get the residual, full employment, shortages and a savings overhang instead of open inflation.
+  - The Soviets **follow the historical Five-Year Plans by default but react to US defence spending** (a basic arms race) until the rival AI arrives.
+  - The player sees **true Soviet figures**, labelled as a developer view, until intelligence and fog arrive in Phase 3.
+  - Phase 2 stays a **pure economic sandbox**; events arrive in Phase 3.
 
 ## Open design questions for Ryan
 
