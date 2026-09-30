@@ -67,9 +67,13 @@ docs/models/     plain-English papers explaining each model
 - **Phase 2A (Macroeconomy): complete.** Keynesian model for the USA (C, I, inventories, G, trade, potential, Okun, Phillips, Treasury peg, federal budget, debt, gold), calibrated to 1949 from data files; budget and tax orders with phase-in and optional indexation; Economy tab with charts, accounts and the Treasury desk; save schema 2 with a migration from schema 1. Model paper: `docs/models/economy.md`.
 - **Next: Phase 2B (Industry).** Seven sectors and input–output production chains, with a private capital stock feeding capacity. Then 2C: a simpler Soviet economy and the Phase 2 gate (1949–55 playable).
 
+## Design decisions made by Ryan
+
+- **Budget indexation is off by default** (decided 30 Sep 2026). Budgets stay fixed in dollars, so a hands-off player meets fiscal drag; the Treasury desk switch turns indexation on.
+
 ## Open design questions for Ryan
 
-- Should budget indexation be on or off by default? Currently off: budgets stay fixed in dollars, which produces slow fiscal-drag stagnation for hands-off players.
+- None outstanding.
 
 ## Open data tasks
 

@@ -87,6 +87,10 @@ describe('orders', () => {
     expect(econ(g).taxRates).not.toHaveProperty('wealth');
   });
 
+  it('indexation is off by default (Ryan’s decision)', () => {
+    expect(econ(newGame()).budgetIndexed).toBe(false);
+  });
+
   it('indexation raises budget targets with the economy’s nominal growth', () => {
     const g = play(8, { budgetIndexed: true });
     const e = econ(g);
