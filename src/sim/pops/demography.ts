@@ -70,6 +70,15 @@ function ratesFor(model: PopModelData): Rates {
   return rates;
 }
 
+/**
+ * Cumulative fall in death rates after `years`: a constant yearly
+ * improvement, or one that fades exponentially at `decay` a year.
+ */
+export function mortalityFactor(improvement: number, decay: number, years: number): number {
+  if (decay <= 0) return Math.pow(1 - improvement, years);
+  return Math.exp((-improvement * (1 - Math.exp(-decay * years))) / decay);
+}
+
 /** Band index of each single year of age in the profile. */
 function bandOfAge(model: PopModelData, length: number): number[] {
   const codec = codecFor(model);
@@ -222,7 +231,7 @@ export function stepDemography(model: PopModelData, pops: PopsState, living: num
   const cohort = pops.youngShare0 > 0 ? Math.pow(youngShare(model, pops) / pops.youngShare0, -d.cohortSizeElasticity) : 1;
   const work = pops.womenWork0 > 0 && womenWork > 0 ? Math.pow(womenWork / pops.womenWork0, -d.womenWorkElasticity) : 1;
   const easterlin = Math.min(2, Math.max(0.3, Math.pow(ratio / pops.baseRatio, d.fertilityIncomeElasticity) * cohort * work));
-  const improvement = Math.pow(1 - d.mortalityImprovement, pops.quarters * QUARTER);
+  const improvement = mortalityFactor(d.mortalityImprovement, d.mortalityImprovementDecay ?? 0, pops.quarters * QUARTER);
   const deathScale = pops.mortalityScale * improvement;
   const birthScale = pops.fertilityScale * easterlin * QUARTER;
   const ageShare = ageingShares(model, pops).map((s) => s * QUARTER);

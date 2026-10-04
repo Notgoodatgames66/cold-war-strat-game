@@ -147,6 +147,7 @@ function Panels({ game, model, pops, startPopulation }: PanelProps) {
       <div className="popgrid">
         <AgePyramid game={game} model={model} pops={pops} />
         {region && hasStateMap(model) && <StateMap model={model} pops={pops} baseline={baseline} early={game.history.length < 8} />}
+        {region && !hasStateMap(model) && <RegionBars model={model} pops={pops} baseline={baseline} regionId={region.id} />}
       </div>
       <Breakdowns model={model} pops={pops} baseline={baseline} />
       {region && <RegionTable model={model} pops={pops} baseline={baseline} regionId={region.id} />}
@@ -191,9 +192,12 @@ function AgePyramid({ game, model, pops }: { game: GameState; model: PopModelDat
   const half = 170;
   const height = rows.length * bar;
   const top = (age: number) => height - (age + 1) * bar;
-  const boomFrom = Math.max(0, game.date.year - 1964);
-  const boomTo = game.date.year - 1946;
-  const showBoom = boomTo >= 0 && pops.ageProfile.length > 0;
+  const last = rows.length - 1;
+  const cohorts = pops.ageProfile.length > 0
+    ? (model.cohorts ?? [])
+        .map((c) => ({ label: c.label, young: Math.max(0, game.date.year - c.to), old: Math.min(last, game.date.year - c.from) }))
+        .filter((c) => c.old >= 0 && c.young <= last)
+    : [];
 
   return (
     <figure className="panel pyramid">
@@ -204,14 +208,14 @@ function AgePyramid({ game, model, pops }: { game: GameState; model: PopModelDat
         </span>
       </figcaption>
       <svg viewBox={`0 0 ${half * 2 + 60} ${height + 24}`} role="img" aria-label="Age pyramid by single year of age">
-        {showBoom && (
-          <g className="pyramid__boom">
-            <rect x={0} y={top(Math.min(boomTo, rows.length - 1))} width={half * 2 + 60} height={(Math.min(boomTo, rows.length - 1) - boomFrom + 1) * bar} />
-            <text x={half * 2 + 56} y={top(Math.min(boomTo, rows.length - 1)) - 4} textAnchor="end">
-              BABY BOOM · BORN 1946–64
+        {cohorts.map((c) => (
+          <g key={c.label} className="pyramid__boom">
+            <rect x={0} y={top(c.old)} width={half * 2 + 60} height={(c.old - c.young + 1) * bar} />
+            <text x={half * 2 + 56} y={top(c.old) - 3} textAnchor="end">
+              {c.label.toUpperCase()}
             </text>
           </g>
-        )}
+        ))}
         {rows.map((r) => (
           <g key={r.age}>
             <rect className="pyramid__men" x={half - (r.men / max) * half} y={top(r.age)} width={(r.men / max) * half} height={bar - 0.6} />
@@ -342,6 +346,34 @@ function StateMap({ model, pops, baseline, early }: { model: PopModelData; pops:
         </span>
       </div>
     </figure>
+  );
+}
+
+/** Regions as bars, largest first: for nations without a region map. */
+function RegionBars({ model, pops, baseline, regionId }: { model: PopModelData; pops: PopsState; baseline: Pick<PopsState, 'keys' | 'size'>; regionId: string }) {
+  const attr = model.attributes.find((a) => a.id === regionId)!;
+  const now = peopleBy(model, pops, regionId);
+  const then = peopleBy(model, baseline, regionId);
+  const rows = attr.categories.map((c, i) => ({ c, people: now[i]!, change: then[i]! > 0 ? now[i]! / then[i]! - 1 : 0 })).sort((a, b) => b.people - a.people);
+  const top = rows[0]?.people ?? 1;
+  return (
+    <div className="panel breakdown regionbars">
+      <span className="eyebrow">By {attr.label.toLowerCase()}</span>
+      <ul className="breakdown__rows">
+        {rows.map((r) => (
+          <li key={r.c.id} className="breakdown__row">
+            <span className="breakdown__label">{r.c.label}</span>
+            <span className="breakdown__bar" aria-hidden="true">
+              <span style={{ width: `${(r.people / top) * 100}%` }} />
+            </span>
+            <span className="breakdown__share">{millions(r.people)}</span>
+            <span className={`breakdown__change${Math.abs(r.change) < 0.0005 ? '' : r.change > 0 ? ' breakdown__change--up' : ' breakdown__change--down'}`}>
+              {Math.abs(r.change) < 0.0005 ? '—' : `${r.change > 0 ? '+' : '−'}${Math.abs(r.change * 100).toFixed(0)}%`}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 

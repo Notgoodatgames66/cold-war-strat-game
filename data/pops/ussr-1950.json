@@ -1,0 +1,1528 @@
+{
+ "id": "ussr-1950",
+ "nation": "ussr",
+ "label": "Soviet Union, 1950 estimates",
+ "censusYear": 1950,
+ "scaleToStat": "population",
+ "threshold": 250,
+ "verification": "unchecked",
+ "cohorts": [
+  {
+   "label": "War births · born 1941–45",
+   "from": 1941,
+   "to": 1945
+  },
+  {
+   "label": "Famine · born 1932–33",
+   "from": 1932,
+   "to": 1933
+  }
+ ],
+ "sources": [
+  {
+   "label": "Narodnoe khozyaistvo SSSR (statistical yearbooks), population estimates by republic, 1950"
+  },
+  {
+   "label": "Itogi vsesoyuznoi perepisi naseleniya 1959 goda (1959 census results), nationality and urban shares"
+  },
+  {
+   "label": "Vsesoyuznaya perepis' naseleniya 1939 goda (1939 census), social groups"
+  },
+  {
+   "label": "Andreev, Darsky and Kharkova, Naselenie Sovetskogo Soyuza 1922–1991 (1993): age and sex reconstruction"
+  },
+  {
+   "label": "Applebaum, Gulag: A History (2003); Getty, Rittersporn and Zemskov (1993): camp populations"
+  }
+ ],
+ "attributes": [
+  {
+   "id": "republic",
+   "label": "Republic",
+   "role": "region",
+   "categories": [
+    {
+     "id": "RSFSR",
+     "label": "Russian SFSR",
+     "group": "Russia"
+    },
+    {
+     "id": "UKR",
+     "label": "Ukraine",
+     "group": "Ukraine and Moldova"
+    },
+    {
+     "id": "BEL",
+     "label": "Belarus",
+     "group": "Belarus"
+    },
+    {
+     "id": "UZB",
+     "label": "Uzbekistan",
+     "group": "Central Asia"
+    },
+    {
+     "id": "KAZ",
+     "label": "Kazakhstan",
+     "group": "Kazakhstan"
+    },
+    {
+     "id": "GEO",
+     "label": "Georgia",
+     "group": "Caucasus"
+    },
+    {
+     "id": "AZE",
+     "label": "Azerbaijan",
+     "group": "Caucasus"
+    },
+    {
+     "id": "LIT",
+     "label": "Lithuania",
+     "group": "Baltics"
+    },
+    {
+     "id": "MOL",
+     "label": "Moldavia",
+     "group": "Ukraine and Moldova"
+    },
+    {
+     "id": "LAT",
+     "label": "Latvia",
+     "group": "Baltics"
+    },
+    {
+     "id": "KYR",
+     "label": "Kirghizia",
+     "group": "Central Asia"
+    },
+    {
+     "id": "TAJ",
+     "label": "Tajikistan",
+     "group": "Central Asia"
+    },
+    {
+     "id": "ARM",
+     "label": "Armenia",
+     "group": "Caucasus"
+    },
+    {
+     "id": "TKM",
+     "label": "Turkmenia",
+     "group": "Central Asia"
+    },
+    {
+     "id": "EST",
+     "label": "Estonia",
+     "group": "Baltics"
+    }
+   ]
+  },
+  {
+   "id": "nationality",
+   "label": "Nationality",
+   "role": "ethnicity",
+   "categories": [
+    {
+     "id": "russian",
+     "label": "Russians"
+    },
+    {
+     "id": "ukrainian",
+     "label": "Ukrainians"
+    },
+    {
+     "id": "belarusian",
+     "label": "Belarusians"
+    },
+    {
+     "id": "central_asian",
+     "label": "Central Asian peoples"
+    },
+    {
+     "id": "caucasian",
+     "label": "Caucasian peoples"
+    },
+    {
+     "id": "baltic",
+     "label": "Baltic peoples"
+    },
+    {
+     "id": "jewish",
+     "label": "Jews"
+    },
+    {
+     "id": "other",
+     "label": "Other peoples"
+    }
+   ]
+  },
+  {
+   "id": "sex",
+   "label": "Sex",
+   "role": "sex",
+   "categories": [
+    {
+     "id": "male",
+     "label": "Men and boys"
+    },
+    {
+     "id": "female",
+     "label": "Women and girls",
+     "female": true
+    }
+   ]
+  },
+  {
+   "id": "class",
+   "label": "Social group",
+   "role": "class",
+   "categories": [
+    {
+     "id": "kolkhoz",
+     "label": "Collective farmers (kolkhozniki)",
+     "farm": true
+    },
+    {
+     "id": "state_farm",
+     "label": "State farm workers",
+     "farm": true
+    },
+    {
+     "id": "industrial",
+     "label": "Industrial workers"
+    },
+    {
+     "id": "service",
+     "label": "Service and transport workers"
+    },
+    {
+     "id": "white_collar",
+     "label": "Office staff (sluzhashchie)"
+    },
+    {
+     "id": "specialist",
+     "label": "Specialists and intelligentsia"
+    },
+    {
+     "id": "nomenklatura",
+     "label": "Party and state officials"
+    },
+    {
+     "id": "prisoner",
+     "label": "Gulag prisoners"
+    },
+    {
+     "id": "pensioner",
+     "label": "Pensioners",
+     "retired": true
+    }
+   ]
+  },
+  {
+   "id": "religion",
+   "label": "Religion",
+   "role": "religion",
+   "categories": [
+    {
+     "id": "orthodox",
+     "label": "Orthodox (and Armenian Apostolic)"
+    },
+    {
+     "id": "muslim",
+     "label": "Muslim"
+    },
+    {
+     "id": "western",
+     "label": "Catholic and Lutheran"
+    },
+    {
+     "id": "jewish",
+     "label": "Jewish"
+    },
+    {
+     "id": "none",
+     "label": "No religion"
+    }
+   ]
+  },
+  {
+   "id": "age",
+   "label": "Age",
+   "role": "age",
+   "categories": [
+    {
+     "id": "0-14",
+     "label": "0–14",
+     "ageFrom": 0,
+     "ageWidth": 15
+    },
+    {
+     "id": "15-29",
+     "label": "15–29",
+     "ageFrom": 15,
+     "ageWidth": 15
+    },
+    {
+     "id": "30-44",
+     "label": "30–44",
+     "ageFrom": 30,
+     "ageWidth": 15
+    },
+    {
+     "id": "45-64",
+     "label": "45–64",
+     "ageFrom": 45,
+     "ageWidth": 20
+    },
+    {
+     "id": "65+",
+     "label": "65 and over",
+     "ageFrom": 65
+    }
+   ]
+  },
+  {
+   "id": "settlement",
+   "label": "Where they live",
+   "role": "settlement",
+   "categories": [
+    {
+     "id": "city",
+     "label": "Cities and towns"
+    },
+    {
+     "id": "rural",
+     "label": "Countryside"
+    }
+   ]
+  }
+ ],
+ "margins": [
+  {
+   "id": "republic-population",
+   "label": "Population by republic",
+   "dims": [
+    "republic"
+   ],
+   "given": [],
+   "values": {
+    "RSFSR": 101438000,
+    "UKR": 36588000,
+    "BEL": 7709000,
+    "UZB": 6194000,
+    "KAZ": 6522000,
+    "GEO": 3494000,
+    "AZE": 2859000,
+    "LIT": 2573000,
+    "MOL": 2290000,
+    "LAT": 1944000,
+    "KYR": 1716000,
+    "TAJ": 1509000,
+    "ARM": 1347000,
+    "TKM": 1197000,
+    "EST": 1097000
+   },
+   "provenance": "estimate",
+   "note": "Official Soviet estimates for 1 January 1950. The game scales the total to its January 1949 population."
+  },
+  {
+   "id": "religion",
+   "label": "Religion",
+   "dims": [
+    "religion"
+   ],
+   "given": [],
+   "values": {
+    "orthodox": 58897410,
+    "muslim": 19632470,
+    "western": 6246695,
+    "jewish": 1427816,
+    "none": 92272609
+   },
+   "provenance": "estimate",
+   "note": "Self-identification under official atheism is hard to measure; about half the population is taken to be believers, mostly Orthodox and Muslim. A reconstruction, not a census figure."
+  },
+  {
+   "id": "republic-nationality",
+   "label": "Nationality by republic",
+   "dims": [
+    "republic",
+    "nationality"
+   ],
+   "given": [
+    "republic"
+   ],
+   "values": {
+    "RSFSR": {
+     "russian": 0.83,
+     "ukrainian": 0.03,
+     "belarusian": 0.007,
+     "central_asian": 0.006,
+     "caucasian": 0.006,
+     "baltic": 0.001,
+     "jewish": 0.008,
+     "other": 0.112
+    },
+    "UKR": {
+     "russian": 0.15,
+     "ukrainian": 0.78,
+     "belarusian": 0.005,
+     "central_asian": 0.0,
+     "caucasian": 0.001,
+     "baltic": 0.0,
+     "jewish": 0.02,
+     "other": 0.044
+    },
+    "BEL": {
+     "russian": 0.07,
+     "ukrainian": 0.015,
+     "belarusian": 0.81,
+     "central_asian": 0.0,
+     "caucasian": 0.0,
+     "baltic": 0.001,
+     "jewish": 0.02,
+     "other": 0.084
+    },
+    "UZB": {
+     "russian": 0.11,
+     "ukrainian": 0.01,
+     "belarusian": 0.001,
+     "central_asian": 0.75,
+     "caucasian": 0.005,
+     "baltic": 0.0,
+     "jewish": 0.012,
+     "other": 0.112
+    },
+    "KAZ": {
+     "russian": 0.38,
+     "ukrainian": 0.08,
+     "belarusian": 0.01,
+     "central_asian": 0.33,
+     "caucasian": 0.005,
+     "baltic": 0.001,
+     "jewish": 0.005,
+     "other": 0.189
+    },
+    "GEO": {
+     "russian": 0.1,
+     "ukrainian": 0.015,
+     "belarusian": 0.001,
+     "central_asian": 0.001,
+     "caucasian": 0.76,
+     "baltic": 0.0,
+     "jewish": 0.015,
+     "other": 0.108
+    },
+    "AZE": {
+     "russian": 0.14,
+     "ukrainian": 0.005,
+     "belarusian": 0.001,
+     "central_asian": 0.002,
+     "caucasian": 0.8,
+     "baltic": 0.0,
+     "jewish": 0.012,
+     "other": 0.04
+    },
+    "LIT": {
+     "russian": 0.08,
+     "ukrainian": 0.005,
+     "belarusian": 0.01,
+     "central_asian": 0.0,
+     "caucasian": 0.0,
+     "baltic": 0.8,
+     "jewish": 0.01,
+     "other": 0.095
+    },
+    "MOL": {
+     "russian": 0.1,
+     "ukrainian": 0.15,
+     "belarusian": 0.002,
+     "central_asian": 0.0,
+     "caucasian": 0.0,
+     "baltic": 0.0,
+     "jewish": 0.033,
+     "other": 0.715
+    },
+    "LAT": {
+     "russian": 0.25,
+     "ukrainian": 0.015,
+     "belarusian": 0.03,
+     "central_asian": 0.0,
+     "caucasian": 0.0,
+     "baltic": 0.62,
+     "jewish": 0.018,
+     "other": 0.067
+    },
+    "KYR": {
+     "russian": 0.28,
+     "ukrainian": 0.06,
+     "belarusian": 0.003,
+     "central_asian": 0.51,
+     "caucasian": 0.002,
+     "baltic": 0.0,
+     "jewish": 0.003,
+     "other": 0.142
+    },
+    "TAJ": {
+     "russian": 0.12,
+     "ukrainian": 0.01,
+     "belarusian": 0.001,
+     "central_asian": 0.76,
+     "caucasian": 0.002,
+     "baltic": 0.0,
+     "jewish": 0.005,
+     "other": 0.102
+    },
+    "ARM": {
+     "russian": 0.03,
+     "ukrainian": 0.003,
+     "belarusian": 0.0,
+     "central_asian": 0.0,
+     "caucasian": 0.92,
+     "baltic": 0.0,
+     "jewish": 0.001,
+     "other": 0.046
+    },
+    "TKM": {
+     "russian": 0.16,
+     "ukrainian": 0.015,
+     "belarusian": 0.001,
+     "central_asian": 0.7,
+     "caucasian": 0.005,
+     "baltic": 0.0,
+     "jewish": 0.003,
+     "other": 0.116
+    },
+    "EST": {
+     "russian": 0.2,
+     "ukrainian": 0.01,
+     "belarusian": 0.005,
+     "central_asian": 0.0,
+     "caucasian": 0.0,
+     "baltic": 0.75,
+     "jewish": 0.004,
+     "other": 0.031
+    }
+   },
+   "provenance": "estimate",
+   "note": "Interpolated between the 1939 and 1959 censuses. Russians were moving into the Baltic republics and Kazakhstan; Kazakhstan's 'other' includes deported Germans, Chechens and Tatars."
+  },
+  {
+   "id": "republic-settlement",
+   "label": "City and countryside by republic",
+   "dims": [
+    "republic",
+    "settlement"
+   ],
+   "given": [
+    "republic"
+   ],
+   "values": {
+    "RSFSR": {
+     "city": 0.43,
+     "rural": 0.57
+    },
+    "UKR": {
+     "city": 0.36,
+     "rural": 0.64
+    },
+    "BEL": {
+     "city": 0.22,
+     "rural": 0.78
+    },
+    "UZB": {
+     "city": 0.29,
+     "rural": 0.71
+    },
+    "KAZ": {
+     "city": 0.36,
+     "rural": 0.64
+    },
+    "GEO": {
+     "city": 0.37,
+     "rural": 0.63
+    },
+    "AZE": {
+     "city": 0.44,
+     "rural": 0.56
+    },
+    "LIT": {
+     "city": 0.28,
+     "rural": 0.72
+    },
+    "MOL": {
+     "city": 0.14,
+     "rural": 0.86
+    },
+    "LAT": {
+     "city": 0.46,
+     "rural": 0.54
+    },
+    "KYR": {
+     "city": 0.27,
+     "rural": 0.73
+    },
+    "TAJ": {
+     "city": 0.26,
+     "rural": 0.74
+    },
+    "ARM": {
+     "city": 0.41,
+     "rural": 0.59
+    },
+    "TKM": {
+     "city": 0.44,
+     "rural": 0.56
+    },
+    "EST": {
+     "city": 0.46,
+     "rural": 0.54
+    }
+   },
+   "provenance": "estimate",
+   "note": "Urban shares interpolated between the 1939 and 1959 censuses (39% urban nationally in 1950). The Soviet Union had no suburbs in the American sense."
+  },
+  {
+   "id": "republic-class",
+   "label": "Social group by republic",
+   "dims": [
+    "republic",
+    "class"
+   ],
+   "given": [
+    "republic"
+   ],
+   "values": {
+    "RSFSR": {
+     "kolkhoz": 0.3926,
+     "state_farm": 0.0748,
+     "industrial": 0.2075,
+     "service": 0.1158,
+     "white_collar": 0.111,
+     "specialist": 0.0483,
+     "nomenklatura": 0.008,
+     "prisoner": 0.02,
+     "pensioner": 0.022
+    },
+    "UKR": {
+     "kolkhoz": 0.4723,
+     "state_farm": 0.0525,
+     "industrial": 0.1897,
+     "service": 0.1059,
+     "white_collar": 0.1015,
+     "specialist": 0.0441,
+     "nomenklatura": 0.008,
+     "prisoner": 0.004,
+     "pensioner": 0.022
+    },
+    "BEL": {
+     "kolkhoz": 0.5756,
+     "state_farm": 0.064,
+     "industrial": 0.1408,
+     "service": 0.0786,
+     "white_collar": 0.0753,
+     "specialist": 0.0327,
+     "nomenklatura": 0.008,
+     "prisoner": 0.003,
+     "pensioner": 0.022
+    },
+    "UZB": {
+     "kolkhoz": 0.524,
+     "state_farm": 0.0582,
+     "industrial": 0.1646,
+     "service": 0.0919,
+     "white_collar": 0.088,
+     "specialist": 0.0383,
+     "nomenklatura": 0.008,
+     "prisoner": 0.005,
+     "pensioner": 0.022
+    },
+    "KAZ": {
+     "kolkhoz": 0.4409,
+     "state_farm": 0.084,
+     "industrial": 0.1807,
+     "service": 0.1008,
+     "white_collar": 0.0966,
+     "specialist": 0.042,
+     "nomenklatura": 0.008,
+     "prisoner": 0.025,
+     "pensioner": 0.022
+    },
+    "GEO": {
+     "kolkhoz": 0.4649,
+     "state_farm": 0.0517,
+     "industrial": 0.1937,
+     "service": 0.1081,
+     "white_collar": 0.1036,
+     "specialist": 0.045,
+     "nomenklatura": 0.008,
+     "prisoner": 0.003,
+     "pensioner": 0.022
+    },
+    "AZE": {
+     "kolkhoz": 0.4132,
+     "state_farm": 0.0459,
+     "industrial": 0.2184,
+     "service": 0.1219,
+     "white_collar": 0.1168,
+     "specialist": 0.0508,
+     "nomenklatura": 0.008,
+     "prisoner": 0.003,
+     "pensioner": 0.022
+    },
+    "LIT": {
+     "kolkhoz": 0.5314,
+     "state_farm": 0.059,
+     "industrial": 0.1572,
+     "service": 0.0877,
+     "white_collar": 0.0841,
+     "specialist": 0.0366,
+     "nomenklatura": 0.008,
+     "prisoner": 0.006,
+     "pensioner": 0.03
+    },
+    "MOL": {
+     "kolkhoz": 0.6347,
+     "state_farm": 0.0705,
+     "industrial": 0.1126,
+     "service": 0.0628,
+     "white_collar": 0.0602,
+     "specialist": 0.0262,
+     "nomenklatura": 0.008,
+     "prisoner": 0.003,
+     "pensioner": 0.022
+    },
+    "LAT": {
+     "kolkhoz": 0.3985,
+     "state_farm": 0.0443,
+     "industrial": 0.2207,
+     "service": 0.1232,
+     "white_collar": 0.118,
+     "specialist": 0.0513,
+     "nomenklatura": 0.008,
+     "prisoner": 0.006,
+     "pensioner": 0.03
+    },
+    "KYR": {
+     "kolkhoz": 0.5388,
+     "state_farm": 0.0599,
+     "industrial": 0.1584,
+     "service": 0.0884,
+     "white_collar": 0.0847,
+     "specialist": 0.0368,
+     "nomenklatura": 0.008,
+     "prisoner": 0.003,
+     "pensioner": 0.022
+    },
+    "TAJ": {
+     "kolkhoz": 0.5462,
+     "state_farm": 0.0607,
+     "industrial": 0.1549,
+     "service": 0.0864,
+     "white_collar": 0.0828,
+     "specialist": 0.036,
+     "nomenklatura": 0.008,
+     "prisoner": 0.003,
+     "pensioner": 0.022
+    },
+    "ARM": {
+     "kolkhoz": 0.4354,
+     "state_farm": 0.0484,
+     "industrial": 0.2078,
+     "service": 0.116,
+     "white_collar": 0.1111,
+     "specialist": 0.0483,
+     "nomenklatura": 0.008,
+     "prisoner": 0.003,
+     "pensioner": 0.022
+    },
+    "TKM": {
+     "kolkhoz": 0.4132,
+     "state_farm": 0.0459,
+     "industrial": 0.2184,
+     "service": 0.1219,
+     "white_collar": 0.1168,
+     "specialist": 0.0508,
+     "nomenklatura": 0.008,
+     "prisoner": 0.003,
+     "pensioner": 0.022
+    },
+    "EST": {
+     "kolkhoz": 0.3985,
+     "state_farm": 0.0443,
+     "industrial": 0.2207,
+     "service": 0.1232,
+     "white_collar": 0.118,
+     "specialist": 0.0513,
+     "nomenklatura": 0.008,
+     "prisoner": 0.006,
+     "pensioner": 0.03
+    }
+   },
+   "provenance": "estimate",
+   "note": "Farm households are 82% of each republic's rural population, mostly kolkhozniki, with more state farms in Russia and Kazakhstan. Gulag prisoners (about 2.5 million in camps and colonies in 1950) are concentrated in the Russian north and Siberia and in Kazakhstan. The rest follow the official split of workers and office staff (1939 and 1959 censuses interpolated). Pensions were thin before the 1956 pension law and kolkhozniki had none until 1964, so pensioners are few."
+  },
+  {
+   "id": "nationality-sex-age",
+   "label": "Age and sex within each nationality",
+   "dims": [
+    "nationality",
+    "sex",
+    "age"
+   ],
+   "given": [
+    "nationality"
+   ],
+   "values": {
+    "russian": {
+     "male": {
+      "0-14": 0.148,
+      "15-29": 0.1301,
+      "30-44": 0.0859,
+      "45-64": 0.0631,
+      "65+": 0.0194
+     },
+     "female": {
+      "0-14": 0.145,
+      "15-29": 0.1439,
+      "30-44": 0.1261,
+      "45-64": 0.1009,
+      "65+": 0.0376
+     }
+    },
+    "ukrainian": {
+     "male": {
+      "0-14": 0.148,
+      "15-29": 0.1301,
+      "30-44": 0.0859,
+      "45-64": 0.0631,
+      "65+": 0.0194
+     },
+     "female": {
+      "0-14": 0.145,
+      "15-29": 0.1439,
+      "30-44": 0.1261,
+      "45-64": 0.1009,
+      "65+": 0.0376
+     }
+    },
+    "belarusian": {
+     "male": {
+      "0-14": 0.148,
+      "15-29": 0.1301,
+      "30-44": 0.0859,
+      "45-64": 0.0631,
+      "65+": 0.0194
+     },
+     "female": {
+      "0-14": 0.145,
+      "15-29": 0.1439,
+      "30-44": 0.1261,
+      "45-64": 0.1009,
+      "65+": 0.0376
+     }
+    },
+    "central_asian": {
+     "male": {
+      "0-14": 0.1818,
+      "15-29": 0.1323,
+      "30-44": 0.081,
+      "45-64": 0.0602,
+      "65+": 0.02
+     },
+     "female": {
+      "0-14": 0.1782,
+      "15-29": 0.1377,
+      "30-44": 0.099,
+      "45-64": 0.0798,
+      "65+": 0.03
+     }
+    },
+    "caucasian": {
+     "male": {
+      "0-14": 0.148,
+      "15-29": 0.1301,
+      "30-44": 0.0859,
+      "45-64": 0.0631,
+      "65+": 0.0194
+     },
+     "female": {
+      "0-14": 0.145,
+      "15-29": 0.1439,
+      "30-44": 0.1261,
+      "45-64": 0.1009,
+      "65+": 0.0376
+     }
+    },
+    "baltic": {
+     "male": {
+      "0-14": 0.148,
+      "15-29": 0.1301,
+      "30-44": 0.0859,
+      "45-64": 0.0631,
+      "65+": 0.0194
+     },
+     "female": {
+      "0-14": 0.145,
+      "15-29": 0.1439,
+      "30-44": 0.1261,
+      "45-64": 0.1009,
+      "65+": 0.0376
+     }
+    },
+    "jewish": {
+     "male": {
+      "0-14": 0.148,
+      "15-29": 0.1301,
+      "30-44": 0.0859,
+      "45-64": 0.0631,
+      "65+": 0.0194
+     },
+     "female": {
+      "0-14": 0.145,
+      "15-29": 0.1439,
+      "30-44": 0.1261,
+      "45-64": 0.1009,
+      "65+": 0.0376
+     }
+    },
+    "other": {
+     "male": {
+      "0-14": 0.148,
+      "15-29": 0.1301,
+      "30-44": 0.0859,
+      "45-64": 0.0631,
+      "65+": 0.0194
+     },
+     "female": {
+      "0-14": 0.145,
+      "15-29": 0.1439,
+      "30-44": 0.1261,
+      "45-64": 0.1009,
+      "65+": 0.0376
+     }
+    }
+   },
+   "provenance": "estimate",
+   "note": "Reconstructed age and sex structure for 1950: the war left about 21 million more women than men, concentrated among those over 30. Central Asian peoples were younger and lost fewer men."
+  }
+ ],
+ "associations": [
+  {
+   "id": "farms-in-countryside",
+   "dims": [
+    "class",
+    "settlement"
+   ],
+   "odds": {
+    "kolkhoz": {
+     "city": 0
+    },
+    "state_farm": {
+     "city": 0
+    },
+    "prisoner": {
+     "rural": 3.0
+    },
+    "specialist": {
+     "city": 2.5
+    },
+    "nomenklatura": {
+     "city": 3.0
+    },
+    "white_collar": {
+     "city": 1.8
+    },
+    "industrial": {
+     "city": 1.6
+    }
+   },
+   "provenance": "estimate",
+   "note": "Farm households live in the countryside; most camps were remote; officials and the intelligentsia lived in cities."
+  },
+  {
+   "id": "nationality-settlement",
+   "dims": [
+    "nationality",
+    "settlement"
+   ],
+   "odds": {
+    "russian": {
+     "city": 1.6
+    },
+    "jewish": {
+     "city": 12
+    },
+    "central_asian": {
+     "rural": 2.0
+    },
+    "baltic": {
+     "rural": 1.3
+    }
+   },
+   "provenance": "estimate",
+   "note": "Russians outside Russia and Jews everywhere were overwhelmingly urban."
+  },
+  {
+   "id": "nationality-class",
+   "dims": [
+    "nationality",
+    "class"
+   ],
+   "odds": {
+    "jewish": {
+     "kolkhoz": 0.05,
+     "state_farm": 0.1,
+     "white_collar": 3.0,
+     "specialist": 5.0,
+     "industrial": 0.8,
+     "prisoner": 1.5
+    },
+    "russian": {
+     "specialist": 1.4,
+     "nomenklatura": 1.6,
+     "industrial": 1.2
+    },
+    "baltic": {
+     "prisoner": 2.5,
+     "nomenklatura": 0.5
+    },
+    "ukrainian": {
+     "prisoner": 1.4
+    },
+    "central_asian": {
+     "specialist": 0.4,
+     "industrial": 0.5,
+     "kolkhoz": 1.4
+    },
+    "other": {
+     "prisoner": 1.3
+    }
+   },
+   "provenance": "estimate",
+   "note": "Jews were concentrated in white-collar and specialist work (and among the victims of the 1949 'anti-cosmopolitan' campaign); Baltic and western Ukrainian resisters filled the camps after 1945."
+  },
+  {
+   "id": "nationality-religion",
+   "dims": [
+    "nationality",
+    "religion"
+   ],
+   "odds": {
+    "russian": {
+     "orthodox": 1.0,
+     "muslim": 0.01,
+     "western": 0.01,
+     "jewish": 0.001
+    },
+    "ukrainian": {
+     "orthodox": 1.4,
+     "muslim": 0.01,
+     "western": 0.15,
+     "jewish": 0.001
+    },
+    "belarusian": {
+     "orthodox": 1.2,
+     "muslim": 0.01,
+     "western": 0.4,
+     "jewish": 0.001
+    },
+    "central_asian": {
+     "orthodox": 0.005,
+     "muslim": 60,
+     "western": 0.005,
+     "jewish": 0.001
+    },
+    "caucasian": {
+     "orthodox": 1.3,
+     "muslim": 6,
+     "western": 0.01,
+     "jewish": 0.005
+    },
+    "baltic": {
+     "orthodox": 0.05,
+     "muslim": 0.005,
+     "western": 40,
+     "jewish": 0.001
+    },
+    "jewish": {
+     "orthodox": 0.01,
+     "muslim": 0.01,
+     "western": 0.01,
+     "jewish": 300
+    },
+    "other": {
+     "muslim": 4,
+     "western": 3,
+     "orthodox": 1.0
+    }
+   },
+   "provenance": "estimate",
+   "note": "Religion follows nationality: Russians, Ukrainians and Belarusians Orthodox, Central Asians and Azeris Muslim, Lithuanians Catholic, Latvians and Estonians Lutheran."
+  },
+  {
+   "id": "religion-age",
+   "dims": [
+    "religion",
+    "age"
+   ],
+   "odds": {
+    "none": {
+     "0-14": 1.6,
+     "15-29": 1.5,
+     "30-44": 1.0,
+     "45-64": 0.6,
+     "65+": 0.35
+    }
+   },
+   "provenance": "estimate",
+   "note": "The young, schooled under Soviet power, were far less religious than the old."
+  },
+  {
+   "id": "religion-class",
+   "dims": [
+    "religion",
+    "class"
+   ],
+   "odds": {
+    "none": {
+     "nomenklatura": 20,
+     "specialist": 2.5,
+     "white_collar": 1.8,
+     "kolkhoz": 0.6,
+     "pensioner": 0.5
+    }
+   },
+   "provenance": "estimate",
+   "note": "Party membership required atheism; believers were most common among collective farmers and the old."
+  },
+  {
+   "id": "age-class",
+   "dims": [
+    "age",
+    "class"
+   ],
+   "odds": {
+    "0-14": {
+     "prisoner": 0,
+     "pensioner": 0.02
+    },
+    "15-29": {
+     "prisoner": 3.0,
+     "pensioner": 0.05
+    },
+    "30-44": {
+     "prisoner": 2.5,
+     "pensioner": 0.05
+    },
+    "45-64": {
+     "prisoner": 1.0,
+     "pensioner": 2.0
+    },
+    "65+": {
+     "prisoner": 0.3,
+     "pensioner": 25
+    }
+   },
+   "provenance": "estimate",
+   "note": "Prisoners were adults, mostly young; pensioners old."
+  },
+  {
+   "id": "sex-class",
+   "dims": [
+    "sex",
+    "class"
+   ],
+   "odds": {
+    "male": {
+     "prisoner": 5.0,
+     "nomenklatura": 3.0
+    }
+   },
+   "provenance": "estimate",
+   "note": "About 85% of Gulag prisoners were men; the nomenklatura was overwhelmingly male."
+  }
+ ],
+ "demography": {
+  "fertility": {
+   "15-29": 0.16,
+   "30-44": 0.07
+  },
+  "mortality": {
+   "0-14": 0.006,
+   "15-29": 0.003,
+   "30-44": 0.005,
+   "45-64": 0.014,
+   "65+": 0.07
+  },
+  "fertilityMultipliers": {
+   "nationality": {
+    "central_asian": 1.7,
+    "caucasian": 1.25,
+    "baltic": 0.7,
+    "jewish": 0.6,
+    "russian": 0.95
+   },
+   "settlement": {
+    "city": 0.65,
+    "rural": 1.3
+   },
+   "class": {
+    "prisoner": 0,
+    "kolkhoz": 1.15,
+    "specialist": 0.8,
+    "nomenklatura": 0.8
+   }
+  },
+  "mortalityMultipliers": {
+   "class": {
+    "prisoner": 3.0,
+    "kolkhoz": 1.15,
+    "nomenklatura": 0.7,
+    "specialist": 0.85
+   },
+   "nationality": {
+    "central_asian": 1.25
+   },
+   "sex": {
+    "male": 1.4,
+    "female": 0.75
+   },
+   "settlement": {
+    "rural": 1.1
+   }
+  },
+  "ageProfile": [
+   4.0,
+   3.9,
+   3.8,
+   3.0,
+   2.0,
+   1.9,
+   2.4,
+   3.6,
+   4.0,
+   4.2,
+   4.1,
+   4.0,
+   3.9,
+   3.6,
+   3.4,
+   2.6,
+   2.4,
+   3.0,
+   3.2,
+   3.3,
+   3.4,
+   3.4,
+   3.4,
+   3.4,
+   3.4,
+   3.4,
+   3.4,
+   3.4,
+   3.4,
+   3.4,
+   2.8,
+   2.8,
+   2.8,
+   2.8,
+   2.8,
+   2.5,
+   2.5,
+   2.5,
+   2.5,
+   2.5,
+   2.2,
+   2.2,
+   2.2,
+   2.2,
+   2.2,
+   1.8,
+   1.8,
+   1.8,
+   1.8,
+   1.8,
+   1.55,
+   1.55,
+   1.55,
+   1.55,
+   1.55,
+   1.35,
+   1.35,
+   1.35,
+   1.35,
+   1.35,
+   1.1,
+   1.1,
+   1.1,
+   1.1,
+   1.1,
+   0.9,
+   0.9,
+   0.9,
+   0.9,
+   0.9,
+   0.6,
+   0.6,
+   0.6,
+   0.6,
+   0.6,
+   0.35,
+   0.35,
+   0.35,
+   0.35,
+   0.35,
+   0.15,
+   0.15,
+   0.15,
+   0.15,
+   0.15,
+   0.25
+  ],
+  "crudeBirthRate": 26.7,
+  "crudeDeathRate": 9.7,
+  "maleBirthShare": 0.512,
+  "mortalityImprovement": 0.045,
+  "mortalityImprovementDecay": 0.15,
+  "fertilityIncomeElasticity": 0.2,
+  "initialExpectation": 0.85,
+  "expectationAdjustment": 0.06,
+  "cohortSizeElasticity": 0.5,
+  "womenWorkElasticity": 0.8,
+  "provenance": "estimate",
+  "note": "Official 1950 vital rates (26.7 births and 9.7 deaths per 1,000); infant mortality was still high and fell fast in the 1950s, hence the steep early improvement, which fades by the late 1960s as Soviet health gains stalled. Central Asian families had many more children, Baltic and Jewish families far fewer. Prisoners have no children and die at about three times the normal rate. The single-year age profile carries the holes left by the 1933 famine and the wartime birth collapse; when those small cohorts reach their twenties in the 1960s, births fall. The Easterlin effects are weaker than in America: Soviet young adults had fewer choices about housing and work."
+ },
+ "economy": {
+  "income": {
+   "class": {
+    "kolkhoz": -0.6,
+    "state_farm": -0.3,
+    "industrial": 0.0,
+    "service": -0.15,
+    "white_collar": 0.05,
+    "specialist": 0.35,
+    "nomenklatura": 1.0,
+    "prisoner": -1.5,
+    "pensioner": -0.5
+   },
+   "settlement": {
+    "rural": -0.1
+   }
+  },
+  "regionIncome": {
+   "Russia": 0.0,
+   "Ukraine and Moldova": -0.08,
+   "Belarus": -0.1,
+   "Baltics": 0.15,
+   "Caucasus": -0.05,
+   "Kazakhstan": -0.05,
+   "Central Asia": -0.3
+  },
+  "participation": {
+   "rates": {
+    "male": {
+     "15-29": 0.82,
+     "30-44": 0.96,
+     "45-64": 0.88,
+     "65+": 0.3
+    },
+    "female": {
+     "15-29": 0.68,
+     "30-44": 0.72,
+     "45-64": 0.55,
+     "65+": 0.15
+    }
+   },
+   "multipliers": {
+    "class": {
+     "prisoner": 1.2,
+     "pensioner": 0.15
+    }
+   },
+   "femaleMultipliers": {
+    "nationality": {
+     "central_asian": 0.7
+    }
+   },
+   "femaleTrend": 0.003
+  },
+  "employment": {
+   "kolkhoz": {
+    "agriculture": 1.0
+   },
+   "state_farm": {
+    "agriculture": 0.9,
+    "consumer_goods": 0.1
+   },
+   "industrial": {
+    "heavy_industry": 0.45,
+    "energy": 0.1,
+    "consumer_goods": 0.25,
+    "technology": 0.04,
+    "services": 0.06,
+    "shipping_trade": 0.1
+   },
+   "service": {
+    "consumer_goods": 0.1,
+    "services": 0.5,
+    "shipping_trade": 0.4
+   },
+   "white_collar": {
+    "heavy_industry": 0.15,
+    "technology": 0.1,
+    "services": 0.55,
+    "shipping_trade": 0.2
+   },
+   "specialist": {
+    "heavy_industry": 0.2,
+    "energy": 0.1,
+    "technology": 0.3,
+    "services": 0.4
+   },
+   "nomenklatura": {
+    "services": 1.0
+   },
+   "prisoner": {
+    "agriculture": 0.15,
+    "heavy_industry": 0.45,
+    "energy": 0.25,
+    "shipping_trade": 0.15
+   }
+  },
+  "productivityGrowth": {
+   "agriculture": 0.05,
+   "heavy_industry": 0.03,
+   "energy": 0.03,
+   "consumer_goods": 0.025,
+   "technology": 0.03,
+   "services": 0.01,
+   "shipping_trade": 0.015
+  },
+  "mobility": {
+   "rate": 0.4,
+   "paths": {
+    "kolkhoz": {
+     "industrial": 0.8,
+     "service": 0.6,
+     "state_farm": 0.3,
+     "white_collar": 0.1
+    },
+    "state_farm": {
+     "industrial": 0.5,
+     "service": 0.4
+    },
+    "industrial": {
+     "white_collar": 0.4,
+     "specialist": 0.3,
+     "service": 0.2
+    },
+    "service": {
+     "industrial": 0.6,
+     "white_collar": 0.4
+    },
+    "white_collar": {
+     "specialist": 0.5,
+     "nomenklatura": 0.05
+    },
+    "specialist": {
+     "nomenklatura": 0.1,
+     "white_collar": 0.2
+    },
+    "nomenklatura": {
+     "specialist": 0.2
+    }
+   },
+   "leavingFarms": {
+    "city": 0.75,
+    "rural": 0.25
+   },
+   "oldAgeMobility": 0.2
+  },
+  "retirement": {
+   "rate": 0.05
+  },
+  "suburbanisation": {
+   "rate": 0,
+   "incomeElasticity": 0,
+   "odds": {}
+  },
+  "migration": {
+   "rate": {
+    "0-14": 0.01,
+    "15-29": 0.03,
+    "30-44": 0.015,
+    "45-64": 0.008,
+    "65+": 0.005
+   },
+   "sensitivity": 1.0,
+   "barriers": {
+    "nationality": {
+     "central_asian": {
+      "RSFSR": -0.8,
+      "UKR": -0.8,
+      "BEL": -0.8,
+      "GEO": -0.8,
+      "AZE": -0.8,
+      "LIT": -0.8,
+      "MOL": -0.8,
+      "LAT": -0.8,
+      "ARM": -0.8,
+      "EST": -0.8
+     },
+     "baltic": {
+      "RSFSR": -0.8,
+      "UKR": -0.8,
+      "BEL": -0.8,
+      "UZB": -0.8,
+      "KAZ": -0.8,
+      "GEO": -0.8,
+      "AZE": -0.8,
+      "MOL": -0.8,
+      "KYR": -0.8,
+      "TAJ": -0.8,
+      "ARM": -0.8,
+      "TKM": -0.8
+     },
+     "caucasian": {
+      "RSFSR": -0.8,
+      "UKR": -0.8,
+      "BEL": -0.8,
+      "UZB": -0.8,
+      "KAZ": -0.8,
+      "LIT": -0.8,
+      "MOL": -0.8,
+      "LAT": -0.8,
+      "KYR": -0.8,
+      "TAJ": -0.8,
+      "TKM": -0.8,
+      "EST": -0.8
+     },
+     "russian": {
+      "KAZ": 0.25,
+      "LAT": 0.25,
+      "EST": 0.25,
+      "UKR": 0.05
+     }
+    }
+   },
+   "amenity": {
+    "KAZ": 0.1
+   },
+   "sizeExponent": 1.0,
+   "farmSurplusPenalty": 0.5
+  },
+  "engel": {
+   "agriculture": 0.3,
+   "heavy_industry": 0.9,
+   "energy": 0.9,
+   "consumer_goods": 0.7,
+   "technology": 1.8,
+   "services": 1.4,
+   "shipping_trade": 1.0
+  },
+  "provenance": "estimate",
+  "note": "Farm labour productivity grew about 5% a year as the farms mechanised (so the kolkhozy shed people even as output rose), industry's about 3%. Collective farmers were paid largely in kind and earned far less than workers; officials far more. Soviet women's labour force participation was among the highest in the world. Kolkhozniki held no internal passports until 1974, so farm households cannot move between republics: they leave the land only through recruitment into industry and services, which follows the jobs the Plan creates. Prisoners have no path out through the jobs market: only policy (the 1953 amnesty, the post-1956 releases) can free them. Non-Russian peoples rarely left their homelands, while Russians were recruited to Kazakhstan and the Baltic republics. No immigration."
+ }
+}

@@ -41,6 +41,8 @@ describe('save and load', () => {
 
   it('upgrades a Phase 2B (schema 3) save by replaying the Soviet economy through the quarters already played', () => {
     let modern = createGame(content, 'usa-1949', 'phase-2b-save');
+    // Schema 3 predates pops: compare with a game whose Soviet economy ran without them.
+    delete modern.nations.ussr!.pops;
     for (let i = 0; i < 12; i++) modern = advanceTurn(modern, i === 0 ? { budget: { defence: 30 } } : {});
     const old = structuredClone(modern) as unknown as Record<string, any>;
     delete old.nations.usa.economy.engine;

@@ -184,6 +184,7 @@ model = {
   "scaleToStat": "population",
   "threshold": 250,
   "verification": "unchecked",
+  "cohorts": [{"label": "Baby boom · born 1946–64", "from": 1946, "to": 1964}],
   "sources": [
     {"label": "US Census Bureau, Census of Population: 1950, Vol. II, Characteristics of the Population (state parts)", "url": "https://www.census.gov/library/publications/1953/dec/population-vol-02.html"},
     {"label": "US Census Bureau, Statistical Abstract of the United States 1952", "url": "https://www.census.gov/library/publications/1952/compendia/statab/73ed.html"},

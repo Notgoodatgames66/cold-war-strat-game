@@ -95,6 +95,8 @@ export interface PopDemographyData {
   maleBirthShare: number;
   /** Yearly fall in death rates from better medicine and sanitation. */
   mortalityImprovement: number;
+  /** How fast that improvement fades, per year (0 = it never fades). The Soviet gains stalled after the mid-1960s. */
+  mortalityImprovementDecay?: number;
   /** Easterlin effect: elasticity of fertility to income relative to what young adults grew up expecting. */
   fertilityIncomeElasticity: number;
   /** Expected living standard in the base year, as a share of the actual one (below 1: raised in harder times). */
@@ -199,6 +201,8 @@ export interface PopModelData {
   associations: PopAssociationData[];
   demography: PopDemographyData;
   economy?: PopEconomyData;
+  /** Generations to mark on the age pyramid: born from `from` to `to` (years). Display only. */
+  cohorts?: { label: string; from: number; to: number }[];
   verification: 'unchecked' | 'checked';
   sources: SourceRef[];
 }

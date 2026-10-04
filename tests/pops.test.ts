@@ -315,3 +315,67 @@ describe('validation', () => {
     expect(errors.some((e) => e.includes('"space"'))).toBe(true);
   });
 });
+
+describe('Soviet pops', () => {
+  const soviet = content.pops['ussr-1950']!;
+  const game = newGame();
+  const pops = game.nations.ussr!.pops!;
+  const share = (attr: string, cat: string, p: Pick<PopsState, 'keys' | 'size'> = pops) => {
+    const a = soviet.attributes.find((x) => x.id === attr)!;
+    return peopleBy(soviet, p, attr)[a.categories.findIndex((c) => c.id === cat)]! / totalPeople(p);
+  };
+
+  it('are built on the same engine from their own tables', () => {
+    expect(pops.model).toBe('ussr-1950');
+    expect(pops.keys.length).toBeGreaterThan(5_000);
+    expect(share('nationality', 'russian')).toBeCloseTo(0.54, 1);
+    expect(share('settlement', 'city')).toBeCloseTo(0.39, 2);
+  });
+
+  it('carry the war’s scar: millions more women than men', () => {
+    expect(share('sex', 'female')).toBeGreaterThan(0.55);
+  });
+
+  it('hold about 2.5 million Gulag prisoners, none of them children, with no births', () => {
+    const codec = codecFor(soviet);
+    const cls = codec.index.class!;
+    const age = codec.index.age!;
+    const prisoner = codec.category('class', 'prisoner');
+    let prisoners = 0;
+    pops.keys.forEach((k, i) => {
+      if (codec.get(k, cls) !== prisoner) return;
+      prisoners += pops.size[i]!;
+      expect(codec.get(k, age)).toBeGreaterThan(0);
+    });
+    expect(prisoners).toBeGreaterThan(2e6);
+    expect(prisoners).toBeLessThan(3e6);
+    expect(soviet.demography.fertilityMultipliers.class!.prisoner).toBe(0);
+  });
+
+  it('never moves collective farmers between republics', () => {
+    const p = structuredClone(pops);
+    const codec = codecFor(soviet);
+    const kolkhozByRepublic = (q: PopsState) => {
+      const out = new Array<number>(codec.sizes[codec.index.republic!]!).fill(0);
+      q.keys.forEach((k, i) => {
+        if (codec.get(k, codec.index.class!) === codec.category('class', 'kolkhoz')) out[codec.get(k, codec.index.republic!)]! += q.size[i]!;
+      });
+      return out;
+    };
+    const before = kolkhozByRepublic(p);
+    // No economic pressure to change class (only old farmers retire): no republic may gain collective farmers.
+    stepMobility(soviet, p, { living: p.baseLiving, output: null, years: 1 });
+    kolkhozByRepublic(p).forEach((x, r) => expect(x).toBeLessThanOrEqual(before[r]! + 1));
+  });
+
+  it('grow near the Soviet censuses: about 212 million in 1960 and 242 million in 1970', () => {
+    let g = newGame();
+    const at: Record<number, number> = {};
+    for (let i = 0; i < 84; i++) {
+      g = advanceTurn(g);
+      if (g.date.quarter === 1) at[g.date.year] = g.nations.ussr!.stats.population!;
+    }
+    expect(near(at[1960]!, 212e6, 0.04)).toBe(true);
+    expect(near(at[1970]!, 241.7e6, 0.04)).toBe(true);
+  });
+});

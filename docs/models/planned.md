@@ -139,7 +139,7 @@ The shape is right: fast post-war growth, the Soviet economy closing on America'
 | `capital_share` | 0.3 | Capital's share in the production function |
 | `tfp_growth` | 2.2% | Productivity growth in 1949 |
 | `tfp_growth_decay` | 4.5% a year | How fast productivity growth fades |
-| `labour_force_growth` | 1.4% | Yearly labour force growth (placeholder) |
+| `labour_force_growth` | 1.4% | Yearly labour force growth; used only when the nation has no pops (the Soviet labour force now comes from its pops: see pops.md) |
 | `sector_capacity_ceiling` | 12% | How far an industry can "storm" above normal capacity |
 | `overhang_spend_rate` | 25% | Share of the overhang households try to spend each year |
 | `income_balancing` | 30% | Share of the wage–goods gap planners close each year |

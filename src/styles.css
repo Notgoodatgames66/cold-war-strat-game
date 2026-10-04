@@ -2062,8 +2062,18 @@ a:hover {
 .pyramid__boom text {
   font-family: var(--mono);
   font-size: 9px;
+  font-weight: 600;
   letter-spacing: 0.14em;
   fill: var(--accent);
+  /* A dark halo keeps the label legible over the bars. */
+  paint-order: stroke;
+  stroke: var(--panel);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+.regionbars .eyebrow {
+  margin-bottom: 12px;
 }
 
 .statemap__measures {
