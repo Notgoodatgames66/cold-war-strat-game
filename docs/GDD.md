@@ -249,15 +249,15 @@ Population is simulated as pops: groups of people who share every tracked attrib
 
 | Attribute | Categories |
 | --- | --- |
-| State | 48 |
+| State | 48 (plus the District of Columbia) |
 | Race and ethnicity | 5 |
 | Sex | 2 |
 | Occupation and class | 8 |
 | Religion | 5 |
-| Age band | 4 |
+| Age band | 5 (with a single-year age profile so generations move as waves) |
 | Urban, suburban, rural | 3 |
 
-That allows about 230,000 combinations. Sparse storage keeps only pops above a size threshold, leaving roughly 20,000–60,000 live pops. More attributes and viewpoints can be added as the game develops.
+That allows about 294,000 combinations. Sparse storage keeps only pops above a size threshold, leaving roughly 27,000–42,000 live pops. More attributes and viewpoints can be added as the game develops. **Built (Phase 3):** the starting pops are fitted to 1950 census tables; demography, class mobility, suburbanisation, migration and immigration run as described in `docs/models/pops.md`.
 
 **Opinion is additive.** Policies define effects per attribute, not per pop. A pop's reaction is its base opinion plus the sum of its attributes' modifiers, plus a few hand-picked interaction terms where history demands them (race × Southern state in the 1950s, for example). Content effort therefore grows linearly as attributes are added, not exponentially.
 

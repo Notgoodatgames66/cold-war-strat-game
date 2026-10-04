@@ -11,6 +11,7 @@ import { FilingCabinet } from './ui/FilingCabinet';
 import { IndustryScreen } from './ui/IndustryScreen';
 import { formatStat } from './ui/format';
 import { resolveTurn } from './ui/simClient';
+import { PopulationScreen } from './ui/PopulationScreen';
 import { SituationScreen } from './ui/SituationScreen';
 import { SuperEvent } from './ui/SuperEvent';
 import { AUTOSAVE_KEY, readSlot, writeSlot } from './ui/storage';
@@ -21,6 +22,7 @@ const TABS = [
   { id: 'situation', label: 'Situation' },
   { id: 'economy', label: 'Economy' },
   { id: 'industry', label: 'Industry' },
+  { id: 'population', label: 'Population' },
   { id: 'files', label: 'Files' },
 ] as const;
 type TabId = (typeof TABS)[number]['id'];
@@ -171,6 +173,12 @@ export function App() {
           </div>
         )}
 
+        {tab === 'population' && (
+          <div className="screen">
+            <PopulationScreen game={game} />
+          </div>
+        )}
+
         {tab === 'files' && (
           <div className="screen">
             <div className="lower">
@@ -200,7 +208,7 @@ export function App() {
           {pending > 0 && !busy ? `${pending} order${pending === 1 ? '' : 's'} ready to send. ` : ''}
           {status}
         </p>
-        <p className="dock__build">Phase 2C build</p>
+        <p className="dock__build">Phase 3 build</p>
       </nav>
 
       {showOpening && scenario?.opening && <SuperEvent event={scenario.opening} onClose={() => setShowOpening(false)} />}

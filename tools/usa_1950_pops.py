@@ -355,7 +355,11 @@ model["economy"] = {
   "migration": {
     "rate": {"0-14": 0.03, "15-29": 0.07, "30-44": 0.04, "45-64": 0.02, "65+": 0.015},
     "sensitivity": 1.5,
-    "barriers": {"race": {"black": {s: -0.35 for s in SOUTH}}}
+    "barriers": {"race": {"black": {s: -0.35 for s in SOUTH}}},
+    "amenity": {"CA": 0.35, "FL": 0.6, "AZ": 0.45, "NV": 0.5, "NM": 0.15, "TX": 0.12, "CO": 0.12, "OR": 0.05, "WA": 0.05,
+                "WV": -0.25, "AR": -0.15, "KY": -0.1, "MS": -0.1, "ND": -0.15, "SD": -0.1, "ME": -0.05, "VT": -0.05},
+    "sizeExponent": 1.0,
+    "farmSurplusPenalty": 1.2
   },
   "immigration": {
     "rate": 0.0016,
@@ -366,7 +370,7 @@ model["economy"] = {
   "engel": {"agriculture": 0.3, "heavy_industry": 0.9, "energy": 0.9, "consumer_goods": 0.6,
             "technology": 1.8, "services": 1.4, "shipping_trade": 1.0},
   "provenance": "estimate",
-  "note": "Income gaps are log points from the 1950 census income tables (Black family income about 54% of white, the South about 70% of the rest of the country), split between class, race, place and region. Labour force participation from the 1950 census (women 34%, men 87%), with women's participation rising about half a point a year, as it did from 1950 to 1980. Where each class works and sector productivity growth (USDA farm output per hour rose about 3.4-fold between 1950 and 1970, 6.2% a year) are estimates from BLS productivity series. Mobility, suburbanisation and migration rates are calibrated to 1950s flows: farm population falling about 4% a year, about 3% of Americans moving between states each year, the suburbs' share rising. Immigration runs at about 0.16% of the population a year, as under the 1924 quota system in the 1950s (about 250,000 a year), mostly European with Mexican and Canadian arrivals; later policy (the 1965 Hart–Celler Act) can change it. Jim Crow is an explicit penalty on Black families' wellbeing in the former Confederacy and Kentucky/Oklahoma border South, which drives the Great Migration and which civil rights events can later remove. Engel elasticities follow standard household demand estimates: food well below 1 (most food reaches households through the consumer-goods sector, so its elasticity is low), services and technology above it."
+  "note": "Income gaps are log points from the 1950 census income tables (Black family income about 54% of white, the South about 70% of the rest of the country), split between class, race, place and region. Labour force participation from the 1950 census (women 34%, men 87%), with women's participation rising about half a point a year, as it did from 1950 to 1980. Where each class works and sector productivity growth (USDA farm output per hour rose about 3.4-fold between 1950 and 1970, 6.2% a year) are estimates from BLS productivity series. Mobility, suburbanisation and migration rates are calibrated to 1950s flows: farm population falling about 4% a year, about 3% of Americans moving between states each year, the suburbs' share rising. Immigration runs at about 0.16% of the population a year, as under the 1924 quota system in the 1950s (about 250,000 a year), mostly European with Mexican and Canadian arrivals; later policy (the 1965 Hart–Celler Act) can change it. Destinations draw movers by size (dampened, so the biggest states do not swallow every mover) and by a climate-and-land pull that favours the Sun Belt and penalises declining Appalachian and Plains states (estimates calibrated to 1950s state growth). States where many families still farm push people out (too few town jobs for those leaving the land), a pull that fades as they modernise. Jim Crow is an explicit penalty on Black families' wellbeing in the former Confederacy and Kentucky/Oklahoma border South, which drives the Great Migration and which civil rights events can later remove. Engel elasticities follow standard household demand estimates: food well below 1 (most food reaches households through the consumer-goods sector, so its elasticity is low), services and technology above it."
 }
 
 json.dump(model, open(sys.argv[1], 'w'), indent=1, ensure_ascii=False)

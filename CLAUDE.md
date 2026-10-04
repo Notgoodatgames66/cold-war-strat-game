@@ -57,7 +57,8 @@ src/ui/          interface components and helpers (world map, situation screen, 
 src/App.tsx      the main screen
 tests/           automated tests
 docs/GDD.md      the game design document
-docs/models/     plain-English papers explaining each model
+docs/models/     plain-English papers explaining each model (economy, industry, planned, pops)
+tools/           data generators (usa_1950_pops.py builds data/pops/usa-1950.json from a readable state table)
 .github/workflows/deploy.yml   tests, builds and publishes to GitHub Pages on every push to main
 ```
 
@@ -69,8 +70,8 @@ docs/models/     plain-English papers explaining each model
 - **Phase 2C (Soviet economy): complete. Phase 2 gate passed (1949–55 is playable).** A planned engine for the USSR on the same seven-industry model (`src/sim/economy/planned.ts`): a taut plan sets output, Five-Year Plan keyframes (`data/economy/plans/`) split it between investment, defence, civil government and exports, households get the rest; shortages and a savings overhang instead of inflation; productivity growth that fades; investment steered by plan priorities and bottlenecks; an arms-race reaction to US defence spending; Soviet output valued at US prices. Balance-of-power charts on the Situation tab (true Soviet figures, labelled as a developer view). Save schema 4 with a migration that replays the Soviet economy through an old save's history. Model paper: `docs/models/planned.md`.
 - **Interface redesign ("Night Desk"): complete** (4 Oct 2026). One fixed dark look inspired by TNO, Pax Historia and Ryan's study-sheet maps; a map-first Situation screen (`src/ui/WorldMap.tsx`, data in `data/map/`); a full-screen super-event frame used for the scenario opening; fonts bundled with the game. The look is described in `docs/GDD.md` under Visuals.
 - **Phase 3 (Alpha systems): in progress.**
-  - **Pops, step 1 (US): done** (4 Oct 2026). 27,000 US pops over 48 states and DC × race × sex × household class × religion × age × city/suburb/country, fitted to 1950 census tables by iterative proportional fitting (`src/sim/pops/build.ts`, data `data/pops/usa-1950.json`, generated from the readable state table in `tools/usa_1950_pops.py`). Quarterly births, deaths and ageing with a single-year age profile so the baby boom moves as a wave; fertility from the Easterlin effect, relative cohort size and women's work. Yearly class changes driven by the jobs each sector offers (farm exodus), retirement, suburbanisation, migration between states (Jim Crow as an explicit barrier), immigration. Pops set the labour force (replacing the placeholder growth rate) and the household spending mix by Engel's law. Save schema 5.
-  - **Next:** a Population tab, Soviet pops, then opinion and interest groups.
+  - **Pops, step 1 (US): done** (4 Oct 2026). 27,000 US pops over 48 states and DC × race × sex × household class × religion × age × city/suburb/country, fitted to 1950 census tables by iterative proportional fitting (`src/sim/pops/build.ts`, data `data/pops/usa-1950.json`, generated from the readable state table in `tools/usa_1950_pops.py`). Quarterly births, deaths and ageing with a single-year age profile so the baby boom moves as a wave; fertility from the Easterlin effect, relative cohort size and women's work. Yearly class changes driven by the jobs each sector offers (farm exodus), retirement, suburbanisation, migration between states (Jim Crow as an explicit barrier), immigration. Pops set the labour force (replacing the placeholder growth rate) and the household spending mix by Engel's law. Save schema 5. Population tab with age pyramid, state map, breakdowns, trends and a state table. Model paper: `docs/models/pops.md`.
+  - **Next:** Soviet pops, then opinion and interest groups.
 - **Phase 3 remaining:** Pops and opinion, factions and interest groups, the events engine, military units, intelligence fog, the commodity market. Pops should also bring structural change (Engel's law in household spending, farm-to-factory migration), which fixes the known gap that industry and steel grow too slowly in the USSR and never lose ground to services in the USA (see "Known gaps" in `docs/models/planned.md`).
 
 ## Design decisions made by Ryan
@@ -95,4 +96,5 @@ docs/models/     plain-English papers explaining each model
 
 - Ryan to verify the 1949 starting figures in `data/nations/usa.json` and `ussr.json` against the listed sources, then set `"verification": "checked"`.
 - Check the 1949 bloc assignments and crisis dates in `data/map/world-1949.json`, then set `"verification": "checked"`. Latin America and the European colonies are shown unaligned for now; decide whether Rio Treaty states should be US-aligned.
+- Check the 1950 census figures in `tools/usa_1950_pops.py` (state population, race, urban, farm and religion shares), rerun it, then set `"verification": "checked"` in `data/pops/usa-1950.json`.
 - Replace the estimated input–output table with an aggregation of the 1947 BEA benchmark table to the seven sectors.

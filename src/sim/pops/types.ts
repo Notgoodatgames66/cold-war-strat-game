@@ -157,6 +157,16 @@ export interface PopEconomyData {
     sensitivity: number;
     /** Log-point penalties for some groups in some regions: barriers[attribute][category][region] (e.g. Jim Crow). */
     barriers: Record<string, Record<string, Record<string, number>>>;
+    /** Log-point pull of each region for everyone (climate and land: the Sun Belt), by region category id. */
+    amenity: Record<string, number>;
+    /** How much a destination's size draws movers: weight ∝ population share ^ exponent (below 1 dampens big regions). */
+    sizeExponent: number;
+    /**
+     * Log points lost per unit of a region's farm-household share: where many
+     * still farm, there are too few town jobs for those leaving the land, so
+     * people move away. Fades as the region modernises.
+     */
+    farmSurplusPenalty: number;
   };
   /**
    * Immigration, once a year: `rate` × population arrive, split by the shares

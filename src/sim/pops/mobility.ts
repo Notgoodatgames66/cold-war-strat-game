@@ -27,13 +27,13 @@ import type { PopModelData, PopsState } from './types';
 
 const MIN_POP = 1;
 /**
- * Flows smaller than this many people stay put. It stops movers trickling
- * into thousands of tiny new pops (which would slow the game and bloat saves)
- * at the cost of slightly understating moves out of very small pops.
+ * Movers can always join a pop that already exists, however few they are; to
+ * found a new combination they must number at least this many (otherwise they
+ * stay put). This stops movers trickling into thousands of tiny new pops,
+ * which would slow the game and bloat saves, without skewing where they go.
  */
-const MIN_FLOW = 25;
-/** Movers go to the destinations that would each attract at least this share of them (networks, chain migration). */
-const MIN_DESTINATION_SHARE = 0.04;
+const MIN_NEW_POP = 25;
+
 
 export interface MobilityResult {
   /** People who changed class this year (including farm families leaving farming). */
@@ -75,12 +75,20 @@ export function stepMobility(model: PopModelData, pops: PopsState, ctx: Mobility
     scratchCache.set(model, scratch);
   }
   const table = scratch;
+  const exists = new Uint8Array(codec.cells);
+  for (const k of pops.keys) exists[k] = 1;
   let lo = Infinity;
   let hi = -1;
   const put = (key: number, people: number) => {
     table[key]! += people;
     if (key < lo) lo = key;
     if (key > hi) hi = key;
+  };
+  /** Moves people to `key` if allowed (see MIN_NEW_POP); returns how many moved. */
+  const move = (key: number, people: number): number => {
+    if (people <= 0 || (!exists[key] && people < MIN_NEW_POP)) return 0;
+    put(key, people);
+    return people;
   };
 
   const classCats = codec.attributes[cls]!.categories;
@@ -125,7 +133,18 @@ export function stepMobility(model: PopModelData, pops: PopsState, ctx: Mobility
   if (region !== undefined) for (let i = 0; i < pops.keys.length; i++) regionPeople[codec.get(pops.keys[i]!, region)]! += pops.size[i]!;
   const totalPeople = regionPeople.reduce((s, x) => s + x, 0);
   const barrierAttrs = Object.keys(econ.migration.barriers).map((id) => codec.index[id]!);
-  const regionIncome = regionCats.map((c) => econ.regionIncome[c.group ?? ''] ?? 0);
+  // Each region's farm-household share, for the surplus-labour push.
+  const regionFarm = new Array<number>(regionCats.length).fill(0);
+  if (region !== undefined)
+    for (let i = 0; i < pops.keys.length; i++)
+      if (classCats[codec.get(pops.keys[i]!, cls)]!.farm) regionFarm[codec.get(pops.keys[i]!, region)]! += pops.size[i]!;
+  const regionIncome = regionCats.map(
+    (c, r) =>
+      (econ.regionIncome[c.group ?? ''] ?? 0) +
+      (econ.migration.amenity[c.id] ?? 0) -
+      econ.migration.farmSurplusPenalty * (regionPeople[r]! > 0 ? regionFarm[r]! / regionPeople[r]! : 0),
+  );
+  const sizeExponent = econ.migration.sizeExponent;
   const ageRate = codec.attributes[age]!.categories.map((c) => econ.migration.rate[c.id] ?? 0);
   const beta = econ.migration.sensitivity;
   const profileCache = new Map<string, { utility: number[]; weight: number[] }>();
@@ -141,10 +160,7 @@ export function stepMobility(model: PopModelData, pops: PopsState, ctx: Mobility
         }
         return u;
       });
-      let weight = utility.map((u, r) => (regionPeople[r]! / totalPeople) * Math.exp(beta * u));
-      // Migrants follow networks to a few big destinations rather than spreading thinly everywhere.
-      const total = weight.reduce((s, w) => s + w, 0);
-      weight = weight.map((w) => (w / total >= MIN_DESTINATION_SHARE ? w : 0));
+      const weight = utility.map((u, r) => Math.pow(regionPeople[r]! / totalPeople, sizeExponent) * Math.exp(beta * u));
       p = { utility, weight };
       profileCache.set(id, p);
     }
@@ -160,26 +176,24 @@ export function stepMobility(model: PopModelData, pops: PopsState, ctx: Mobility
 
     // Class change.
     const out = size * outShare[c]! * mobility;
-    if (out >= MIN_FLOW) {
+    if (out > 0) {
       const farm = classCats[c]!.farm;
       destinations[c]!.forEach((share, cj) => {
         if (share <= 0) return;
-        const moved = out * share;
-        if (moved < MIN_FLOW) return;
         const toKey = codec.with(key, cls, cj);
+        let moved = 0;
         if (farm && !classCats[cj]!.farm && settlement !== undefined) {
-          leaving.forEach((ls, si) => ls > 0 && put(codec.with(toKey, settlement, si), moved * ls));
+          leaving.forEach((ls, si) => (moved += move(codec.with(toKey, settlement, si), out * share * ls)));
           result.leftFarming += moved;
-        } else put(toKey, moved);
+        } else moved = move(toKey, out * share);
         result.changedClass += moved;
         size -= moved;
       });
     }
 
     // Retirement.
-    if (a === oldest && working[c] && retiredClass >= 0 && size * econ.retirement.rate >= MIN_FLOW) {
-      const retiring = size * econ.retirement.rate;
-      put(codec.with(key, cls, retiredClass), retiring);
+    if (a === oldest && working[c] && retiredClass >= 0) {
+      const retiring = move(codec.with(key, cls, retiredClass), size * econ.retirement.rate);
       result.retired += retiring;
       size -= retiring;
     }
@@ -188,12 +202,9 @@ export function stepMobility(model: PopModelData, pops: PopsState, ctx: Mobility
     if (suburbRate > 0 && settlement !== undefined && codec.get(key, settlement) === cityIdx) {
       let odds = 1;
       for (let k = 0; k < suburbOdds.length; k++) odds *= suburbOdds[k]![codec.get(key, k)]!;
-      const moving = size * Math.min(0.2, suburbRate * odds);
-      if (moving >= MIN_FLOW) {
-        put(codec.with(key, settlement, suburbIdx), moving);
-        result.movedToSuburbs += moving;
-        size -= moving;
-      }
+      const moving = move(codec.with(key, settlement, suburbIdx), size * Math.min(0.2, suburbRate * odds));
+      result.movedToSuburbs += moving;
+      size -= moving;
     }
 
     // Migration between regions.
@@ -204,15 +215,13 @@ export function stepMobility(model: PopModelData, pops: PopsState, ctx: Mobility
       let odds = 0;
       for (let r = 0; r < regionCats.length; r++) if (r !== home) odds += p.weight[r]! / homeWeight;
       const movers = (size * ageRate[a]! * odds) / (1 + odds);
-      if (movers >= MIN_FLOW) {
+      if (movers > 0) {
+        let moved = 0;
         for (let r = 0; r < regionCats.length; r++) {
-          if (r === home) continue;
-          const flow = movers * (p.weight[r]! / homeWeight / odds);
-          if (flow < MIN_FLOW) continue;
-          put(codec.with(key, region, r), flow);
-          result.migrated += flow;
-          size -= flow;
+          if (r !== home) moved += move(codec.with(key, region, r), movers * (p.weight[r]! / homeWeight / odds));
         }
+        result.migrated += moved;
+        size -= moved;
       }
     }
     put(key, size);

@@ -1919,6 +1919,324 @@ a:hover {
   padding-right: 8px;
 }
 
+/* ---- Population screen ------------------------------------------------- */
+
+.population {
+  display: grid;
+  gap: 28px;
+}
+
+.population > * {
+  min-width: 0;
+}
+
+.population__head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+}
+
+.population__head .section-title {
+  margin: 6px 0 8px;
+  font-size: 34px;
+}
+
+.population__lead {
+  margin: 0;
+  max-width: 70ch;
+  font-family: var(--prose);
+  font-size: 16px;
+  color: var(--ink-soft);
+}
+
+.popfigures {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+
+.popfigure {
+  padding: 14px 16px;
+  background: var(--panel);
+}
+
+.popfigure dt {
+  font-size: 9.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.popfigure dd {
+  margin: 4px 0 0;
+  font-size: 20px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-bright);
+}
+
+.popfigure__change {
+  display: block;
+  margin-top: 2px;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--ink-muted);
+}
+
+.popgrid {
+  display: grid;
+  grid-template-columns: minmax(280px, 400px) minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .popgrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.pyramid,
+.statemap {
+  margin: 0;
+  padding: 14px 16px 16px;
+}
+
+.pyramid__head,
+.statemap__head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.pyramid svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.pyramid__key {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--ink-muted);
+}
+
+.pyramid__swatch {
+  width: 12px;
+  height: 8px;
+  display: inline-block;
+}
+
+.pyramid__swatch--men,
+.pyramid__men {
+  background: var(--ally);
+  fill: var(--ally);
+}
+
+.pyramid__swatch--women,
+.pyramid__women {
+  background: #c9a35c;
+  fill: #c9a35c;
+}
+
+.pyramid__age {
+  font-family: var(--mono);
+  font-size: 10px;
+  fill: var(--ink-faint);
+}
+
+.pyramid__boom rect {
+  fill: rgba(111, 208, 224, 0.07);
+}
+
+.pyramid__boom text {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  fill: var(--accent);
+}
+
+.statemap__measures {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.statemap__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.statemap__state {
+  stroke: var(--night);
+  stroke-width: 0.8;
+  stroke-linejoin: round;
+}
+
+.statemap__state:hover {
+  stroke: var(--accent);
+  stroke-width: 1.4;
+}
+
+.statemap__legend {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: auto minmax(120px, 260px);
+  grid-template-rows: auto auto;
+  column-gap: 14px;
+  align-items: center;
+  font-size: 11px;
+  color: var(--ink-muted);
+}
+
+.statemap__legend > span:first-child {
+  grid-row: 1 / 3;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.statemap__ramp {
+  height: 8px;
+  border: 1px solid var(--line);
+}
+
+.statemap__stops {
+  display: flex;
+  justify-content: space-between;
+  font-variant-numeric: tabular-nums;
+}
+
+.breakdowns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.breakdown {
+  padding: 16px 18px;
+}
+
+.breakdown__title {
+  margin: 0 0 10px;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 22px;
+  color: var(--ink-bright);
+}
+
+.breakdown__rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.breakdown__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(40px, 1fr) 52px 74px;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+}
+
+.breakdown__label {
+  color: var(--ink-soft);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.breakdown__bar {
+  height: 6px;
+  background: var(--line-soft);
+}
+
+.breakdown__bar span {
+  display: block;
+  height: 100%;
+  background: var(--ally);
+}
+
+.breakdown__share {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-bright);
+}
+
+.breakdown__change {
+  text-align: right;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-faint);
+}
+
+.breakdown__change--up {
+  color: var(--good);
+}
+
+.breakdown__change--down {
+  color: var(--bad);
+}
+
+.regions {
+  padding: 16px 18px;
+}
+
+.regions__table {
+  min-width: 720px;
+}
+
+.regions__table thead th {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--ink-muted);
+}
+
+.regions__table td.num,
+.regions__table th.num {
+  text-align: right;
+}
+
+.regions__group {
+  display: block;
+  font-size: 10px;
+  color: var(--ink-faint);
+}
+
+.regions .table-scroll {
+  max-height: 480px;
+  overflow-y: auto;
+}
+
+.sortbtn {
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--ink-faint);
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  cursor: pointer;
+}
+
+.sortbtn:hover {
+  color: var(--accent);
+}
+
 /* Grid children default to min-width: auto, which lets a wide table push the
    whole page sideways; min-width: 0 lets .table-scroll do the scrolling. */
 .screen > *,

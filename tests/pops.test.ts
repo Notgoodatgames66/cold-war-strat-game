@@ -213,10 +213,46 @@ describe('mobility', () => {
 describe('pops over the decades', () => {
   const years: Record<number, Record<string, number>> = {};
   let game = newGame();
+  const statesThen = peopleBy(model, game.nations.usa!.pops!, 'state');
+  let statesIn1960: number[] = [];
+  let blackSouth1960 = 0;
+  const south = new Set(['VA', 'NC', 'SC', 'GA', 'FL', 'KY', 'TN', 'AL', 'MS', 'AR', 'LA', 'OK', 'TX']);
+  const blackSouthShare = (p: PopsState) => {
+    const table = peopleBy2(model, p, 'state', 'race');
+    const black = model.attributes[1]!.categories.findIndex((c) => c.id === 'black');
+    let inSouth = 0;
+    let all = 0;
+    model.attributes[0]!.categories.forEach((c, i) => {
+      all += table[i]![black]!;
+      if (south.has(c.id)) inSouth += table[i]![black]!;
+    });
+    return inSouth / all;
+  };
+  const blackSouth1949 = blackSouthShare(game.nations.usa!.pops!);
   for (let i = 0; i < 84; i++) {
     game = advanceTurn(game);
     if (game.date.quarter === 1) years[game.date.year] = { ...game.nations.usa!.stats };
+    if (game.date.year === 1960 && game.date.quarter === 1) {
+      statesIn1960 = peopleBy(model, game.nations.usa!.pops!, 'state');
+      blackSouth1960 = blackSouthShare(game.nations.usa!.pops!);
+    }
   }
+  const growth = (id: string) => {
+    const i = model.attributes[0]!.categories.findIndex((c) => c.id === id);
+    return statesIn1960[i]! / statesThen[i]! - 1;
+  };
+
+  it('moves Americans to the Sun Belt and out of the farm South in the 1950s', () => {
+    expect(growth('CA')).toBeGreaterThan(0.35);
+    expect(growth('AZ')).toBeGreaterThan(0.35);
+    expect(growth('CA')).toBeGreaterThan(growth('OH'));
+    expect(growth('OH')).toBeGreaterThan(growth('MS'));
+    expect(growth('WV')).toBeLessThan(0.08);
+  });
+
+  it('sets the Great Migration going: Black Americans leave the Jim Crow South', () => {
+    expect(blackSouth1960).toBeLessThan(blackSouth1949 - 0.05);
+  });
 
   it('grows the population near the census: about 179 million in 1960 and 203 million in 1970', () => {
     expect(near(years[1960]!.population!, 178.5e6, 0.05)).toBe(true);
