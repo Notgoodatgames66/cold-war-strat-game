@@ -34,13 +34,17 @@ export const economy: SimSystem = {
     for (const nation of Object.values(state.nations)) {
       const e = nation.economy;
       if (!e) continue;
+      // With pops, the labour force grows as the pops do; otherwise at the model's placeholder rate.
+      const pops = nation.pops;
+      const labourFactor = pops && pops.previousLabourForce > 0 ? pops.labourForce / pops.previousLabourForce : undefined;
       const headline =
         e.engine === 'keynesian'
-          ? stepEconomy(e, nation.stats.population ?? 1)
+          ? stepEconomy(e, nation.stats.population ?? 1, labourFactor)
           : stepPlanned(e, {
               date: resolving,
               rivalDefenceShare: defenceShare(state, e.rival),
               valuationPrice: valuationPrice(state, e.valuation),
+              labourFactor,
             });
       for (const [id, value] of Object.entries(headline)) {
         if (id in nation.stats) nation.stats[id] = value;

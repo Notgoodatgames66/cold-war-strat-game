@@ -14,6 +14,7 @@
  */
 
 import type { NationEconomy, NationEconomyData } from './economy/types';
+import type { PopsState } from './pops/types';
 import type { GameDate } from './time';
 
 // ---------------------------------------------------------------------------
@@ -132,6 +133,8 @@ export interface NationState {
   params: Record<string, number>;
   /** The simulated economy, when the nation has one: Keynesian or planned. */
   economy?: NationEconomy;
+  /** The population as pops, when the nation has a pop model (data/pops/). */
+  pops?: PopsState;
 }
 
 /** One sector's figures in a history snapshot. */
@@ -187,4 +190,4 @@ export interface PlayerOrders {
   budgetIndexed?: boolean;
 }
 
-export const SCHEMA_VERSION = 4;
+export const SCHEMA_VERSION = 5;

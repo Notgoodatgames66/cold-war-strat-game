@@ -1,0 +1,2712 @@
+{
+ "id": "usa-1950",
+ "nation": "usa",
+ "label": "United States, 1950 census",
+ "censusYear": 1950,
+ "scaleToStat": "population",
+ "threshold": 250,
+ "verification": "unchecked",
+ "sources": [
+  {
+   "label": "US Census Bureau, Census of Population: 1950, Vol. II, Characteristics of the Population (state parts)",
+   "url": "https://www.census.gov/library/publications/1953/dec/population-vol-02.html"
+  },
+  {
+   "label": "US Census Bureau, Statistical Abstract of the United States 1952",
+   "url": "https://www.census.gov/library/publications/1952/compendia/statab/73ed.html"
+  },
+  {
+   "label": "National Council of Churches, Churches and Church Membership in the United States (1956, data for 1952)"
+  },
+  {
+   "label": "American Jewish Year Book (1950–52), Jewish population estimates by state"
+  },
+  {
+   "label": "Current Population Survey, March 1957: religion reported by persons 14 and over"
+  }
+ ],
+ "attributes": [
+  {
+   "id": "state",
+   "label": "State",
+   "role": "region",
+   "categories": [
+    {
+     "id": "AL",
+     "label": "Alabama",
+     "group": "East South Central"
+    },
+    {
+     "id": "AZ",
+     "label": "Arizona",
+     "group": "Mountain"
+    },
+    {
+     "id": "AR",
+     "label": "Arkansas",
+     "group": "West South Central"
+    },
+    {
+     "id": "CA",
+     "label": "California",
+     "group": "Pacific"
+    },
+    {
+     "id": "CO",
+     "label": "Colorado",
+     "group": "Mountain"
+    },
+    {
+     "id": "CT",
+     "label": "Connecticut",
+     "group": "New England"
+    },
+    {
+     "id": "DE",
+     "label": "Delaware",
+     "group": "South Atlantic"
+    },
+    {
+     "id": "DC",
+     "label": "District of Columbia",
+     "group": "South Atlantic"
+    },
+    {
+     "id": "FL",
+     "label": "Florida",
+     "group": "South Atlantic"
+    },
+    {
+     "id": "GA",
+     "label": "Georgia",
+     "group": "South Atlantic"
+    },
+    {
+     "id": "ID",
+     "label": "Idaho",
+     "group": "Mountain"
+    },
+    {
+     "id": "IL",
+     "label": "Illinois",
+     "group": "East North Central"
+    },
+    {
+     "id": "IN",
+     "label": "Indiana",
+     "group": "East North Central"
+    },
+    {
+     "id": "IA",
+     "label": "Iowa",
+     "group": "West North Central"
+    },
+    {
+     "id": "KS",
+     "label": "Kansas",
+     "group": "West North Central"
+    },
+    {
+     "id": "KY",
+     "label": "Kentucky",
+     "group": "East South Central"
+    },
+    {
+     "id": "LA",
+     "label": "Louisiana",
+     "group": "West South Central"
+    },
+    {
+     "id": "ME",
+     "label": "Maine",
+     "group": "New England"
+    },
+    {
+     "id": "MD",
+     "label": "Maryland",
+     "group": "South Atlantic"
+    },
+    {
+     "id": "MA",
+     "label": "Massachusetts",
+     "group": "New England"
+    },
+    {
+     "id": "MI",
+     "label": "Michigan",
+     "group": "East North Central"
+    },
+    {
+     "id": "MN",
+     "label": "Minnesota",
+     "group": "West North Central"
+    },
+    {
+     "id": "MS",
+     "label": "Mississippi",
+     "group": "East South Central"
+    },
+    {
+     "id": "MO",
+     "label": "Missouri",
+     "group": "West North Central"
+    },
+    {
+     "id": "MT",
+     "label": "Montana",
+     "group": "Mountain"
+    },
+    {
+     "id": "NE",
+     "label": "Nebraska",
+     "group": "West North Central"
+    },
+    {
+     "id": "NV",
+     "label": "Nevada",
+     "group": "Mountain"
+    },
+    {
+     "id": "NH",
+     "label": "New Hampshire",
+     "group": "New England"
+    },
+    {
+     "id": "NJ",
+     "label": "New Jersey",
+     "group": "Middle Atlantic"
+    },
+    {
+     "id": "NM",
+     "label": "New Mexico",
+     "group": "Mountain"
+    },
+    {
+     "id": "NY",
+     "label": "New York",
+     "group": "Middle Atlantic"
+    },
+    {
+     "id": "NC",
+     "label": "North Carolina",
+     "group": "South Atlantic"
+    },
+    {
+     "id": "ND",
+     "label": "North Dakota",
+     "group": "West North Central"
+    },
+    {
+     "id": "OH",
+     "label": "Ohio",
+     "group": "East North Central"
+    },
+    {
+     "id": "OK",
+     "label": "Oklahoma",
+     "group": "West South Central"
+    },
+    {
+     "id": "OR",
+     "label": "Oregon",
+     "group": "Pacific"
+    },
+    {
+     "id": "PA",
+     "label": "Pennsylvania",
+     "group": "Middle Atlantic"
+    },
+    {
+     "id": "RI",
+     "label": "Rhode Island",
+     "group": "New England"
+    },
+    {
+     "id": "SC",
+     "label": "South Carolina",
+     "group": "South Atlantic"
+    },
+    {
+     "id": "SD",
+     "label": "South Dakota",
+     "group": "West North Central"
+    },
+    {
+     "id": "TN",
+     "label": "Tennessee",
+     "group": "East South Central"
+    },
+    {
+     "id": "TX",
+     "label": "Texas",
+     "group": "West South Central"
+    },
+    {
+     "id": "UT",
+     "label": "Utah",
+     "group": "Mountain"
+    },
+    {
+     "id": "VT",
+     "label": "Vermont",
+     "group": "New England"
+    },
+    {
+     "id": "VA",
+     "label": "Virginia",
+     "group": "South Atlantic"
+    },
+    {
+     "id": "WA",
+     "label": "Washington",
+     "group": "Pacific"
+    },
+    {
+     "id": "WV",
+     "label": "West Virginia",
+     "group": "South Atlantic"
+    },
+    {
+     "id": "WI",
+     "label": "Wisconsin",
+     "group": "East North Central"
+    },
+    {
+     "id": "WY",
+     "label": "Wyoming",
+     "group": "Mountain"
+    }
+   ]
+  },
+  {
+   "id": "race",
+   "label": "Race and ethnicity",
+   "role": "ethnicity",
+   "categories": [
+    {
+     "id": "white",
+     "label": "White"
+    },
+    {
+     "id": "black",
+     "label": "Black"
+    },
+    {
+     "id": "hispanic",
+     "label": "Hispanic"
+    },
+    {
+     "id": "asian",
+     "label": "Asian"
+    },
+    {
+     "id": "native",
+     "label": "Native American"
+    }
+   ]
+  },
+  {
+   "id": "sex",
+   "label": "Sex",
+   "role": "sex",
+   "categories": [
+    {
+     "id": "male",
+     "label": "Men and boys"
+    },
+    {
+     "id": "female",
+     "label": "Women and girls",
+     "female": true
+    }
+   ]
+  },
+  {
+   "id": "class",
+   "label": "Household class",
+   "role": "class",
+   "categories": [
+    {
+     "id": "farm_owner",
+     "label": "Farm owners",
+     "farm": true
+    },
+    {
+     "id": "farm_tenant",
+     "label": "Tenants, sharecroppers and farmhands",
+     "farm": true
+    },
+    {
+     "id": "industrial",
+     "label": "Industrial workers"
+    },
+    {
+     "id": "labour_service",
+     "label": "Labourers and service workers"
+    },
+    {
+     "id": "clerical_sales",
+     "label": "Clerks and salespeople"
+    },
+    {
+     "id": "professional",
+     "label": "Professionals"
+    },
+    {
+     "id": "business",
+     "label": "Managers and proprietors"
+    },
+    {
+     "id": "retired",
+     "label": "Retired households",
+     "retired": true
+    }
+   ]
+  },
+  {
+   "id": "religion",
+   "label": "Religion",
+   "role": "religion",
+   "categories": [
+    {
+     "id": "protestant",
+     "label": "Protestant"
+    },
+    {
+     "id": "catholic",
+     "label": "Catholic"
+    },
+    {
+     "id": "jewish",
+     "label": "Jewish"
+    },
+    {
+     "id": "other",
+     "label": "Other (Latter-day Saints, Orthodox, Buddhist…)"
+    },
+    {
+     "id": "none",
+     "label": "No religion"
+    }
+   ]
+  },
+  {
+   "id": "age",
+   "label": "Age",
+   "role": "age",
+   "categories": [
+    {
+     "id": "0-14",
+     "label": "0–14",
+     "ageFrom": 0,
+     "ageWidth": 15
+    },
+    {
+     "id": "15-29",
+     "label": "15–29",
+     "ageFrom": 15,
+     "ageWidth": 15
+    },
+    {
+     "id": "30-44",
+     "label": "30–44",
+     "ageFrom": 30,
+     "ageWidth": 15
+    },
+    {
+     "id": "45-64",
+     "label": "45–64",
+     "ageFrom": 45,
+     "ageWidth": 20
+    },
+    {
+     "id": "65+",
+     "label": "65 and over",
+     "ageFrom": 65
+    }
+   ]
+  },
+  {
+   "id": "settlement",
+   "label": "Where they live",
+   "role": "settlement",
+   "categories": [
+    {
+     "id": "city",
+     "label": "Cities and towns"
+    },
+    {
+     "id": "suburb",
+     "label": "Suburbs"
+    },
+    {
+     "id": "rural",
+     "label": "Countryside"
+    }
+   ]
+  }
+ ],
+ "margins": [
+  {
+   "id": "state-population",
+   "label": "Population by state",
+   "dims": [
+    "state"
+   ],
+   "given": [],
+   "values": {
+    "AL": 3061743,
+    "AZ": 749587,
+    "AR": 1909511,
+    "CA": 10586223,
+    "CO": 1325089,
+    "CT": 2007280,
+    "DE": 318085,
+    "DC": 802178,
+    "FL": 2771305,
+    "GA": 3444578,
+    "ID": 588637,
+    "IL": 8712176,
+    "IN": 3934224,
+    "IA": 2621073,
+    "KS": 1905299,
+    "KY": 2944806,
+    "LA": 2683516,
+    "ME": 913774,
+    "MD": 2343001,
+    "MA": 4690514,
+    "MI": 6371766,
+    "MN": 2982483,
+    "MS": 2178914,
+    "MO": 3954653,
+    "MT": 591024,
+    "NE": 1325510,
+    "NV": 160083,
+    "NH": 533242,
+    "NJ": 4835329,
+    "NM": 681187,
+    "NY": 14830192,
+    "NC": 4061929,
+    "ND": 619636,
+    "OH": 7946627,
+    "OK": 2233351,
+    "OR": 1521341,
+    "PA": 10498012,
+    "RI": 791896,
+    "SC": 2117027,
+    "SD": 652740,
+    "TN": 3291718,
+    "TX": 7711194,
+    "UT": 688862,
+    "VT": 377747,
+    "VA": 3318680,
+    "WA": 2378963,
+    "WV": 2005552,
+    "WI": 3434575,
+    "WY": 290529
+   },
+   "provenance": "measured",
+   "note": "1950 census population by state (1 April 1950), including the District of Columbia. The game scales the total to its January 1949 population."
+  },
+  {
+   "id": "state-race",
+   "label": "Race and ethnicity by state",
+   "dims": [
+    "state",
+    "race"
+   ],
+   "given": [
+    "state"
+   ],
+   "values": {
+    "AL": {
+     "white": 0.679,
+     "black": 0.32,
+     "hispanic": 0.001,
+     "asian": 0.0,
+     "native": 0.0
+    },
+    "AZ": {
+     "white": 0.7,
+     "black": 0.035,
+     "hispanic": 0.171,
+     "asian": 0.006,
+     "native": 0.088
+    },
+    "AR": {
+     "white": 0.776,
+     "black": 0.223,
+     "hispanic": 0.001,
+     "asian": 0.0,
+     "native": 0.0
+    },
+    "CA": {
+     "white": 0.865,
+     "black": 0.044,
+     "hispanic": 0.072,
+     "asian": 0.017,
+     "native": 0.002
+    },
+    "CO": {
+     "white": 0.891,
+     "black": 0.015,
+     "hispanic": 0.089,
+     "asian": 0.004,
+     "native": 0.001
+    },
+    "CT": {
+     "white": 0.969,
+     "black": 0.027,
+     "hispanic": 0.003,
+     "asian": 0.001,
+     "native": 0.0
+    },
+    "DE": {
+     "white": 0.861,
+     "black": 0.137,
+     "hispanic": 0.002,
+     "asian": 0.0,
+     "native": 0.0
+    },
+    "DC": {
+     "white": 0.641,
+     "black": 0.35,
+     "hispanic": 0.005,
+     "asian": 0.004,
+     "native": 0.0
+    },
+    "FL": {
+     "white": 0.772,
+     "black": 0.218,
+     "hispanic": 0.01,
+     "asian": 0.0,
+     "native": 0.0
+    },
+    "GA": {
+     "white": 0.69,
+     "black": 0.309,
+     "hispanic": 0.001,
+     "asian": 0.0,
+     "native": 0.0
+    },
+    "ID": {
+     "white": 0.98,
+     "black": 0.002,
+     "hispanic": 0.01,
+     "asian": 0.002,
+     "native": 0.006
+    },
+    "IL": {
+     "white": 0.92,
+     "black": 0.074,
+     "hispanic": 0.004,
+     "asian": 0.002,
+     "native": 0.0
+    },
+    "IN": {
+     "white": 0.953,
+     "black": 0.044,
+     "hispanic": 0.003,
+     "asian": 0.0,
+     "native": 0.0
+    },
+    "IA": {
+     "white": 0.989,
+     "black": 0.008,
+     "hispanic": 0.002,
+     "asian": 0.0,
+     "native": 0.001
+    },
+    "KS": {
+     "white": 0.964,
+     "black": 0.03,
+     "hispanic": 0.005,
+     "asian": 0.0,
+     "native": 0.001
+    },
+    "KY": {
+     "white": 0.93,
+     "black": 0.069,
+     "hispanic": 0.001,
+     "asian": 0.0,
+     "native": 0.0
+    },
+    "LA": {
+     "white": 0.667,
+     "black": 0.329,
+     "hispanic": 0.003,
+     "asian": 0.0,
+     "native": 0.001
+    },
+    "ME": {
+     "white": 0.996,
+     "black": 0.001,
+     "hispanic": 0.001,
+     "asian": 0.0,
+     "native": 0.002
+    },
+    "MD": {
+     "white": 0.832,
+     "black": 0.165,
+     "hispanic": 0.002,
+     "asian": 0.001,
+     "native": 0.0
+    },
+    "MA": {
+     "white": 0.981,
+     "black": 0.016,
+     "hispanic": 0.002,
+     "asian": 0.001,
+     "native": 0.0
+    },
+    "MI": {
+     "white": 0.926,
+     "black": 0.069,
+     "hispanic": 0.003,
+     "asian": 0.001,
+     "native": 0.001
+    },
+    "MN": {
+     "white": 0.989,
+     "black": 0.005,
+     "hispanic": 0.002,
+     "asian": 0.0,
+     "native": 0.004
+    },
+    "MS": {
+     "white": 0.546,
+     "black": 0.453,
+     "hispanic": 0.0,
+     "asian": 0.0,
+     "native": 0.001
+    },
+    "MO": {
+     "white": 0.923,
+     "black": 0.075,
+     "hispanic": 0.002,
+     "asian": 0.0,
+     "native": 0.0
+    },
+    "MT": {
+     "white": 0.964,
+     "black": 0.002,
+     "hispanic": 0.005,
+     "asian": 0.001,
+     "native": 0.028
+    },
+    "NE": {
+     "white": 0.979,
+     "black": 0.015,
+     "hispanic": 0.003,
+     "asian": 0.0,
+     "native": 0.003
+    },
+    "NV": {
+     "white": 0.917,
+     "black": 0.027,
+     "hispanic": 0.02,
+     "asian": 0.005,
+     "native": 0.031
+    },
+    "NH": {
+     "white": 0.998,
+     "black": 0.001,
+     "hispanic": 0.001,
+     "asian": 0.0,
+     "native": 0.0
+    },
+    "NJ": {
+     "white": 0.929,
+     "black": 0.066,
+     "hispanic": 0.004,
+     "asian": 0.001,
+     "native": 0.0
+    },
+    "NM": {
+     "white": 0.56,
+     "black": 0.012,
+     "hispanic": 0.365,
+     "asian": 0.001,
+     "native": 0.062
+    },
+    "NY": {
+     "white": 0.917,
+     "black": 0.062,
+     "hispanic": 0.018,
+     "asian": 0.002,
+     "native": 0.001
+    },
+    "NC": {
+     "white": 0.741,
+     "black": 0.258,
+     "hispanic": 0.0,
+     "asian": 0.0,
+     "native": 0.001
+    },
+    "ND": {
+     "white": 0.982,
+     "black": 0.0,
+     "hispanic": 0.001,
+     "asian": 0.0,
+     "native": 0.017
+    },
+    "OH": {
+     "white": 0.932,
+     "black": 0.065,
+     "hispanic": 0.003,
+     "asian": 0.0,
+     "native": 0.0
+    },
+    "OK": {
+     "white": 0.909,
+     "black": 0.065,
+     "hispanic": 0.002,
+     "asian": 0.0,
+     "native": 0.024
+    },
+    "OR": {
+     "white": 0.979,
+     "black": 0.008,
+     "hispanic": 0.005,
+     "asian": 0.004,
+     "native": 0.004
+    },
+    "PA": {
+     "white": 0.937,
+     "black": 0.061,
+     "hispanic": 0.002,
+     "asian": 0.0,
+     "native": 0.0
+    },
+    "RI": {
+     "white": 0.98,
+     "black": 0.018,
+     "hispanic": 0.002,
+     "asian": 0.0,
+     "native": 0.0
+    },
+    "SC": {
+     "white": 0.612,
+     "black": 0.388,
+     "hispanic": 0.0,
+     "asian": 0.0,
+     "native": 0.0
+    },
+    "SD": {
+     "white": 0.962,
+     "black": 0.001,
+     "hispanic": 0.001,
+     "asian": 0.0,
+     "native": 0.036
+    },
+    "TN": {
+     "white": 0.839,
+     "black": 0.161,
+     "hispanic": 0.0,
+     "asian": 0.0,
+     "native": 0.0
+    },
+    "TX": {
+     "white": 0.739,
+     "black": 0.127,
+     "hispanic": 0.134,
+     "asian": 0.0,
+     "native": 0.0
+    },
+    "UT": {
+     "white": 0.976,
+     "black": 0.004,
+     "hispanic": 0.01,
+     "asian": 0.004,
+     "native": 0.006
+    },
+    "VT": {
+     "white": 0.999,
+     "black": 0.001,
+     "hispanic": 0.0,
+     "asian": 0.0,
+     "native": 0.0
+    },
+    "VA": {
+     "white": 0.778,
+     "black": 0.221,
+     "hispanic": 0.001,
+     "asian": 0.0,
+     "native": 0.0
+    },
+    "WA": {
+     "white": 0.969,
+     "black": 0.013,
+     "hispanic": 0.005,
+     "asian": 0.007,
+     "native": 0.006
+    },
+    "WV": {
+     "white": 0.943,
+     "black": 0.057,
+     "hispanic": 0.0,
+     "asian": 0.0,
+     "native": 0.0
+    },
+    "WI": {
+     "white": 0.986,
+     "black": 0.008,
+     "hispanic": 0.002,
+     "asian": 0.0,
+     "native": 0.004
+    },
+    "WY": {
+     "white": 0.948,
+     "black": 0.009,
+     "hispanic": 0.03,
+     "asian": 0.002,
+     "native": 0.011
+    }
+   },
+   "provenance": "estimate",
+   "note": "Black, Asian and Native American shares from the 1950 census race tables (rounded). Hispanic is an estimate: the 1950 census counted most Hispanic Americans as white, so the share uses the census count of white persons of Spanish surname in the five south-western states and Puerto Rican origin in New York, with small allowances elsewhere. White is the remainder."
+  },
+  {
+   "id": "state-settlement",
+   "label": "City, suburb and countryside by state",
+   "dims": [
+    "state",
+    "settlement"
+   ],
+   "given": [
+    "state"
+   ],
+   "values": {
+    "AL": {
+     "city": 0.378,
+     "suburb": 0.06,
+     "rural": 0.562
+    },
+    "AZ": {
+     "city": 0.495,
+     "suburb": 0.06,
+     "rural": 0.445
+    },
+    "AR": {
+     "city": 0.31,
+     "suburb": 0.02,
+     "rural": 0.67
+    },
+    "CA": {
+     "city": 0.587,
+     "suburb": 0.22,
+     "rural": 0.193
+    },
+    "CO": {
+     "city": 0.537,
+     "suburb": 0.09,
+     "rural": 0.373
+    },
+    "CT": {
+     "city": 0.626,
+     "suburb": 0.15,
+     "rural": 0.224
+    },
+    "DE": {
+     "city": 0.526,
+     "suburb": 0.1,
+     "rural": 0.374
+    },
+    "DC": {
+     "city": 1.0,
+     "suburb": 0.0,
+     "rural": 0.0
+    },
+    "FL": {
+     "city": 0.595,
+     "suburb": 0.06,
+     "rural": 0.345
+    },
+    "GA": {
+     "city": 0.383,
+     "suburb": 0.07,
+     "rural": 0.547
+    },
+    "ID": {
+     "city": 0.409,
+     "suburb": 0.02,
+     "rural": 0.571
+    },
+    "IL": {
+     "city": 0.636,
+     "suburb": 0.14,
+     "rural": 0.224
+    },
+    "IN": {
+     "city": 0.539,
+     "suburb": 0.06,
+     "rural": 0.401
+    },
+    "IA": {
+     "city": 0.437,
+     "suburb": 0.04,
+     "rural": 0.523
+    },
+    "KS": {
+     "city": 0.471,
+     "suburb": 0.05,
+     "rural": 0.479
+    },
+    "KY": {
+     "city": 0.318,
+     "suburb": 0.05,
+     "rural": 0.632
+    },
+    "LA": {
+     "city": 0.478,
+     "suburb": 0.07,
+     "rural": 0.452
+    },
+    "ME": {
+     "city": 0.487,
+     "suburb": 0.03,
+     "rural": 0.483
+    },
+    "MD": {
+     "city": 0.51,
+     "suburb": 0.18,
+     "rural": 0.31
+    },
+    "MA": {
+     "city": 0.604,
+     "suburb": 0.24,
+     "rural": 0.156
+    },
+    "MI": {
+     "city": 0.537,
+     "suburb": 0.17,
+     "rural": 0.293
+    },
+    "MN": {
+     "city": 0.455,
+     "suburb": 0.09,
+     "rural": 0.455
+    },
+    "MS": {
+     "city": 0.269,
+     "suburb": 0.01,
+     "rural": 0.721
+    },
+    "MO": {
+     "city": 0.515,
+     "suburb": 0.1,
+     "rural": 0.385
+    },
+    "MT": {
+     "city": 0.417,
+     "suburb": 0.02,
+     "rural": 0.563
+    },
+    "NE": {
+     "city": 0.419,
+     "suburb": 0.05,
+     "rural": 0.531
+    },
+    "NV": {
+     "city": 0.542,
+     "suburb": 0.03,
+     "rural": 0.428
+    },
+    "NH": {
+     "city": 0.545,
+     "suburb": 0.03,
+     "rural": 0.425
+    },
+    "NJ": {
+     "city": 0.546,
+     "suburb": 0.32,
+     "rural": 0.134
+    },
+    "NM": {
+     "city": 0.462,
+     "suburb": 0.04,
+     "rural": 0.498
+    },
+    "NY": {
+     "city": 0.675,
+     "suburb": 0.18,
+     "rural": 0.145
+    },
+    "NC": {
+     "city": 0.307,
+     "suburb": 0.03,
+     "rural": 0.663
+    },
+    "ND": {
+     "city": 0.256,
+     "suburb": 0.01,
+     "rural": 0.734
+    },
+    "OH": {
+     "city": 0.562,
+     "suburb": 0.14,
+     "rural": 0.298
+    },
+    "OK": {
+     "city": 0.45,
+     "suburb": 0.06,
+     "rural": 0.49
+    },
+    "OR": {
+     "city": 0.459,
+     "suburb": 0.08,
+     "rural": 0.461
+    },
+    "PA": {
+     "city": 0.555,
+     "suburb": 0.15,
+     "rural": 0.295
+    },
+    "RI": {
+     "city": 0.643,
+     "suburb": 0.2,
+     "rural": 0.157
+    },
+    "SC": {
+     "city": 0.327,
+     "suburb": 0.04,
+     "rural": 0.633
+    },
+    "SD": {
+     "city": 0.322,
+     "suburb": 0.01,
+     "rural": 0.668
+    },
+    "TN": {
+     "city": 0.381,
+     "suburb": 0.06,
+     "rural": 0.559
+    },
+    "TX": {
+     "city": 0.527,
+     "suburb": 0.1,
+     "rural": 0.373
+    },
+    "UT": {
+     "city": 0.613,
+     "suburb": 0.04,
+     "rural": 0.347
+    },
+    "VT": {
+     "city": 0.354,
+     "suburb": 0.01,
+     "rural": 0.636
+    },
+    "VA": {
+     "city": 0.38,
+     "suburb": 0.09,
+     "rural": 0.53
+    },
+    "WA": {
+     "city": 0.512,
+     "suburb": 0.12,
+     "rural": 0.368
+    },
+    "WV": {
+     "city": 0.306,
+     "suburb": 0.04,
+     "rural": 0.654
+    },
+    "WI": {
+     "city": 0.489,
+     "suburb": 0.09,
+     "rural": 0.421
+    },
+    "WY": {
+     "city": 0.478,
+     "suburb": 0.02,
+     "rural": 0.502
+    }
+   },
+   "provenance": "estimate",
+   "note": "Countryside is the 1950 census rural share. Suburbs are an estimate of the urban fringe of each state's urbanised areas (13.8% nationally); cities and towns are the rest of the urban population."
+  },
+  {
+   "id": "state-class",
+   "label": "Household class by state",
+   "dims": [
+    "state",
+    "class"
+   ],
+   "given": [
+    "state"
+   ],
+   "values": {
+    "AL": {
+     "farm_owner": 0.1584,
+     "farm_tenant": 0.1716,
+     "industrial": 0.2239,
+     "labour_service": 0.1555,
+     "clerical_sales": 0.0995,
+     "professional": 0.0498,
+     "business": 0.0933,
+     "retired": 0.048
+    },
+    "AZ": {
+     "farm_owner": 0.0612,
+     "farm_tenant": 0.0288,
+     "industrial": 0.2641,
+     "labour_service": 0.1619,
+     "clerical_sales": 0.1619,
+     "professional": 0.0937,
+     "business": 0.1704,
+     "retired": 0.058
+    },
+    "AR": {
+     "farm_owner": 0.192,
+     "farm_tenant": 0.208,
+     "industrial": 0.165,
+     "labour_service": 0.1265,
+     "clerical_sales": 0.1045,
+     "professional": 0.0495,
+     "business": 0.1045,
+     "retired": 0.05
+    },
+    "CA": {
+     "farm_owner": 0.036,
+     "farm_tenant": 0.024,
+     "industrial": 0.2878,
+     "labour_service": 0.1482,
+     "clerical_sales": 0.1831,
+     "professional": 0.0959,
+     "business": 0.157,
+     "retired": 0.068
+    },
+    "CO": {
+     "farm_owner": 0.0952,
+     "farm_tenant": 0.0448,
+     "industrial": 0.2486,
+     "labour_service": 0.1524,
+     "clerical_sales": 0.1524,
+     "professional": 0.0882,
+     "business": 0.1604,
+     "retired": 0.058
+    },
+    "CT": {
+     "farm_owner": 0.0205,
+     "farm_tenant": 0.0045,
+     "industrial": 0.3793,
+     "labour_service": 0.1264,
+     "clerical_sales": 0.1716,
+     "professional": 0.0903,
+     "business": 0.1354,
+     "retired": 0.072
+    },
+    "DE": {
+     "farm_owner": 0.0605,
+     "farm_tenant": 0.0495,
+     "industrial": 0.2772,
+     "labour_service": 0.2016,
+     "clerical_sales": 0.1512,
+     "professional": 0.0756,
+     "business": 0.1344,
+     "retired": 0.05
+    },
+    "DC": {
+     "farm_owner": 0.0,
+     "farm_tenant": 0.0,
+     "industrial": 0.114,
+     "labour_service": 0.209,
+     "clerical_sales": 0.38,
+     "professional": 0.133,
+     "business": 0.114,
+     "retired": 0.05
+    },
+    "FL": {
+     "farm_owner": 0.0495,
+     "farm_tenant": 0.0405,
+     "industrial": 0.2723,
+     "labour_service": 0.198,
+     "clerical_sales": 0.1485,
+     "professional": 0.0742,
+     "business": 0.132,
+     "retired": 0.085
+    },
+    "GA": {
+     "farm_owner": 0.125,
+     "farm_tenant": 0.125,
+     "industrial": 0.231,
+     "labour_service": 0.168,
+     "clerical_sales": 0.126,
+     "professional": 0.063,
+     "business": 0.112,
+     "retired": 0.05
+    },
+    "ID": {
+     "farm_owner": 0.204,
+     "farm_tenant": 0.096,
+     "industrial": 0.199,
+     "labour_service": 0.122,
+     "clerical_sales": 0.122,
+     "professional": 0.0706,
+     "business": 0.1284,
+     "retired": 0.058
+    },
+    "IL": {
+     "farm_owner": 0.072,
+     "farm_tenant": 0.028,
+     "industrial": 0.3696,
+     "labour_service": 0.1176,
+     "clerical_sales": 0.1512,
+     "professional": 0.0756,
+     "business": 0.126,
+     "retired": 0.06
+    },
+    "IN": {
+     "farm_owner": 0.1224,
+     "farm_tenant": 0.0476,
+     "industrial": 0.3388,
+     "labour_service": 0.1078,
+     "clerical_sales": 0.1386,
+     "professional": 0.0693,
+     "business": 0.1155,
+     "retired": 0.06
+    },
+    "IA": {
+     "farm_owner": 0.2211,
+     "farm_tenant": 0.1089,
+     "industrial": 0.192,
+     "labour_service": 0.102,
+     "clerical_sales": 0.126,
+     "professional": 0.06,
+     "business": 0.12,
+     "retired": 0.07
+    },
+    "KS": {
+     "farm_owner": 0.1474,
+     "farm_tenant": 0.0726,
+     "industrial": 0.2272,
+     "labour_service": 0.1207,
+     "clerical_sales": 0.1491,
+     "professional": 0.071,
+     "business": 0.142,
+     "retired": 0.07
+    },
+    "KY": {
+     "farm_owner": 0.224,
+     "farm_tenant": 0.126,
+     "industrial": 0.2167,
+     "labour_service": 0.1505,
+     "clerical_sales": 0.0963,
+     "professional": 0.0482,
+     "business": 0.0903,
+     "retired": 0.048
+    },
+    "LA": {
+     "farm_owner": 0.099,
+     "farm_tenant": 0.121,
+     "industrial": 0.219,
+     "labour_service": 0.1679,
+     "clerical_sales": 0.1387,
+     "professional": 0.0657,
+     "business": 0.1387,
+     "retired": 0.05
+    },
+    "ME": {
+     "farm_owner": 0.0902,
+     "farm_tenant": 0.0198,
+     "industrial": 0.3436,
+     "labour_service": 0.1145,
+     "clerical_sales": 0.1554,
+     "professional": 0.0818,
+     "business": 0.1227,
+     "retired": 0.072
+    },
+    "MD": {
+     "farm_owner": 0.044,
+     "farm_tenant": 0.036,
+     "industrial": 0.2871,
+     "labour_service": 0.2088,
+     "clerical_sales": 0.1566,
+     "professional": 0.0783,
+     "business": 0.1392,
+     "retired": 0.05
+    },
+    "MA": {
+     "farm_owner": 0.0115,
+     "farm_tenant": 0.0025,
+     "industrial": 0.3838,
+     "labour_service": 0.128,
+     "clerical_sales": 0.1737,
+     "professional": 0.0914,
+     "business": 0.1371,
+     "retired": 0.072
+    },
+    "MI": {
+     "farm_owner": 0.0648,
+     "farm_tenant": 0.0252,
+     "industrial": 0.442,
+     "labour_service": 0.102,
+     "clerical_sales": 0.136,
+     "professional": 0.068,
+     "business": 0.102,
+     "retired": 0.06
+    },
+    "MN": {
+     "farm_owner": 0.1742,
+     "farm_tenant": 0.0858,
+     "industrial": 0.2144,
+     "labour_service": 0.1139,
+     "clerical_sales": 0.1407,
+     "professional": 0.067,
+     "business": 0.134,
+     "retired": 0.07
+    },
+    "MS": {
+     "farm_owner": 0.1824,
+     "farm_tenant": 0.2976,
+     "industrial": 0.1699,
+     "labour_service": 0.118,
+     "clerical_sales": 0.0755,
+     "professional": 0.0378,
+     "business": 0.0708,
+     "retired": 0.048
+    },
+    "MO": {
+     "farm_owner": 0.1541,
+     "farm_tenant": 0.0759,
+     "industrial": 0.224,
+     "labour_service": 0.119,
+     "clerical_sales": 0.147,
+     "professional": 0.07,
+     "business": 0.14,
+     "retired": 0.07
+    },
+    "MT": {
+     "farm_owner": 0.17,
+     "farm_tenant": 0.08,
+     "industrial": 0.2145,
+     "labour_service": 0.1315,
+     "clerical_sales": 0.1315,
+     "professional": 0.0761,
+     "business": 0.1384,
+     "retired": 0.058
+    },
+    "NE": {
+     "farm_owner": 0.201,
+     "farm_tenant": 0.099,
+     "industrial": 0.2016,
+     "labour_service": 0.1071,
+     "clerical_sales": 0.1323,
+     "professional": 0.063,
+     "business": 0.126,
+     "retired": 0.07
+    },
+    "NV": {
+     "farm_owner": 0.0408,
+     "farm_tenant": 0.0192,
+     "industrial": 0.2734,
+     "labour_service": 0.1676,
+     "clerical_sales": 0.1676,
+     "professional": 0.097,
+     "business": 0.1764,
+     "retired": 0.058
+    },
+    "NH": {
+     "farm_owner": 0.0492,
+     "farm_tenant": 0.0108,
+     "industrial": 0.3646,
+     "labour_service": 0.1215,
+     "clerical_sales": 0.1649,
+     "professional": 0.0868,
+     "business": 0.1302,
+     "retired": 0.072
+    },
+    "NJ": {
+     "farm_owner": 0.0156,
+     "farm_tenant": 0.0044,
+     "industrial": 0.3481,
+     "labour_service": 0.1282,
+     "clerical_sales": 0.2015,
+     "professional": 0.0916,
+     "business": 0.1466,
+     "retired": 0.064
+    },
+    "NM": {
+     "farm_owner": 0.1088,
+     "farm_tenant": 0.0512,
+     "industrial": 0.2424,
+     "labour_service": 0.1486,
+     "clerical_sales": 0.1486,
+     "professional": 0.086,
+     "business": 0.1564,
+     "retired": 0.058
+    },
+    "NY": {
+     "farm_owner": 0.0312,
+     "farm_tenant": 0.0088,
+     "industrial": 0.3046,
+     "labour_service": 0.1254,
+     "clerical_sales": 0.224,
+     "professional": 0.0986,
+     "business": 0.1434,
+     "retired": 0.064
+    },
+    "NC": {
+     "farm_owner": 0.1768,
+     "farm_tenant": 0.1632,
+     "industrial": 0.2013,
+     "labour_service": 0.1464,
+     "clerical_sales": 0.1098,
+     "professional": 0.0549,
+     "business": 0.0976,
+     "retired": 0.05
+    },
+    "ND": {
+     "farm_owner": 0.2747,
+     "farm_tenant": 0.1353,
+     "industrial": 0.1664,
+     "labour_service": 0.0884,
+     "clerical_sales": 0.1092,
+     "professional": 0.052,
+     "business": 0.104,
+     "retired": 0.07
+    },
+    "OH": {
+     "farm_owner": 0.072,
+     "farm_tenant": 0.028,
+     "industrial": 0.3696,
+     "labour_service": 0.1176,
+     "clerical_sales": 0.1512,
+     "professional": 0.0756,
+     "business": 0.126,
+     "retired": 0.06
+    },
+    "OK": {
+     "farm_owner": 0.1334,
+     "farm_tenant": 0.0966,
+     "industrial": 0.216,
+     "labour_service": 0.1656,
+     "clerical_sales": 0.1368,
+     "professional": 0.0648,
+     "business": 0.1368,
+     "retired": 0.05
+    },
+    "OR": {
+     "farm_owner": 0.078,
+     "farm_tenant": 0.052,
+     "industrial": 0.2647,
+     "labour_service": 0.1363,
+     "clerical_sales": 0.1684,
+     "professional": 0.0882,
+     "business": 0.1444,
+     "retired": 0.068
+    },
+    "PA": {
+     "farm_owner": 0.0468,
+     "farm_tenant": 0.0132,
+     "industrial": 0.3329,
+     "labour_service": 0.1226,
+     "clerical_sales": 0.1927,
+     "professional": 0.0876,
+     "business": 0.1402,
+     "retired": 0.064
+    },
+    "RI": {
+     "farm_owner": 0.0082,
+     "farm_tenant": 0.0018,
+     "industrial": 0.3856,
+     "labour_service": 0.1285,
+     "clerical_sales": 0.1744,
+     "professional": 0.0918,
+     "business": 0.1377,
+     "retired": 0.072
+    },
+    "SC": {
+     "farm_owner": 0.138,
+     "farm_tenant": 0.162,
+     "industrial": 0.2145,
+     "labour_service": 0.156,
+     "clerical_sales": 0.117,
+     "professional": 0.0585,
+     "business": 0.104,
+     "retired": 0.05
+    },
+    "SD": {
+     "farm_owner": 0.2479,
+     "farm_tenant": 0.1221,
+     "industrial": 0.1792,
+     "labour_service": 0.0952,
+     "clerical_sales": 0.1176,
+     "professional": 0.056,
+     "business": 0.112,
+     "retired": 0.07
+    },
+    "TN": {
+     "farm_owner": 0.174,
+     "farm_tenant": 0.126,
+     "industrial": 0.2347,
+     "labour_service": 0.163,
+     "clerical_sales": 0.1043,
+     "professional": 0.0522,
+     "business": 0.0978,
+     "retired": 0.048
+    },
+    "TX": {
+     "farm_owner": 0.0825,
+     "farm_tenant": 0.0675,
+     "industrial": 0.24,
+     "labour_service": 0.184,
+     "clerical_sales": 0.152,
+     "professional": 0.072,
+     "business": 0.152,
+     "retired": 0.05
+    },
+    "UT": {
+     "farm_owner": 0.068,
+     "farm_tenant": 0.032,
+     "industrial": 0.261,
+     "labour_service": 0.16,
+     "clerical_sales": 0.16,
+     "professional": 0.0926,
+     "business": 0.1684,
+     "retired": 0.058
+    },
+    "VT": {
+     "farm_owner": 0.1968,
+     "farm_tenant": 0.0432,
+     "industrial": 0.289,
+     "labour_service": 0.0963,
+     "clerical_sales": 0.1307,
+     "professional": 0.0688,
+     "business": 0.1032,
+     "retired": 0.072
+    },
+    "VA": {
+     "farm_owner": 0.1155,
+     "farm_tenant": 0.0945,
+     "industrial": 0.2442,
+     "labour_service": 0.1776,
+     "clerical_sales": 0.1332,
+     "professional": 0.0666,
+     "business": 0.1184,
+     "retired": 0.05
+    },
+    "WA": {
+     "farm_owner": 0.066,
+     "farm_tenant": 0.044,
+     "industrial": 0.2713,
+     "labour_service": 0.1397,
+     "clerical_sales": 0.1726,
+     "professional": 0.0904,
+     "business": 0.148,
+     "retired": 0.068
+    },
+    "WV": {
+     "farm_owner": 0.0935,
+     "farm_tenant": 0.0765,
+     "industrial": 0.2574,
+     "labour_service": 0.1872,
+     "clerical_sales": 0.1404,
+     "professional": 0.0702,
+     "business": 0.1248,
+     "retired": 0.05
+    },
+    "WI": {
+     "farm_owner": 0.1584,
+     "farm_tenant": 0.0616,
+     "industrial": 0.3168,
+     "labour_service": 0.1008,
+     "clerical_sales": 0.1296,
+     "professional": 0.0648,
+     "business": 0.108,
+     "retired": 0.06
+    },
+    "WY": {
+     "farm_owner": 0.1224,
+     "farm_tenant": 0.0576,
+     "industrial": 0.2362,
+     "labour_service": 0.1448,
+     "clerical_sales": 0.1448,
+     "professional": 0.0838,
+     "business": 0.1524,
+     "retired": 0.058
+    }
+   },
+   "provenance": "estimate",
+   "note": "Farm households are the 1950 rural-farm share, split between owners and tenant, sharecropper or hired-labour households by each division's tenancy (higher in the Cotton South). Retired households are an estimate by division. The rest are split by each division's occupational mix of household heads, from the 1950 census occupation tables (estimate)."
+  },
+  {
+   "id": "state-religion",
+   "label": "Religion by state",
+   "dims": [
+    "state",
+    "religion"
+   ],
+   "given": [
+    "state"
+   ],
+   "values": {
+    "AL": {
+     "protestant": 0.9418,
+     "catholic": 0.0372,
+     "jewish": 0.003,
+     "other": 0.003,
+     "none": 0.015
+    },
+    "AZ": {
+     "protestant": 0.6312,
+     "catholic": 0.2728,
+     "jewish": 0.006,
+     "other": 0.05,
+     "none": 0.04
+    },
+    "AR": {
+     "protestant": 0.9378,
+     "catholic": 0.0372,
+     "jewish": 0.002,
+     "other": 0.003,
+     "none": 0.02
+    },
+    "CA": {
+     "protestant": 0.649,
+     "catholic": 0.248,
+     "jewish": 0.028,
+     "other": 0.015,
+     "none": 0.06
+    },
+    "CO": {
+     "protestant": 0.7092,
+     "catholic": 0.2108,
+     "jewish": 0.015,
+     "other": 0.02,
+     "none": 0.045
+    },
+    "CT": {
+     "protestant": 0.4032,
+     "catholic": 0.5208,
+     "jewish": 0.036,
+     "other": 0.015,
+     "none": 0.025
+    },
+    "DE": {
+     "protestant": 0.7288,
+     "catholic": 0.2232,
+     "jewish": 0.015,
+     "other": 0.008,
+     "none": 0.025
+    },
+    "DC": {
+     "protestant": 0.6322,
+     "catholic": 0.2728,
+     "jewish": 0.05,
+     "other": 0.015,
+     "none": 0.03
+    },
+    "FL": {
+     "protestant": 0.8592,
+     "catholic": 0.0868,
+     "jewish": 0.019,
+     "other": 0.005,
+     "none": 0.03
+    },
+    "GA": {
+     "protestant": 0.9512,
+     "catholic": 0.0248,
+     "jewish": 0.006,
+     "other": 0.003,
+     "none": 0.015
+    },
+    "ID": {
+     "protestant": 0.6122,
+     "catholic": 0.0868,
+     "jewish": 0.001,
+     "other": 0.25,
+     "none": 0.05
+    },
+    "IL": {
+     "protestant": 0.5842,
+     "catholic": 0.3348,
+     "jewish": 0.036,
+     "other": 0.015,
+     "none": 0.03
+    },
+    "IN": {
+     "protestant": 0.7968,
+     "catholic": 0.1612,
+     "jewish": 0.006,
+     "other": 0.006,
+     "none": 0.03
+    },
+    "IA": {
+     "protestant": 0.7894,
+     "catholic": 0.1736,
+     "jewish": 0.004,
+     "other": 0.008,
+     "none": 0.025
+    },
+    "KS": {
+     "protestant": 0.8206,
+     "catholic": 0.1364,
+     "jewish": 0.003,
+     "other": 0.01,
+     "none": 0.03
+    },
+    "KY": {
+     "protestant": 0.8738,
+     "catholic": 0.0992,
+     "jewish": 0.004,
+     "other": 0.003,
+     "none": 0.02
+    },
+    "LA": {
+     "protestant": 0.5668,
+     "catholic": 0.4092,
+     "jewish": 0.006,
+     "other": 0.003,
+     "none": 0.015
+    },
+    "ME": {
+     "protestant": 0.644,
+     "catholic": 0.31,
+     "jewish": 0.008,
+     "other": 0.008,
+     "none": 0.03
+    },
+    "MD": {
+     "protestant": 0.685,
+     "catholic": 0.248,
+     "jewish": 0.032,
+     "other": 0.01,
+     "none": 0.025
+    },
+    "MA": {
+     "protestant": 0.3292,
+     "catholic": 0.5828,
+     "jewish": 0.048,
+     "other": 0.015,
+     "none": 0.025
+    },
+    "MI": {
+     "protestant": 0.6424,
+     "catholic": 0.2976,
+     "jewish": 0.015,
+     "other": 0.015,
+     "none": 0.03
+    },
+    "MN": {
+     "protestant": 0.645,
+     "catholic": 0.31,
+     "jewish": 0.01,
+     "other": 0.01,
+     "none": 0.025
+    },
+    "MS": {
+     "protestant": 0.9438,
+     "catholic": 0.0372,
+     "jewish": 0.002,
+     "other": 0.002,
+     "none": 0.015
+    },
+    "MO": {
+     "protestant": 0.7302,
+     "catholic": 0.2108,
+     "jewish": 0.019,
+     "other": 0.01,
+     "none": 0.03
+    },
+    "MT": {
+     "protestant": 0.7098,
+     "catholic": 0.2232,
+     "jewish": 0.002,
+     "other": 0.015,
+     "none": 0.05
+    },
+    "NE": {
+     "protestant": 0.7432,
+     "catholic": 0.2108,
+     "jewish": 0.006,
+     "other": 0.01,
+     "none": 0.03
+    },
+    "NV": {
+     "protestant": 0.554,
+     "catholic": 0.248,
+     "jewish": 0.008,
+     "other": 0.12,
+     "none": 0.07
+    },
+    "NH": {
+     "protestant": 0.518,
+     "catholic": 0.434,
+     "jewish": 0.008,
+     "other": 0.01,
+     "none": 0.03
+    },
+    "NJ": {
+     "protestant": 0.4814,
+     "catholic": 0.4216,
+     "jewish": 0.057,
+     "other": 0.015,
+     "none": 0.025
+    },
+    "NM": {
+     "protestant": 0.327,
+     "catholic": 0.62,
+     "jewish": 0.003,
+     "other": 0.02,
+     "none": 0.03
+    },
+    "NY": {
+     "protestant": 0.3704,
+     "catholic": 0.4216,
+     "jewish": 0.163,
+     "other": 0.015,
+     "none": 0.03
+    },
+    "NC": {
+     "protestant": 0.9686,
+     "catholic": 0.0124,
+     "jewish": 0.002,
+     "other": 0.002,
+     "none": 0.015
+    },
+    "ND": {
+     "protestant": 0.6828,
+     "catholic": 0.2852,
+     "jewish": 0.002,
+     "other": 0.01,
+     "none": 0.02
+    },
+    "OH": {
+     "protestant": 0.685,
+     "catholic": 0.248,
+     "jewish": 0.022,
+     "other": 0.015,
+     "none": 0.03
+    },
+    "OK": {
+     "protestant": 0.9124,
+     "catholic": 0.0496,
+     "jewish": 0.003,
+     "other": 0.005,
+     "none": 0.03
+    },
+    "OR": {
+     "protestant": 0.7974,
+     "catholic": 0.1116,
+     "jewish": 0.006,
+     "other": 0.015,
+     "none": 0.07
+    },
+    "PA": {
+     "protestant": 0.5772,
+     "catholic": 0.3348,
+     "jewish": 0.043,
+     "other": 0.02,
+     "none": 0.025
+    },
+    "RI": {
+     "protestant": 0.238,
+     "catholic": 0.7,
+     "jewish": 0.032,
+     "other": 0.01,
+     "none": 0.02
+    },
+    "SC": {
+     "protestant": 0.9542,
+     "catholic": 0.0248,
+     "jewish": 0.004,
+     "other": 0.002,
+     "none": 0.015
+    },
+    "SD": {
+     "protestant": 0.7522,
+     "catholic": 0.2108,
+     "jewish": 0.002,
+     "other": 0.01,
+     "none": 0.025
+    },
+    "TN": {
+     "protestant": 0.9512,
+     "catholic": 0.0248,
+     "jewish": 0.006,
+     "other": 0.003,
+     "none": 0.015
+    },
+    "TX": {
+     "protestant": 0.7522,
+     "catholic": 0.2108,
+     "jewish": 0.007,
+     "other": 0.005,
+     "none": 0.025
+    },
+    "UT": {
+     "protestant": 0.2384,
+     "catholic": 0.0496,
+     "jewish": 0.002,
+     "other": 0.68,
+     "none": 0.03
+    },
+    "VT": {
+     "protestant": 0.585,
+     "catholic": 0.372,
+     "jewish": 0.005,
+     "other": 0.008,
+     "none": 0.03
+    },
+    "VA": {
+     "protestant": 0.9164,
+     "catholic": 0.0496,
+     "jewish": 0.009,
+     "other": 0.005,
+     "none": 0.02
+    },
+    "WA": {
+     "protestant": 0.7522,
+     "catholic": 0.1488,
+     "jewish": 0.009,
+     "other": 0.02,
+     "none": 0.07
+    },
+    "WV": {
+     "protestant": 0.904,
+     "catholic": 0.062,
+     "jewish": 0.004,
+     "other": 0.005,
+     "none": 0.025
+    },
+    "WI": {
+     "protestant": 0.5706,
+     "catholic": 0.3844,
+     "jewish": 0.01,
+     "other": 0.01,
+     "none": 0.025
+    },
+    "WY": {
+     "protestant": 0.672,
+     "catholic": 0.186,
+     "jewish": 0.002,
+     "other": 0.09,
+     "none": 0.05
+    }
+   },
+   "provenance": "estimate",
+   "note": "Catholic shares from 1952 church membership by state, scaled up by a quarter so the national share matches self-identification in the 1957 CPS (25.7%); Jewish shares from the American Jewish Year Book; Latter-day Saints counted under Other; no religion near the 1957 CPS figure (2.7%), higher in the West. Protestant is the remainder. The census asked no religion question, so every figure is an estimate."
+  },
+  {
+   "id": "race-sex-age",
+   "label": "Age and sex within each race",
+   "dims": [
+    "race",
+    "sex",
+    "age"
+   ],
+   "given": [
+    "race"
+   ],
+   "values": {
+    "white": {
+     "male": {
+      "0-14": 0.1346,
+      "15-29": 0.1102,
+      "30-44": 0.108,
+      "45-64": 0.1049,
+      "65+": 0.0395
+     },
+     "female": {
+      "0-14": 0.1294,
+      "15-29": 0.1128,
+      "30-44": 0.111,
+      "45-64": 0.1041,
+      "65+": 0.0455
+     }
+    },
+    "black": {
+     "male": {
+      "0-14": 0.1531,
+      "15-29": 0.1178,
+      "30-44": 0.0995,
+      "45-64": 0.0856,
+      "65+": 0.0301
+     },
+     "female": {
+      "0-14": 0.1519,
+      "15-29": 0.1302,
+      "30-44": 0.1105,
+      "45-64": 0.0874,
+      "65+": 0.0339
+     }
+    },
+    "hispanic": {
+     "male": {
+      "0-14": 0.1832,
+      "15-29": 0.13,
+      "30-44": 0.09,
+      "45-64": 0.0757,
+      "65+": 0.024
+     },
+     "female": {
+      "0-14": 0.1768,
+      "15-29": 0.1301,
+      "30-44": 0.09,
+      "45-64": 0.0742,
+      "65+": 0.026
+     }
+    },
+    "asian": {
+     "male": {
+      "0-14": 0.1236,
+      "15-29": 0.14,
+      "30-44": 0.12,
+      "45-64": 0.1344,
+      "65+": 0.07
+     },
+     "female": {
+      "0-14": 0.1164,
+      "15-29": 0.11,
+      "30-44": 0.08,
+      "45-64": 0.0756,
+      "65+": 0.03
+     }
+    },
+    "native": {
+     "male": {
+      "0-14": 0.188,
+      "15-29": 0.125,
+      "30-44": 0.0859,
+      "45-64": 0.0772,
+      "65+": 0.0312
+     },
+     "female": {
+      "0-14": 0.182,
+      "15-29": 0.125,
+      "30-44": 0.0842,
+      "45-64": 0.0727,
+      "65+": 0.0288
+     }
+    }
+   },
+   "provenance": "estimate",
+   "note": "1950 census age distribution by race (white and nonwhite), rounded; Hispanic and Native American populations were younger, Asian Americans older and mostly male after decades of exclusion laws."
+  }
+ ],
+ "associations": [
+  {
+   "id": "farms-in-countryside",
+   "dims": [
+    "class",
+    "settlement"
+   ],
+   "odds": {
+    "farm_owner": {
+     "city": 0,
+     "suburb": 0
+    },
+    "farm_tenant": {
+     "city": 0,
+     "suburb": 0
+    },
+    "professional": {
+     "suburb": 2.0,
+     "rural": 0.6
+    },
+    "business": {
+     "suburb": 1.7,
+     "rural": 0.8
+    },
+    "industrial": {
+     "city": 1.2
+    },
+    "clerical_sales": {
+     "city": 1.2,
+     "suburb": 1.3,
+     "rural": 0.6
+    },
+    "retired": {
+     "rural": 1.2
+    }
+   },
+   "provenance": "estimate",
+   "note": "Farm households live in the countryside by definition. White-collar households were overrepresented in the suburbs."
+  },
+  {
+   "id": "race-class",
+   "dims": [
+    "race",
+    "class"
+   ],
+   "odds": {
+    "black": {
+     "farm_owner": 0.5,
+     "farm_tenant": 3.5,
+     "industrial": 0.8,
+     "labour_service": 3.0,
+     "clerical_sales": 0.25,
+     "professional": 0.25,
+     "business": 0.2,
+     "retired": 0.8
+    },
+    "hispanic": {
+     "farm_owner": 0.5,
+     "farm_tenant": 3.0,
+     "industrial": 1.1,
+     "labour_service": 2.2,
+     "clerical_sales": 0.5,
+     "professional": 0.35,
+     "business": 0.5
+    },
+    "asian": {
+     "farm_owner": 1.5,
+     "farm_tenant": 1.5,
+     "labour_service": 1.8,
+     "business": 1.8,
+     "professional": 0.8
+    },
+    "native": {
+     "farm_owner": 1.0,
+     "farm_tenant": 2.5,
+     "labour_service": 2.5,
+     "clerical_sales": 0.3,
+     "professional": 0.3,
+     "business": 0.3
+    }
+   },
+   "provenance": "estimate",
+   "note": "1950 census occupations by race: Black and Hispanic workers were concentrated in farm labour, sharecropping, labouring and domestic service and largely shut out of white-collar jobs."
+  },
+  {
+   "id": "race-settlement",
+   "dims": [
+    "race",
+    "settlement"
+   ],
+   "odds": {
+    "black": {
+     "city": 1.5,
+     "suburb": 0.25
+    },
+    "hispanic": {
+     "city": 1.2,
+     "suburb": 0.5
+    },
+    "asian": {
+     "city": 2.0,
+     "suburb": 0.6
+    },
+    "native": {
+     "city": 0.3,
+     "suburb": 0.2,
+     "rural": 3.0
+    }
+   },
+   "provenance": "estimate",
+   "note": "Restrictive covenants and redlining kept Black families out of most suburbs; most Native Americans lived on or near reservations."
+  },
+  {
+   "id": "race-religion",
+   "dims": [
+    "race",
+    "religion"
+   ],
+   "odds": {
+    "black": {
+     "catholic": 0.15,
+     "jewish": 0.01,
+     "other": 0.3
+    },
+    "hispanic": {
+     "catholic": 15,
+     "jewish": 0.05
+    },
+    "asian": {
+     "other": 12,
+     "catholic": 1.5,
+     "jewish": 0.05
+    },
+    "native": {
+     "other": 4,
+     "catholic": 1.5,
+     "jewish": 0.02
+    }
+   },
+   "provenance": "estimate",
+   "note": "Black Americans were overwhelmingly Protestant, Hispanic Americans overwhelmingly Catholic; many Asian Americans were Buddhist."
+  },
+  {
+   "id": "religion-settlement",
+   "dims": [
+    "religion",
+    "settlement"
+   ],
+   "odds": {
+    "jewish": {
+     "city": 4.0,
+     "suburb": 2.5,
+     "rural": 0.08
+    },
+    "catholic": {
+     "city": 1.5,
+     "suburb": 1.2,
+     "rural": 0.6
+    }
+   },
+   "provenance": "estimate",
+   "note": "Jewish and Catholic Americans lived mostly in cities; the countryside was heavily Protestant."
+  },
+  {
+   "id": "religion-class",
+   "dims": [
+    "religion",
+    "class"
+   ],
+   "odds": {
+    "jewish": {
+     "farm_owner": 0.03,
+     "farm_tenant": 0.02,
+     "industrial": 0.7,
+     "labour_service": 0.4,
+     "clerical_sales": 1.6,
+     "professional": 2.2,
+     "business": 2.8
+    },
+    "catholic": {
+     "farm_owner": 0.6,
+     "farm_tenant": 0.6,
+     "industrial": 1.3
+    }
+   },
+   "provenance": "estimate",
+   "note": "Jewish households were concentrated in business, the professions and clerical work; Catholics in industrial work."
+  },
+  {
+   "id": "age-class",
+   "dims": [
+    "age",
+    "class"
+   ],
+   "odds": {
+    "0-14": {
+     "retired": 0.03
+    },
+    "15-29": {
+     "retired": 0.08
+    },
+    "30-44": {
+     "retired": 0.08
+    },
+    "45-64": {
+     "retired": 2.0
+    },
+    "65+": {
+     "retired": 30
+    }
+   },
+   "provenance": "estimate",
+   "note": "Retired households are headed by older people; few children live in them."
+  }
+ ],
+ "demography": {
+  "fertility": {
+   "15-29": 0.155,
+   "30-44": 0.06
+  },
+  "mortality": {
+   "0-14": 0.0025,
+   "15-29": 0.0016,
+   "30-44": 0.0035,
+   "45-64": 0.013,
+   "65+": 0.062
+  },
+  "fertilityMultipliers": {
+   "race": {
+    "black": 1.25,
+    "hispanic": 1.5,
+    "native": 1.6,
+    "asian": 0.9
+   },
+   "religion": {
+    "catholic": 1.15,
+    "jewish": 0.75,
+    "other": 1.2
+   },
+   "settlement": {
+    "rural": 1.2,
+    "suburb": 1.05,
+    "city": 0.9
+   },
+   "class": {
+    "farm_owner": 1.15,
+    "farm_tenant": 1.3,
+    "professional": 0.85,
+    "business": 0.9
+   }
+  },
+  "mortalityMultipliers": {
+   "race": {
+    "black": 1.4,
+    "hispanic": 1.1,
+    "native": 1.6,
+    "asian": 0.9
+   },
+   "class": {
+    "farm_tenant": 1.15,
+    "labour_service": 1.1,
+    "professional": 0.85,
+    "business": 0.9
+   },
+   "sex": {
+    "male": 1.25,
+    "female": 0.8
+   }
+  },
+  "ageProfile": [
+   3.53,
+   3.69,
+   3.29,
+   2.76,
+   2.84,
+   3.0,
+   2.89,
+   2.61,
+   2.48,
+   2.39,
+   2.22,
+   2.22,
+   2.22,
+   2.22,
+   2.22,
+   2.12,
+   2.12,
+   2.12,
+   2.12,
+   2.12,
+   2.3,
+   2.3,
+   2.3,
+   2.3,
+   2.3,
+   2.45,
+   2.45,
+   2.45,
+   2.45,
+   2.45,
+   2.3,
+   2.3,
+   2.3,
+   2.3,
+   2.3,
+   2.25,
+   2.25,
+   2.25,
+   2.25,
+   2.25,
+   2.04,
+   2.04,
+   2.04,
+   2.04,
+   2.04,
+   1.81,
+   1.81,
+   1.81,
+   1.81,
+   1.81,
+   1.65,
+   1.65,
+   1.65,
+   1.65,
+   1.65,
+   1.45,
+   1.45,
+   1.45,
+   1.45,
+   1.45,
+   1.21,
+   1.21,
+   1.21,
+   1.21,
+   1.21,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   0.68,
+   0.68,
+   0.68,
+   0.68,
+   0.68,
+   0.43,
+   0.43,
+   0.43,
+   0.43,
+   0.43,
+   0.225,
+   0.225,
+   0.225,
+   0.225,
+   0.225,
+   0.58
+  ],
+  "crudeBirthRate": 24.5,
+  "crudeDeathRate": 9.7,
+  "maleBirthShare": 0.512,
+  "mortalityImprovement": 0.012,
+  "fertilityIncomeElasticity": 1.6,
+  "initialExpectation": 0.8,
+  "expectationAdjustment": 0.06,
+  "cohortSizeElasticity": 2.0,
+  "womenWorkElasticity": 0.8,
+  "provenance": "estimate",
+  "note": "1949 vital statistics: 3.65 million births (24.5 per 1,000) and 1.44 million deaths (9.7 per 1,000). The single-year age profile (January 1949) comes from births by year for ages 0–9 and the 1950 census five-year groups above that; it carries the baby boom's cohorts through the age bands as a wave. Age-specific rates are round estimates, rescaled at game start to hit those totals exactly. Multipliers by race, religion, place and class follow 1950 differentials (nonwhite life expectancy about eight years shorter; higher fertility among farm, Catholic and Hispanic families). The Easterlin parameters are calibration choices: young adults in 1949 grew up in the Depression and expect about 80% of the living standard they actually have, which lifts fertility while incomes outrun expectations. Two further Easterlin-style forces bring the boom to an end: a big generation reaching adulthood has fewer children (relative cohort size), and fertility falls as women's labour force participation rises. Both elasticities are calibration choices, tuned to the fall in the birth rate from about 24 per 1,000 in 1960 to about 16 in 1980."
+ },
+ "economy": {
+  "income": {
+   "class": {
+    "farm_owner": -0.3,
+    "farm_tenant": -0.95,
+    "industrial": 0.05,
+    "labour_service": -0.35,
+    "clerical_sales": 0.1,
+    "professional": 0.55,
+    "business": 0.6,
+    "retired": -0.45
+   },
+   "race": {
+    "black": -0.35,
+    "hispanic": -0.25,
+    "native": -0.5,
+    "asian": -0.05
+   },
+   "settlement": {
+    "suburb": 0.15,
+    "rural": -0.1
+   }
+  },
+  "regionIncome": {
+   "New England": 0.05,
+   "Middle Atlantic": 0.12,
+   "East North Central": 0.08,
+   "West North Central": -0.05,
+   "South Atlantic": -0.1,
+   "East South Central": -0.22,
+   "West South Central": -0.1,
+   "Mountain": 0.0,
+   "Pacific": 0.12
+  },
+  "participation": {
+   "rates": {
+    "male": {
+     "15-29": 0.8,
+     "30-44": 0.96,
+     "45-64": 0.9,
+     "65+": 0.45
+    },
+    "female": {
+     "15-29": 0.4,
+     "30-44": 0.36,
+     "45-64": 0.33,
+     "65+": 0.1
+    }
+   },
+   "multipliers": {
+    "race": {
+     "black": 1.0
+    },
+    "class": {
+     "retired": 0.15
+    }
+   },
+   "femaleMultipliers": {
+    "race": {
+     "black": 1.4
+    },
+    "class": {
+     "farm_owner": 0.7,
+     "farm_tenant": 0.9
+    }
+   },
+   "femaleTrend": 0.005
+  },
+  "employment": {
+   "farm_owner": {
+    "agriculture": 1.0
+   },
+   "farm_tenant": {
+    "agriculture": 1.0
+   },
+   "industrial": {
+    "heavy_industry": 0.38,
+    "energy": 0.08,
+    "consumer_goods": 0.32,
+    "technology": 0.04,
+    "services": 0.06,
+    "shipping_trade": 0.12
+   },
+   "labour_service": {
+    "heavy_industry": 0.08,
+    "energy": 0.04,
+    "consumer_goods": 0.08,
+    "services": 0.55,
+    "shipping_trade": 0.25
+   },
+   "clerical_sales": {
+    "heavy_industry": 0.08,
+    "consumer_goods": 0.08,
+    "technology": 0.04,
+    "services": 0.4,
+    "shipping_trade": 0.4
+   },
+   "professional": {
+    "heavy_industry": 0.06,
+    "energy": 0.02,
+    "consumer_goods": 0.04,
+    "technology": 0.2,
+    "services": 0.65,
+    "shipping_trade": 0.03
+   },
+   "business": {
+    "heavy_industry": 0.08,
+    "energy": 0.03,
+    "consumer_goods": 0.12,
+    "technology": 0.07,
+    "services": 0.3,
+    "shipping_trade": 0.4
+   }
+  },
+  "productivityGrowth": {
+   "agriculture": 0.062,
+   "heavy_industry": 0.028,
+   "energy": 0.03,
+   "consumer_goods": 0.028,
+   "technology": 0.03,
+   "services": 0.012,
+   "shipping_trade": 0.02
+  },
+  "mobility": {
+   "rate": 0.6,
+   "paths": {
+    "farm_owner": {
+     "industrial": 0.6,
+     "business": 0.5,
+     "clerical_sales": 0.3,
+     "labour_service": 0.3
+    },
+    "farm_tenant": {
+     "labour_service": 1.0,
+     "industrial": 0.8
+    },
+    "industrial": {
+     "clerical_sales": 0.5,
+     "professional": 0.2,
+     "labour_service": 0.3,
+     "business": 0.2
+    },
+    "labour_service": {
+     "industrial": 1.0,
+     "clerical_sales": 0.4
+    },
+    "clerical_sales": {
+     "professional": 0.5,
+     "business": 0.5,
+     "industrial": 0.2
+    },
+    "professional": {
+     "business": 0.4,
+     "clerical_sales": 0.2
+    },
+    "business": {
+     "professional": 0.3,
+     "clerical_sales": 0.3
+    }
+   },
+   "leavingFarms": {
+    "city": 0.55,
+    "suburb": 0.2,
+    "rural": 0.25
+   },
+   "oldAgeMobility": 0.3
+  },
+  "retirement": {
+   "rate": 0.08
+  },
+  "suburbanisation": {
+   "rate": 0.012,
+   "incomeElasticity": 1.0,
+   "odds": {
+    "race": {
+     "black": 0.12,
+     "hispanic": 0.5,
+     "asian": 0.5
+    },
+    "class": {
+     "professional": 1.6,
+     "business": 1.5,
+     "clerical_sales": 1.2,
+     "labour_service": 0.6,
+     "retired": 0.4
+    }
+   }
+  },
+  "migration": {
+   "rate": {
+    "0-14": 0.03,
+    "15-29": 0.07,
+    "30-44": 0.04,
+    "45-64": 0.02,
+    "65+": 0.015
+   },
+   "sensitivity": 1.5,
+   "barriers": {
+    "race": {
+     "black": {
+      "VA": -0.35,
+      "NC": -0.35,
+      "SC": -0.35,
+      "GA": -0.35,
+      "FL": -0.35,
+      "KY": -0.35,
+      "TN": -0.35,
+      "AL": -0.35,
+      "MS": -0.35,
+      "AR": -0.35,
+      "LA": -0.35,
+      "OK": -0.35,
+      "TX": -0.35
+     }
+    }
+   }
+  },
+  "immigration": {
+   "rate": 0.0016,
+   "shares": {
+    "race": {
+     "white": 0.78,
+     "hispanic": 0.15,
+     "asian": 0.05,
+     "black": 0.02
+    },
+    "age": {
+     "0-14": 0.2,
+     "15-29": 0.45,
+     "30-44": 0.25,
+     "45-64": 0.08,
+     "65+": 0.02
+    }
+   },
+   "odds": {
+    "settlement": {
+     "city": 2.0,
+     "suburb": 1.0,
+     "rural": 0.4
+    }
+   }
+  },
+  "engel": {
+   "agriculture": 0.3,
+   "heavy_industry": 0.9,
+   "energy": 0.9,
+   "consumer_goods": 0.6,
+   "technology": 1.8,
+   "services": 1.4,
+   "shipping_trade": 1.0
+  },
+  "provenance": "estimate",
+  "note": "Income gaps are log points from the 1950 census income tables (Black family income about 54% of white, the South about 70% of the rest of the country), split between class, race, place and region. Labour force participation from the 1950 census (women 34%, men 87%), with women's participation rising about half a point a year, as it did from 1950 to 1980. Where each class works and sector productivity growth (USDA farm output per hour rose about 3.4-fold between 1950 and 1970, 6.2% a year) are estimates from BLS productivity series. Mobility, suburbanisation and migration rates are calibrated to 1950s flows: farm population falling about 4% a year, about 3% of Americans moving between states each year, the suburbs' share rising. Immigration runs at about 0.16% of the population a year, as under the 1924 quota system in the 1950s (about 250,000 a year), mostly European with Mexican and Canadian arrivals; later policy (the 1965 Hart–Celler Act) can change it. Jim Crow is an explicit penalty on Black families' wellbeing in the former Confederacy and Kentucky/Oklahoma border South, which drives the Great Migration and which civil rights events can later remove. Engel elasticities follow standard household demand estimates: food well below 1 (most food reaches households through the consumer-goods sector, so its elasticity is low), services and technology above it."
+ }
+}

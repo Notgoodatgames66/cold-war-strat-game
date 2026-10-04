@@ -136,6 +136,46 @@
     "description": "Resident population."
   },
   {
+    "id": "urban_share",
+    "label": "Urban and suburban",
+    "pillar": "society",
+    "unit": "percent",
+    "decimals": 1,
+    "description": "Share of the population living in cities, towns and suburbs rather than the countryside."
+  },
+  {
+    "id": "farm_population",
+    "label": "Farm population",
+    "pillar": "society",
+    "unit": "people",
+    "decimals": 1,
+    "description": "People living in farm households: owners, tenants, sharecroppers and farmhands."
+  },
+  {
+    "id": "labour_force",
+    "label": "Labour force",
+    "pillar": "society",
+    "unit": "people",
+    "decimals": 1,
+    "description": "People working or looking for work, including the armed forces."
+  },
+  {
+    "id": "birth_rate",
+    "label": "Birth rate",
+    "pillar": "society",
+    "unit": "count",
+    "decimals": 1,
+    "description": "Births per 1,000 people a year (last quarter at an annual rate)."
+  },
+  {
+    "id": "death_rate",
+    "label": "Death rate",
+    "pillar": "society",
+    "unit": "count",
+    "decimals": 1,
+    "description": "Deaths per 1,000 people a year (last quarter at an annual rate)."
+  },
+  {
     "id": "consumer_shortage",
     "label": "Consumer shortages",
     "pillar": "society",

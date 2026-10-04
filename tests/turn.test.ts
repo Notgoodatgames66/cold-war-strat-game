@@ -54,17 +54,34 @@ describe('turn loop', () => {
 
   it('runs yearly systems only when Q4 resolves (staggered updates)', () => {
     let game = newGame();
-    const startPop = game.nations.usa!.stats.population!;
     for (let q = 1; q <= 3; q++) {
       game = advanceTurn(game);
-      expect(game.nations.usa!.stats.population).toBe(startPop);
+      expect(game.log.at(-1)!.systemsRun).toContain('population');
       expect(game.log.at(-1)!.systemsRun).not.toContain('demography');
     }
     game = advanceTurn(game); // resolves Q4 1949
     expect(game.date).toEqual({ year: 1950, quarter: 1 });
     expect(game.log.at(-1)!.systemsRun).toContain('demography');
-    const growth = content.nations.usa!.params.population_growth_annual!.value;
-    expect(game.nations.usa!.stats.population).toBe(Math.round(startPop * (1 + growth)));
+  });
+
+  it('grows nations without pops once a year at their historical rate', () => {
+    let game = newGame();
+    for (const n of Object.values(game.nations)) delete n.pops;
+    const startPop = game.nations.ussr!.stats.population!;
+    for (let q = 1; q <= 3; q++) {
+      game = advanceTurn(game);
+      expect(game.nations.ussr!.stats.population).toBe(startPop);
+    }
+    game = advanceTurn(game);
+    const growth = content.nations.ussr!.params.population_growth_annual!.value;
+    expect(game.nations.ussr!.stats.population).toBe(Math.round(startPop * (1 + growth)));
+  });
+
+  it('moves nations with pops every quarter', () => {
+    const start = newGame();
+    const next = advanceTurn(start);
+    expect(next.nations.usa!.pops).toBeDefined();
+    expect(next.nations.usa!.stats.population).toBeGreaterThan(start.nations.usa!.stats.population!);
   });
 
   it('plays all 208 turns and then stops at Q4 2000', () => {

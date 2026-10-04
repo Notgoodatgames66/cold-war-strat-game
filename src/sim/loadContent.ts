@@ -1,7 +1,7 @@
 /**
  * Loads every data file in data/ and validates it.
  *
- * Adding a nation, scenario, economy model, input–output table or plan is just adding a JSON file:
+ * Adding a nation, scenario, economy model, input–output table, plan or pop model is just adding a JSON file:
  * Vite's import.meta.glob picks it up automatically.
  */
 
@@ -16,6 +16,7 @@ const scenarios = import.meta.glob('../../data/scenarios/*.json', { eager: true,
 const economyModels = import.meta.glob('../../data/economy/models/*.json', { eager: true, import: 'default' });
 const industryTables = import.meta.glob('../../data/economy/industry/*.json', { eager: true, import: 'default' });
 const plans = import.meta.glob('../../data/economy/plans/*.json', { eager: true, import: 'default' });
+const pops = import.meta.glob('../../data/pops/*.json', { eager: true, import: 'default' });
 
 const fileName = (path: string) => path.replace('../../', '');
 const byFile = (modules: Record<string, unknown>) =>
@@ -31,4 +32,5 @@ export const content: Content = buildContent({
   sectors,
   industryTables: byFile(industryTables),
   plans: byFile(plans),
+  pops: byFile(pops),
 });

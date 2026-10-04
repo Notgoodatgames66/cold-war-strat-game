@@ -2,12 +2,17 @@
  * Creating a new game from a scenario.
  */
 
-import type { Content } from './content';
+import { popModelFor, type Content } from './content';
+import { initialPopsState } from './pops/build';
+import { calibrateDemography } from './pops/demography';
+import { labourForce, linkEconomy, womenWork } from './pops/economy';
+import { livingStandard, popStats } from './pops/summary';
+import type { PopModelData } from './pops/types';
 import type { EconomyDefs } from './economy/calibrate';
 import { createNationEconomy } from './economy/create';
 import { SCHEMA_VERSION, type GameState, type HistoryEntry, type NationData, type NationState } from './schema';
 
-export function nationStateFrom(data: NationData, economyDefs: EconomyDefs): NationState {
+export function nationStateFrom(data: NationData, economyDefs: EconomyDefs, popModel?: PopModelData): NationState {
   const stats: Record<string, number> = {};
   const statProvenance: NationState['statProvenance'] = {};
   for (const [id, entry] of Object.entries(data.stats)) {
@@ -17,7 +22,7 @@ export function nationStateFrom(data: NationData, economyDefs: EconomyDefs): Nat
   const params: Record<string, number> = {};
   for (const [id, entry] of Object.entries(data.params)) params[id] = entry.value;
 
-  return {
+  const nation: NationState = {
     id: data.id,
     name: data.name,
     shortName: data.shortName,
@@ -28,6 +33,29 @@ export function nationStateFrom(data: NationData, economyDefs: EconomyDefs): Nat
     params,
     ...(data.economy ? { economy: createNationEconomy(data, economyDefs) } : {}),
   };
+  if (popModel) addPops(nation, popModel);
+  return nation;
+}
+
+/**
+ * Builds a nation's pops from its census tables, scaled to its current
+ * population, and adds the stats they provide.
+ */
+export function addPops(nation: NationState, model: PopModelData): void {
+  const total = nation.stats[model.scaleToStat];
+  if (total === undefined) throw new Error(`${nation.id}: pop model ${model.id} scales to missing stat "${model.scaleToStat}"`);
+  const pops = initialPopsState(model, total);
+  calibrateDemography(model, pops, livingStandard(nation), model.economy ? womenWork(model, pops, 0) : 0);
+  if (model.economy) {
+    pops.labourForce = labourForce(model, pops, 0);
+    pops.previousLabourForce = pops.labourForce;
+    if (nation.economy) linkEconomy(model, pops, nation.economy.industry);
+  }
+  nation.pops = pops;
+  for (const [id, value] of Object.entries(popStats(model, pops))) {
+    nation.stats[id] = value;
+    nation.statProvenance[id] ??= 'estimate';
+  }
 }
 
 /** Every nation's stats (and sector figures, where simulated) at the current date. */
@@ -54,7 +82,7 @@ export function createGame(content: Content, scenarioId: string, seed?: string):
   for (const id of scenario.nations) {
     const data = content.nations[id];
     if (!data) throw new Error(`Scenario "${scenarioId}" needs nation "${id}", which has no data file`);
-    nations[id] = nationStateFrom(data, content.economy);
+    nations[id] = nationStateFrom(data, content.economy, popModelFor(content, id));
   }
 
   const chosenSeed = seed?.trim() || scenario.defaultSeed;

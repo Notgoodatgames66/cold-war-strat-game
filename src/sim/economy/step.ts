@@ -42,11 +42,11 @@ function phaseInBudget(e: EconomyState) {
  * production function in private capital and labour, scaled by total factor
  * productivity and the public capital stock.
  */
-function growSupply(e: EconomyState) {
+function growSupply(e: EconomyState, labourFactor?: number) {
   const p = e.params;
   const ind = e.industry;
   e.productivity *= Math.pow(1 + p.tfp_growth, QUARTER);
-  ind.labourIndex *= Math.pow(1 + p.labour_force_growth, QUARTER);
+  ind.labourIndex *= labourFactor ?? Math.pow(1 + p.labour_force_growth, QUARTER);
   const publicInvestmentReal = sumByKind(e.budgetLines, e.budgetEffective, ['public_investment']) / e.priceLevel;
   e.publicCapital = e.publicCapital * (1 - p.public_capital_depreciation * QUARTER) + publicInvestmentReal * QUARTER;
   const capitalIndex = totalCapital(ind) / ind.base.privateCapital;
@@ -76,7 +76,12 @@ function indexBudget(e: EconomyState, potentialBefore: number) {
 const scaled = (shares: Vector, amount: number): Vector => shares.map((s) => s * amount);
 const add = (a: Vector, b: Vector): Vector => a.map((x, i) => x + b[i]!);
 
-export function stepEconomy(e: EconomyState, population: number): Record<string, number> {
+/**
+ * One quarter of the Keynesian economy. `labourFactor` is this quarter's
+ * growth of the labour force from the pops (1.003 = +0.3%); without it the
+ * labour force grows at the model's placeholder rate.
+ */
+export function stepEconomy(e: EconomyState, population: number, labourFactor?: number): Record<string, number> {
   const p = e.params;
   const c = e.calib;
   const ind = e.industry;
@@ -87,7 +92,7 @@ export function stepEconomy(e: EconomyState, population: number): Record<string,
   const previousFinalSales = e.gdpReal - e.inventoryInvestment;
   const potentialBefore = e.potential;
 
-  growSupply(e);
+  growSupply(e, labourFactor);
   indexBudget(e, potentialBefore);
   phaseInBudget(e);
   const scale = e.potential / c.potential0;

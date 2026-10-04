@@ -6,11 +6,12 @@
  * SCHEMA_VERSION and add a migration below so old saves keep loading.
  */
 
-import type { Content } from './content';
+import { popModelFor, type Content } from './content';
 import { createEconomy } from './economy/calibrate';
 import { createNationEconomy } from './economy/create';
 import { normalCapacities } from './economy/industry';
 import { stepPlanned } from './economy/planned';
+import { addPops } from './world';
 import { SCHEMA_VERSION, type GameState, type HistoryEntry, type NationState } from './schema';
 import { isValidDate } from './time';
 
@@ -158,6 +159,21 @@ const MIGRATIONS: Record<number, Migration> = {
     for (const nation of Object.values(nations)) {
       addMissingStats(nation, content);
       if (!nation.economy && content.nations[nation.id]?.economy) addPlannedEconomy(state, nation, content);
+    }
+    return state;
+  },
+
+  /**
+   * v4 (Phase 2C) → v5 (Phase 3, pops): nations with a pop model gain pops,
+   * fitted to the census tables and scaled to the save's current population,
+   * and the stats pops provide. Births and deaths are calibrated at the save's
+   * date, so the old save carries on smoothly.
+   */
+  4: (state, content) => {
+    const nations = state.nations as Record<string, NationState>;
+    for (const nation of Object.values(nations)) {
+      const model = popModelFor(content, nation.id);
+      if (model && !nation.pops) addPops(nation, model);
     }
     return state;
   },

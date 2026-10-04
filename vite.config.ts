@@ -11,5 +11,7 @@ export default defineConfig({
   build: { chunkSizeWarningLimit: 700 },
   test: {
     include: ['tests/**/*.test.ts'],
+    // Full 52-year games with pops take several seconds each.
+    testTimeout: 60_000,
   },
 });

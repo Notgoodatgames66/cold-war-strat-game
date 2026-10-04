@@ -25,6 +25,8 @@ import {
   type SectorDef,
   type TaxLineDef,
 } from './economy/types';
+import { validatePopModel } from './pops/validate';
+import type { PopModelData } from './pops/types';
 import { PILLARS, STAT_UNITS, TIERS, type NationData, type ScenarioData, type StatDef } from './schema';
 import { compareDates, isValidDate } from './time';
 
@@ -451,6 +453,13 @@ export interface Content {
   nations: Record<string, NationData>;
   scenarios: Record<string, ScenarioData>;
   economy: EconomyDefs;
+  /** Pop models by id (data/pops/*.json). */
+  pops: Record<string, PopModelData>;
+}
+
+/** The pop model for a nation, when it has one. */
+export function popModelFor(content: Pick<Content, 'pops'>, nationId: string): PopModelData | undefined {
+  return Object.values(content.pops).find((m) => m.nation === nationId);
 }
 
 export interface RawContent {
@@ -463,6 +472,8 @@ export interface RawContent {
   sectors: unknown;
   industryTables: Record<string, unknown>;
   plans: Record<string, unknown>;
+  /** Optional so older callers (tests) can leave it out. */
+  pops?: Record<string, unknown>;
 }
 
 /** Validates raw file contents and assembles them. Throws with every problem listed. */
@@ -542,8 +553,21 @@ export function buildContent(raw: RawContent): Content {
     }
   }
 
+  const pops: Record<string, PopModelData> = {};
+  for (const [file, popRaw] of Object.entries(raw.pops ?? {})) {
+    const problems = validatePopModel(popRaw, file, nationIds, statIds);
+    errors.push(...problems);
+    if (problems.length === 0) {
+      const model = popRaw as PopModelData;
+      if (pops[model.id]) errors.push(`${file}: duplicate pop model id "${model.id}"`);
+      if (Object.values(pops).some((m) => m.nation === model.nation))
+        errors.push(`${file}: nation "${model.nation}" already has a pop model`);
+      pops[model.id] = model;
+    }
+  }
+
   if (errors.length > 0) {
     throw new Error(`Content errors:\n- ${errors.join('\n- ')}`);
   }
-  return { stats, nations, scenarios, economy };
+  return { stats, nations, scenarios, economy, pops };
 }

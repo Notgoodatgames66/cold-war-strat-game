@@ -166,6 +166,8 @@ export interface PlannedContext {
   rivalDefenceShare: number | null;
   /** Price level used to value output in current dollars (the US price level). */
   valuationPrice: number;
+  /** This quarter's growth of the labour force from the pops; without it, the placeholder rate. */
+  labourFactor?: number;
 }
 
 const scaled = (shares: Vector, amount: number): Vector => shares.map((s) => s * amount);
@@ -180,7 +182,7 @@ export function stepPlanned(e: PlannedEconomyState, ctx: PlannedContext): Record
   e.quartersElapsed += 1;
   const tfpGrowth = p.tfp_growth * Math.exp(-p.tfp_growth_decay * (e.quartersElapsed / 4));
   e.productivity *= Math.pow(1 + tfpGrowth, QUARTER);
-  ind.labourIndex *= Math.pow(1 + p.labour_force_growth, QUARTER);
+  ind.labourIndex *= ctx.labourFactor ?? Math.pow(1 + p.labour_force_growth, QUARTER);
   e.potential =
     e.productivity *
     Math.pow(totalCapital(ind) / ind.base.privateCapital, p.capital_share) *

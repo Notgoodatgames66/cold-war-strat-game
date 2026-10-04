@@ -1,9 +1,9 @@
 /**
- * Demography (placeholder).
+ * Demography placeholder for nations without pops.
  *
- * Phase 1 grows each nation's population once a year at its historical rate.
- * Phase 3 replaces this with the cohort-component model and pops described in
- * the GDD (age bands, fertility, mortality, migration between states).
+ * Grows the population once a year at its historical rate. Nations with a pop
+ * model (data/pops/) get the full cohort-component model instead: see
+ * systems/population.ts.
  */
 
 import type { SimSystem } from './system';
@@ -14,6 +14,7 @@ export const demography: SimSystem = {
   frequency: 'yearly',
   run({ state }) {
     for (const nation of Object.values(state.nations)) {
+      if (nation.pops) continue;
       const population = nation.stats.population;
       const growth = nation.params.population_growth_annual;
       if (population === undefined || growth === undefined) continue;
