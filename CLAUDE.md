@@ -51,9 +51,9 @@ A deep, calculation-driven Cold War grand strategy simulator. Alpha scenario: th
 ## Layout
 
 ```
-data/            stats.json (stat registry), nations/, scenarios/, economy/ (models, levers, sectors, industry tables, plans)
+data/            stats.json (stat registry), nations/, scenarios/, economy/ (models, levers, sectors, industry tables, plans), map/ (world geometry, 1949 blocs and crises)
 src/sim/         the engine: rng, time, schema, content, world, turn, orders, save, worker, systems/, economy/
-src/ui/          interface components and helpers (tabs, charts, Treasury desk, Industry screen, balance of power)
+src/ui/          interface components and helpers (world map, situation screen, super-event, charts, Treasury desk, Industry screen, balance of power)
 src/App.tsx      the main screen
 tests/           automated tests
 docs/GDD.md      the game design document
@@ -67,6 +67,7 @@ docs/models/     plain-English papers explaining each model
 - **Phase 2A (Macroeconomy): complete.** Keynesian model for the USA (C, I, inventories, G, trade, potential, Okun, Phillips, Treasury peg, federal budget, debt, gold), calibrated to 1949 from data files; budget and tax orders with phase-in and optional indexation; Economy tab with charts, accounts and the Treasury desk; save schema 2 with a migration from schema 1. Model paper: `docs/models/economy.md`.
 - **Phase 2B (Industry): complete.** Seven sectors with a 1949 input–output table (`data/economy/industry/usa-1949.json`), competitive imports, government's own workforce split out, sector capacity from sector capital, rationing with priorities and emergency imports, investment flowing to hot sectors, Cobb–Douglas potential, industrial production index and steel tonnage; Industry tab; save schema 3. Model paper: `docs/models/industry.md`.
 - **Phase 2C (Soviet economy): complete. Phase 2 gate passed (1949–55 is playable).** A planned engine for the USSR on the same seven-industry model (`src/sim/economy/planned.ts`): a taut plan sets output, Five-Year Plan keyframes (`data/economy/plans/`) split it between investment, defence, civil government and exports, households get the rest; shortages and a savings overhang instead of inflation; productivity growth that fades; investment steered by plan priorities and bottlenecks; an arms-race reaction to US defence spending; Soviet output valued at US prices. Balance-of-power charts on the Situation tab (true Soviet figures, labelled as a developer view). Save schema 4 with a migration that replays the Soviet economy through an old save's history. Model paper: `docs/models/planned.md`.
+- **Interface redesign ("Night Desk"): complete** (4 Oct 2026). One fixed dark look inspired by TNO, Pax Historia and Ryan's study-sheet maps; a map-first Situation screen (`src/ui/WorldMap.tsx`, data in `data/map/`); a full-screen super-event frame used for the scenario opening; fonts bundled with the game. The look is described in `docs/GDD.md` under Visuals.
 - **Next: Phase 3 (Alpha systems).** Pops and opinion, factions and interest groups, the events engine, military units, intelligence fog, the commodity market. Pops should also bring structural change (Engel's law in household spending, farm-to-factory migration), which fixes the known gap that industry and steel grow too slowly in the USSR and never lose ground to services in the USA (see "Known gaps" in `docs/models/planned.md`).
 
 ## Design decisions made by Ryan
@@ -78,6 +79,10 @@ docs/models/     plain-English papers explaining each model
   - The Soviets **follow the historical Five-Year Plans by default but react to US defence spending** (a basic arms race) until the rival AI arrives.
   - The player sees **true Soviet figures**, labelled as a developer view, until intelligence and fog arrive in Phase 3.
   - Phase 2 stays a **pure economic sandbox**; events arrive in Phase 3.
+- **Interface look** (decided 4 Oct 2026):
+  - **Night Desk** is the look: dark navy, phosphor-cyan actions, Gloock / Source Serif 4 / IBM Plex Mono, map first. Ryan approved the mockups as they were.
+  - The look **stays fixed** for the whole game; it does not change with the era.
+  - The big moments get **full-screen super-events**, TNO-style, once the events engine exists.
 
 ## Open design questions for Ryan
 
@@ -86,4 +91,5 @@ docs/models/     plain-English papers explaining each model
 ## Open data tasks
 
 - Ryan to verify the 1949 starting figures in `data/nations/usa.json` and `ussr.json` against the listed sources, then set `"verification": "checked"`.
+- Check the 1949 bloc assignments and crisis dates in `data/map/world-1949.json`, then set `"verification": "checked"`. Latin America and the European colonies are shown unaligned for now; decide whether Rio Treaty states should be US-aligned.
 - Replace the estimated input–output table with an aggregation of the 1947 BEA benchmark table to the seven sectors.

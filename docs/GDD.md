@@ -424,13 +424,15 @@ About 30 headline stats sit on a front page, with nested drill-down screens bene
 
 ## 🎨 Visuals, UI and audio
 
-The interface is in-world government paperwork combined with pixel art, and it ages with the era. Simple, stylistic and fast is the rule.
+The interface has one fixed look for the whole game, **Night Desk** (decided by Ryan on 4 October 2026, replacing the earlier plan for paperwork that aged with the era). It draws on three influences:
 
-| Era | Interface style |
-| --- | --- |
-| 1949–1959 | Manila folders, typewriter fonts, TOP SECRET stamps, telegrams |
-| 1960s–1970s | Early computer terminals and CRT war-room screens |
-| 1980s–2000 | 1980s and 1990s computer UI |
+- **The New Order (HOI4 mod)** for the mood: perpetual night, midnight-navy panels, faint CRT scanlines, a phosphor-cyan accent kept for actions, and events as dark cards with archive photographs and large serif headlines.
+- **Pax Historia** for the layout: the world map is the main screen, with slim panels floating over it.
+- **Ryan's study-sheet maps** for the cartography and type: restrained, schematic maps drawn in the theme's own colours with mono labels and callouts.
+
+Type: **Gloock** for headlines, dates and nation names; **Source Serif 4** for prose, events and briefings; **IBM Plex Mono** for every number, label and control. The fonts ship with the game rather than loading from Google. Colours: blues for the West, reds for the East, ochre for contested ground, amber for alerts. Simple, stylistic and fast is still the rule.
+
+**Super-events.** The biggest moments (the Soviet bomb, Korea, Sputnik, the Cuban crisis) are shown full-screen, TNO-style, with a headline, prose and a period quote. The frame exists (it opens a new game); the Phase 3 events engine will use it.
 
 **Icons.** A custom pixel icon set, not emoji, because emoji render differently on every operating system.
 
@@ -440,11 +442,11 @@ The interface is in-world government paperwork combined with pixel art, and it a
 
 **Real historical figures** appear by name with real photographs. Use public-domain images (most US federal government photos are), check each licence on Wikimedia Commons, and run them through a pixel or posterise filter for a consistent look. Famous press photos are often still copyrighted. Speeches can be too (Martin Luther King Jr.'s are held by his estate), so paraphrase or write original dialogue instead of quoting.
 
-**Map.** No map in early builds, but all data is structured map-ready from day one. A later interactive map can use CShapes 2.0 (ETH Zürich), a dataset of historical country borders from 1886 onward.
+**Map.** The Situation screen opens on a world map (Natural Earth 1:110m countries, merged into 1949 states such as the USSR, Czechoslovakia and Yugoslavia), coloured by bloc, with the capitals and the live crises of the moment marked from `data/map/world-1949.json`. Borders are approximate: Germany is not yet divided on the map. True historical borders can later come from CShapes 2.0 (ETH Zürich), a dataset of country borders from 1886 onward. Blocs are static for now; once diplomacy exists they will come from the game state.
 
 **Advisor.** A named advisor with a portrait who changes with each cabinet, speaking in text with a short babble sound.
 
-**Sound.** Atmospheric sound effects now (typewriter clacks, teletype chatter). Soundtrack later.
+**Sound.** Atmospheric sound effects now (teletype chatter, radio static, a low synth drone). Soundtrack later.
 
 **Accessibility** (colour-blind palettes, dark mode) is deferred.
 

@@ -104,6 +104,16 @@ export interface ScenarioData {
   endDate: GameDate;
   nations: string[];
   defaultSeed: string;
+  /** Optional opening shown full-screen when a new game starts. */
+  opening?: ScenarioOpening;
+}
+
+export interface ScenarioOpening {
+  kicker: string;
+  headline: string;
+  paragraphs: string[];
+  quote?: { text: string; source: string };
+  action: string;
 }
 
 // ---------------------------------------------------------------------------

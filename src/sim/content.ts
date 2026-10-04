@@ -425,6 +425,20 @@ export function validateScenario(raw: unknown, file: string, nationIds: Set<stri
     if (isStr(raw.playerNation) && !raw.nations.includes(raw.playerNation))
       errors.push(`${file}: playerNation must be one of its nations`);
   }
+  if (raw.opening !== undefined) {
+    const o = raw.opening;
+    if (!isObj(o)) {
+      errors.push(`${file}: opening must be an object`);
+    } else {
+      for (const field of ['kicker', 'headline', 'action'] as const) {
+        if (!isStr(o[field])) errors.push(`${file}: opening.${field} must be text`);
+      }
+      if (!Array.isArray(o.paragraphs) || o.paragraphs.length === 0 || !o.paragraphs.every(isStr))
+        errors.push(`${file}: opening.paragraphs must list at least one paragraph`);
+      if (o.quote !== undefined && (!isObj(o.quote) || !isStr(o.quote.text) || !isStr(o.quote.source)))
+        errors.push(`${file}: opening.quote needs text and source`);
+    }
+  }
   return errors;
 }
 

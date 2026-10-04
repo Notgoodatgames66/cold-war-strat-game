@@ -1,0 +1,238 @@
+{
+  "id": "world-1949",
+  "date": {
+    "year": 1949,
+    "quarter": 1
+  },
+  "geometry": "Natural Earth 1:110m admin-0 countries (public domain), via the world-atlas package, in data/map/world-110m.json. Borders are modern; the merges below rebuild the larger 1949 states.",
+  "verification": "unchecked",
+  "merge": {
+    "Soviet Union": [
+      "Russia",
+      "Ukraine",
+      "Belarus",
+      "Estonia",
+      "Latvia",
+      "Lithuania",
+      "Moldova",
+      "Georgia",
+      "Armenia",
+      "Azerbaijan",
+      "Kazakhstan",
+      "Uzbekistan",
+      "Turkmenistan",
+      "Kyrgyzstan",
+      "Tajikistan"
+    ],
+    "Czechoslovakia": [
+      "Czechia",
+      "Slovakia"
+    ],
+    "Yugoslavia": [
+      "Serbia",
+      "Croatia",
+      "Slovenia",
+      "Bosnia and Herz.",
+      "Montenegro",
+      "Macedonia",
+      "Kosovo"
+    ],
+    "Pakistan": [
+      "Pakistan",
+      "Bangladesh"
+    ],
+    "Sudan": [
+      "Sudan",
+      "S. Sudan"
+    ],
+    "Somalia": [
+      "Somalia",
+      "Somaliland"
+    ],
+    "Cyprus": [
+      "Cyprus",
+      "N. Cyprus"
+    ]
+  },
+  "mergeNote": "1949 states that later split up. Known gaps: Germany is not yet divided on the map, Eritrea is shown apart from Ethiopia and Israel's 1949 armistice lines are not drawn.",
+  "nations": {
+    "United States of America": "usa",
+    "Soviet Union": "ussr"
+  },
+  "blocs": {
+    "us": {
+      "label": "United States",
+      "members": [
+        "United States of America",
+        "Puerto Rico"
+      ]
+    },
+    "west": {
+      "label": "Western bloc",
+      "members": [
+        "United Kingdom",
+        "France",
+        "Canada",
+        "Italy",
+        "Belgium",
+        "Netherlands",
+        "Luxembourg",
+        "Norway",
+        "Denmark",
+        "Iceland",
+        "Portugal",
+        "Greenland"
+      ],
+      "note": "The twelve founding members of the North Atlantic Treaty (signed 4 April 1949), with Greenland as part of Denmark."
+    },
+    "allied": {
+      "label": "US-aligned",
+      "members": [
+        "Greece",
+        "Turkey",
+        "Japan",
+        "South Korea",
+        "Philippines",
+        "Australia",
+        "New Zealand"
+      ],
+      "note": "Greece and Turkey under the Truman Doctrine (1947); Japan and South Korea under US occupation or protection; the Philippines, Australia and New Zealand as close Pacific partners."
+    },
+    "soviet": {
+      "label": "Soviet Union",
+      "members": [
+        "Soviet Union"
+      ]
+    },
+    "east": {
+      "label": "Soviet bloc",
+      "members": [
+        "Poland",
+        "Czechoslovakia",
+        "Hungary",
+        "Romania",
+        "Bulgaria",
+        "Albania",
+        "Mongolia",
+        "North Korea"
+      ],
+      "note": "Communist-led states in Moscow's orbit by early 1949. Yugoslavia was expelled from the Cominform in June 1948 and is shown unaligned."
+    },
+    "contested": {
+      "label": "Contested",
+      "members": [
+        "China",
+        "Taiwan",
+        "Germany",
+        "Austria",
+        "Vietnam",
+        "Laos",
+        "Cambodia",
+        "Indonesia"
+      ],
+      "note": "Civil war in China; Germany and Austria under four-power occupation; war in French Indochina; the Indonesian war of independence against the Netherlands."
+    }
+  },
+  "blocsNote": "Every country not listed is shown unaligned. European colonies in Africa and Asia are shown unaligned too; empires arrive with the diplomacy system. Latin America is left unaligned although most of it signed the Rio Treaty with the US in 1947.",
+  "capitals": [
+    {
+      "name": "Washington",
+      "nation": "usa",
+      "lon": -77.04,
+      "lat": 38.9
+    },
+    {
+      "name": "Moscow",
+      "nation": "ussr",
+      "lon": 37.62,
+      "lat": 55.75
+    }
+  ],
+  "hotspots": [
+    {
+      "id": "berlin-blockade",
+      "label": "Berlin airlift",
+      "detail": "Soviet blockade since June 1948",
+      "tone": "alert",
+      "lon": 13.4,
+      "lat": 52.52,
+      "callout": {
+        "dx": -250,
+        "dy": -74
+      },
+      "until": {
+        "year": 1949,
+        "quarter": 2
+      },
+      "note": "The blockade began on 24 June 1948 and was lifted on 12 May 1949."
+    },
+    {
+      "id": "greek-civil-war",
+      "label": "Greek civil war",
+      "detail": "Government offensive, US aid",
+      "tone": "contested",
+      "lon": 23.73,
+      "lat": 37.98,
+      "callout": {
+        "dx": -196,
+        "dy": 34
+      },
+      "until": {
+        "year": 1949,
+        "quarter": 4
+      },
+      "note": "The Democratic Army's last strongholds fell in August 1949; the war ended in October 1949."
+    },
+    {
+      "id": "chinese-civil-war",
+      "label": "Chinese civil war",
+      "detail": "Communist armies advancing south",
+      "tone": "contested",
+      "lon": 118.8,
+      "lat": 32.06,
+      "callout": {
+        "dx": -170,
+        "dy": -104
+      },
+      "until": {
+        "year": 1949,
+        "quarter": 4
+      },
+      "note": "Peiping fell in January 1949 and Nanjing in April. The People's Republic was proclaimed on 1 October and the Nationalists withdrew to Taiwan in December."
+    },
+    {
+      "id": "indochina-war",
+      "label": "War in Indochina",
+      "detail": "France against the Viet Minh",
+      "tone": "contested",
+      "lon": 105.85,
+      "lat": 21.03,
+      "callout": {
+        "dx": -230,
+        "dy": 30
+      },
+      "until": {
+        "year": 1954,
+        "quarter": 3
+      },
+      "note": "Fighting began in December 1946 and ended with the Geneva Accords in July 1954."
+    },
+    {
+      "id": "indonesian-revolution",
+      "label": "Indonesian revolution",
+      "detail": "Republic against the Dutch",
+      "tone": "contested",
+      "lon": 106.85,
+      "lat": -6.2,
+      "callout": {
+        "dx": -300,
+        "dy": -40
+      },
+      "until": {
+        "year": 1949,
+        "quarter": 4
+      },
+      "note": "The Netherlands transferred sovereignty on 27 December 1949."
+    }
+  ]
+}

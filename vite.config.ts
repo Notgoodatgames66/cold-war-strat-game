@@ -7,6 +7,8 @@ export default defineConfig({
   base: './',
   plugins: [react()],
   worker: { format: 'es' },
+  // The world map's geometry (about 100 kB) lives in the main bundle.
+  build: { chunkSizeWarningLimit: 700 },
   test: {
     include: ['tests/**/*.test.ts'],
   },

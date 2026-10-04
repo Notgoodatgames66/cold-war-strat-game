@@ -3,8 +3,31 @@
   "name": "United States, 1949",
   "description": "January 1949. Truman has just won re-election. The North Atlantic Treaty is three months from signing, the Soviet bomb is months away, and China is falling to the Communists.",
   "playerNation": "usa",
-  "startDate": { "year": 1949, "quarter": 1 },
-  "endDate": { "year": 2000, "quarter": 4 },
-  "nations": ["usa", "ussr"],
-  "defaultSeed": "truman-1949"
+  "startDate": {
+    "year": 1949,
+    "quarter": 1
+  },
+  "endDate": {
+    "year": 2000,
+    "quarter": 4
+  },
+  "nations": [
+    "usa",
+    "ussr"
+  ],
+  "defaultSeed": "truman-1949",
+  "opening": {
+    "kicker": "Washington · January 1949",
+    "headline": "Truman's Second Term",
+    "paragraphs": [
+      "On 20 January Harry Truman takes the oath for a term almost nobody expected him to win. The war has been over for less than four years, and the peace has already split in two.",
+      "Berlin has been under Soviet blockade since June, fed and heated from the air. In China, Communist armies are closing on the Yangtze. In Washington, diplomats are drafting a treaty that would bind the United States to the defence of Western Europe in peacetime, something it has not done since 1800.",
+      "America holds the only atomic bomb, around half of the world's manufacturing and most of its monetary gold. How long that lead lasts is now in your hands."
+    ],
+    "quote": {
+      "text": "The peoples of the earth face the future with grave uncertainty, composed almost equally of great hopes and great fears.",
+      "source": "Harry S. Truman, inaugural address, 20 January 1949"
+    },
+    "action": "Take office"
+  }
 }

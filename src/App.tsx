@@ -5,13 +5,14 @@ import type { GameState, PlayerOrders } from './sim/schema';
 import { formatDate, formatDateLong } from './sim/time';
 import { canAdvance, totalTurns } from './sim/turn';
 import { createGame } from './sim/world';
-import { BalanceOfPower } from './ui/BalanceOfPower';
 import { EconomyScreen } from './ui/EconomyScreen';
 import { EngineRoom } from './ui/EngineRoom';
 import { FilingCabinet } from './ui/FilingCabinet';
 import { IndustryScreen } from './ui/IndustryScreen';
-import { NationDossier } from './ui/NationDossier';
+import { formatStat } from './ui/format';
 import { resolveTurn } from './ui/simClient';
+import { SituationScreen } from './ui/SituationScreen';
+import { SuperEvent } from './ui/SuperEvent';
 import { AUTOSAVE_KEY, readSlot, writeSlot } from './ui/storage';
 
 const SCENARIO_ID = 'usa-1949';
@@ -27,6 +28,7 @@ type TabId = (typeof TABS)[number]['id'];
 interface Boot {
   game: GameState;
   status: string;
+  isNew: boolean;
 }
 
 function boot(): Boot {
@@ -34,12 +36,12 @@ function boot(): Boot {
   if (autosave) {
     try {
       const game = deserializeGame(autosave, content);
-      return { game, status: `Resumed your autosaved game at ${formatDate(game.date)}.` };
+      return { game, status: `Resumed your autosaved game at ${formatDate(game.date)}.`, isNew: false };
     } catch {
       // An autosave from an incompatible build: start fresh.
     }
   }
-  return { game: createGame(content, SCENARIO_ID), status: 'New game started. The situation file is on your desk.' };
+  return { game: createGame(content, SCENARIO_ID), status: 'New game started. Your first briefing is on the wire.', isNew: true };
 }
 
 function countOrders(draft: PlayerOrders): number {
@@ -58,11 +60,11 @@ export function App() {
   const [lastMs, setLastMs] = useState<number | null>(null);
   const [draft, setDraft] = useState<PlayerOrders>({});
   const [tab, setTab] = useState<TabId>('situation');
+  const [showOpening, setShowOpening] = useState(initial.isNew);
 
   const scenario = content.scenarios[game.scenarioId];
   const player = game.nations[game.playerNation];
   const others = Object.values(game.nations).filter((n) => n.id !== game.playerNation);
-  const previous = game.history.length > 1 ? game.history[game.history.length - 2] : undefined;
   const finished = !canAdvance(game);
   const pending = countOrders(draft);
 
@@ -95,83 +97,113 @@ export function App() {
     setDraft({});
     setLastMs(null);
     setStatus(message);
+    setShowOpening(next.turn === 1);
   };
 
+  const indicator = (nation: typeof player, id: string) => {
+    const def = content.stats.find((d) => d.id === id);
+    const value = nation?.stats[id];
+    return def && value !== undefined ? { text: formatStat(value, def), value } : null;
+  };
+  const rival = others.find((n) => n.tier === 'main_rival');
+  const indicators = [
+    { label: 'GDP', id: 'gdp_real' },
+    { label: 'Growth', id: 'real_growth', signed: true },
+    { label: 'Unemployed', id: 'unemployment' },
+    { label: 'Budget', id: 'budget_balance', signed: true },
+  ];
+  const warheads = indicator(player, 'nuclear_warheads');
+  const rivalWarheads = indicator(rival, 'nuclear_warheads');
+
   return (
-    <div className="desk">
-      <header className="folder">
-        <div className="folder__tab">National Situation File</div>
-        <div className="folder__body">
-          <div>
-            <p className="folder__kicker">{scenario?.name ?? game.scenarioId}</p>
-            <h1 className="folder__title">Cold War Grand Strategy</h1>
-          </div>
-          <p className="stamp" aria-hidden="true">
-            Top Secret
-          </p>
+    <div className="app">
+      <header className="topbar">
+        <div className="topbar__brand">
+          <span className="topbar__title">Cold War</span>
+          <span className="topbar__nation">{player?.shortName ?? scenario?.name}</span>
         </div>
+        <div className="topbar__date" aria-live="polite">
+          <span className="topbar__quarter">{formatDate(game.date)}</span>
+          <span className="topbar__months">
+            {formatDateLong(game.date)} · turn {game.turn} of {totalTurns(game)}
+          </span>
+        </div>
+        <dl className="topbar__figures">
+          {indicators.map(({ label, id, signed }) => {
+            const ind = indicator(player, id);
+            if (!ind) return null;
+            const tone = signed ? (ind.value < 0 ? ' figure--bad' : ind.value > 0 ? ' figure--good' : '') : '';
+            return (
+              <div key={id} className={`figure${tone}`}>
+                <dt>{label}</dt>
+                <dd>{signed && ind.value > 0 ? `+${ind.text}` : ind.text}</dd>
+              </div>
+            );
+          })}
+          {warheads && (
+            <div className="figure">
+              <dt>Warheads</dt>
+              <dd>
+                {warheads.text}
+                {rivalWarheads && <span className="figure__rival"> / {rivalWarheads.text}</span>}
+              </dd>
+            </div>
+          )}
+        </dl>
+        <button type="button" className="btn btn--primary end-turn" onClick={endTurn} disabled={busy || finished}>
+          {finished ? 'Complete' : busy ? 'Resolving…' : 'End turn'}
+          {pending > 0 && !busy && !finished && <span className="end-turn__orders">{pending}</span>}
+        </button>
       </header>
 
-      <section className="calendar" aria-live="polite">
-        <div className="calendar__date">
-          <p className="calendar__quarter">{formatDate(game.date)}</p>
-          <p className="calendar__months">
-            {formatDateLong(game.date)} · Turn {game.turn} of {totalTurns(game)}
-          </p>
-        </div>
-        <div className="calendar__action">
-          <button type="button" className="end-turn" onClick={endTurn} disabled={busy || finished}>
-            {finished ? 'Simulation complete' : busy ? 'Resolving…' : 'End turn'}
-          </button>
-          <p className="calendar__status">
-            {pending > 0 && !busy ? `${pending} order${pending === 1 ? '' : 's'} ready to send. ` : ''}
-            {status}
-          </p>
-        </div>
-      </section>
+      <main className="main">
+        {tab === 'situation' && <SituationScreen game={game} status={status} onOpenEconomy={() => setTab('economy')} />}
 
-      <nav className="tabs" aria-label="Screens">
-        {TABS.map((t) => (
-          <button
-            key={t.id}
-            type="button"
-            className={`tabs__tab${tab === t.id ? ' tabs__tab--active' : ''}`}
-            aria-current={tab === t.id ? 'page' : undefined}
-            onClick={() => setTab(t.id)}
-          >
-            {t.label}
-            {t.id === 'economy' && pending > 0 && <span className="tabs__badge">{pending}</span>}
-          </button>
-        ))}
-      </nav>
-
-      <main className="screen">
-        {tab === 'situation' && (
-          <>
-            {game.turn === 1 && scenario && <p className="briefing">{scenario.description}</p>}
-            <div className="dossiers">
-              {player && <NationDossier nation={player} previousStats={previous?.stats[player.id]} />}
-              {others.map((nation) => (
-                <NationDossier key={nation.id} nation={nation} previousStats={previous?.stats[nation.id]} />
-              ))}
-            </div>
-            <BalanceOfPower game={game} />
-          </>
+        {tab === 'economy' && (
+          <div className="screen">
+            <EconomyScreen game={game} draft={draft} onDraft={setDraft} />
+          </div>
         )}
 
-        {tab === 'economy' && <EconomyScreen game={game} draft={draft} onDraft={setDraft} />}
-
-        {tab === 'industry' && <IndustryScreen game={game} />}
+        {tab === 'industry' && (
+          <div className="screen">
+            <IndustryScreen game={game} />
+          </div>
+        )}
 
         {tab === 'files' && (
-          <div className="lower">
-            <EngineRoom game={game} lastResolutionMs={lastMs} />
-            <FilingCabinet game={game} scenarioId={SCENARIO_ID} onLoad={load} onStatus={setStatus} />
+          <div className="screen">
+            <div className="lower">
+              <EngineRoom game={game} lastResolutionMs={lastMs} />
+              <FilingCabinet game={game} scenarioId={SCENARIO_ID} onLoad={load} onStatus={setStatus} />
+            </div>
           </div>
         )}
       </main>
 
-      <footer className="colophon">Phase 2C build · the US and Soviet economies are live · pops, politics and events come next</footer>
+      <nav className="dock" aria-label="Screens">
+        <div className="dock__tabs">
+          {TABS.map((t) => (
+            <button
+              key={t.id}
+              type="button"
+              className={`dock__tab${tab === t.id ? ' dock__tab--active' : ''}`}
+              aria-current={tab === t.id ? 'page' : undefined}
+              onClick={() => setTab(t.id)}
+            >
+              {t.label}
+              {t.id === 'economy' && pending > 0 && <span className="dock__badge">{pending}</span>}
+            </button>
+          ))}
+        </div>
+        <p className="dock__status" aria-live="polite">
+          {pending > 0 && !busy ? `${pending} order${pending === 1 ? '' : 's'} ready to send. ` : ''}
+          {status}
+        </p>
+        <p className="dock__build">Phase 2C build</p>
+      </nav>
+
+      {showOpening && scenario?.opening && <SuperEvent event={scenario.opening} onClose={() => setShowOpening(false)} />}
     </div>
   );
 }
