@@ -7,9 +7,9 @@ import { content } from '../src/sim/loadContent';
 import { deserializeGame, serializeGame } from '../src/sim/save';
 import type { GameState, PlayerOrders } from '../src/sim/schema';
 import { advanceTurn, stateChecksum } from '../src/sim/turn';
-import { createGame } from '../src/sim/world';
+import { sandboxGame } from './helpers';
 
-const newGame = (seed = 'planned-test') => createGame(content, 'usa-1949', seed);
+const newGame = (seed = 'planned-test') => sandboxGame('usa-1949', seed);
 const soviet = (g: GameState) => g.nations.ussr!.economy as PlannedEconomyState;
 const us = (g: GameState) => g.nations.usa!.economy as EconomyState;
 const stat = (g: GameState, nation: string, id: string) => g.nations[nation]!.stats[id]!;

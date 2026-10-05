@@ -191,6 +191,12 @@ export interface PlayerOrders {
   taxes?: Record<string, number>;
   /** Switch automatic budget indexation on or off. */
   budgetIndexed?: boolean;
+  /**
+   * Political capital to spend on each bill, keyed by lever ("budget:<line>",
+   * "tax:<line>" or "indexation"). Where the nation has a legislature, every
+   * change above is a bill that takes effect only if it passes.
+   */
+  capital?: Record<string, number>;
 }
 
 export const SCHEMA_VERSION = 6;

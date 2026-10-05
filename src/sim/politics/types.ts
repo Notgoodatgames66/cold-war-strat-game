@@ -159,6 +159,8 @@ export interface CapitalData {
   approvalRate: number;
   /** Capital lost when one of your bills fails. */
   failurePenalty: number;
+  /** Capital won when a bill passes, × the chance it had of failing (unlikely wins pay most). */
+  victoryBonus: number;
   /** Capital after an inauguration. */
   newTerm: number;
   note: string;
@@ -246,6 +248,8 @@ export interface BillResult {
   passed: boolean;
   /** Expected yes share by chamber. */
   votes: Record<string, number>;
+  /** The count on the day, by chamber. */
+  tally: Record<string, { yes: number; no: number }>;
 }
 
 export interface ElectionResult {

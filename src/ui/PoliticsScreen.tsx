@@ -18,6 +18,8 @@ import type { GameState, NationState } from '../sim/schema';
 import { formatDate } from '../sim/time';
 import { LineChart, type ChartPoint } from './LineChart';
 import { StateMap, hasStateMap, type MapMeasure } from './StateMap';
+import { factionColours } from './bills';
+import { LastBills } from './BillPanels';
 
 interface Props {
   game: GameState;
@@ -25,23 +27,6 @@ interface Props {
 
 const pct = (x: number, d = 0) => `${(x * 100).toFixed(d)}%`;
 const millions = (x: number) => (x >= 1e6 ? `${(x / 1e6).toFixed(1)} m` : `${Math.round(x / 1000)}k`);
-
-/** Party colours: blues for the first party, reds for the second; factions shade by order. */
-const PARTY_SHADES = [
-  ['#5e94bd', '#9cc4e2', '#3d6c99'],
-  ['#c0574b', '#e39a8c', '#8f3a31'],
-  ['#c9a35c', '#e2c58f', '#8f7744'],
-];
-
-export function factionColours(model: PoliticsModelData): Record<string, string> {
-  const out: Record<string, string> = {};
-  model.legislature.parties.forEach((party, pi) => {
-    model.legislature.factions
-      .filter((f) => f.party === party.id)
-      .forEach((f, fi) => (out[f.id] = PARTY_SHADES[pi % PARTY_SHADES.length]![fi % 3]!));
-  });
-  return out;
-}
 
 export function PoliticsScreen({ game }: Props) {
   const nation = game.nations[game.playerNation];
@@ -381,6 +366,7 @@ function Congress({ politics, model }: { politics: PoliticsState; model: Politic
             </tbody>
           </table>
           <p className="industry__note">Hover a faction for its outlook. Bills need a majority in both chambers.</p>
+          {politics.lastBills.length > 0 && <LastBills model={model} bills={politics.lastBills} />}
         </div>
       </div>
     </section>

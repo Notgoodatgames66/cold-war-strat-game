@@ -3,8 +3,10 @@
  * budget, what is driving prices and jobs, and the Treasury desk.
  */
 
+import { useMemo } from 'react';
 import type { Contribution, EconomyState } from '../sim/economy/types';
 import { content } from '../sim/loadContent';
+import { proposedBills } from '../sim/orders';
 import type { GameState, PlayerOrders } from '../sim/schema';
 import { formatDate } from '../sim/time';
 import { LineChart, type ChartPoint } from './LineChart';
@@ -41,6 +43,12 @@ const signed = (v: number) => `${v < 0 ? '−' : '+'}${Math.abs(v).toFixed(1)}`;
 export function EconomyScreen({ game, draft, onDraft }: Props) {
   const nation = game.nations[game.playerNation];
   const economy = nation?.economy;
+  const congress = useMemo(() => {
+    const politics = nation?.politics;
+    const model = politics ? content.politics[politics.model] : undefined;
+    const bills = proposedBills(game, draft);
+    return politics && model && bills ? { model, politics, bills } : null;
+  }, [game, draft, nation]);
   if (!nation || economy?.engine !== 'keynesian') {
     return <p className="empty">The Treasury desk is for market economies; this nation's economy runs on a plan.</p>;
   }
@@ -74,7 +82,7 @@ export function EconomyScreen({ game, draft, onDraft }: Props) {
         <Drivers economy={economy} />
       </div>
 
-      <TreasuryDesk economy={economy} gdpNominal={nation.stats.gdp_nominal ?? 1} draft={draft} onDraft={onDraft} />
+      <TreasuryDesk economy={economy} gdpNominal={nation.stats.gdp_nominal ?? 1} draft={draft} onDraft={onDraft} congress={congress} />
     </div>
   );
 }

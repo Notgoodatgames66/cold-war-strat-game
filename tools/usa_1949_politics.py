@@ -53,7 +53,7 @@ groups = [
                        "East North Central": 1.25, "Pacific": 1.2, "New England": 1.1}},
     "organisation": 0.8, "party": "democratic", "partyLean": 0.8, "startApproval": 62,
     "preferences": {"budget:welfare": 1.0, "budget:education_health": 0.5, "budget:infrastructure": 0.4, "budget:defence": 0.1,
-                    "tax:corporate": 0.4, "tax:income": 0.1, "tax:payroll": -0.2, "tax:excise": -0.3, "indexation": 0.6},
+                    "tax:corporate": 0.4, "tax:income": 0.1, "tax:payroll": -0.2, "tax:excise": -0.3, "indexation": 0.3},
     "conditions": {"unemployment": -0.15, "inflation": -0.05},
     "provenance": "estimate",
     "note": "Union density about 31% of non-farm workers in 1950 (BLS). Labour backed Truman after his veto of Taft–Hartley (1947) and the 1948 campaign."
@@ -65,7 +65,7 @@ groups = [
                    "defaults": {"class": 0}},
     "organisation": 0.9, "party": "republican", "partyLean": 0.6, "startApproval": 35,
     "preferences": {"tax:corporate": -1.0, "tax:income": -0.6, "budget:welfare": -0.4, "budget:defence": 0.3, "budget:foreign_aid": 0.3,
-                    "tax:tariff": -0.3, "budget:general_government": -0.4, "budget:research": 0.2, "indexation": -0.5},
+                    "tax:tariff": -0.3, "budget:general_government": -0.4, "budget:research": 0.2, "indexation": -0.25},
     "conditions": {"real_growth": 0.08, "inflation": -0.04},
     "provenance": "estimate", "note": "Few in number, great in wealth and organisation; hostile to the Fair Deal but internationalist on trade and the Marshall Plan."
   },
@@ -76,7 +76,7 @@ groups = [
                    "defaults": {"class": 0}},
     "organisation": 0.4, "party": "republican", "partyLean": 0.4, "startApproval": 40,
     "preferences": {"tax:income": -0.6, "tax:corporate": -0.3, "tax:payroll": -0.5, "budget:welfare": -0.4,
-                    "budget:general_government": -0.6, "tax:tariff": 0.2, "tax:excise": -0.3, "indexation": -0.6},
+                    "budget:general_government": -0.6, "tax:tariff": 0.2, "tax:excise": -0.3, "indexation": -0.3},
     "conditions": {"unemployment": -0.05, "inflation": -0.06},
     "provenance": "estimate", "note": "About four million proprietors; the backbone of the Taft wing of the Republican Party."
   },
@@ -145,7 +145,7 @@ groups = [
     "membership": {"base": 1, "factors": {"sex": {"male": 1, "female": 0.02}, "age": {"0-14": 0, "15-29": 0.4, "30-44": 0.55, "45-64": 0.2, "65+": 0.05},
                                            "race": {"black": 0.8}}},
     "organisation": 0.7, "lockIn": {"lever": "budget:welfare", "elasticity": 0.3}, "partyLean": 0, "startApproval": 55,
-    "preferences": {"budget:welfare": 1.0, "budget:defence": 0.5, "budget:education_health": 0.3, "indexation": 0.4},
+    "preferences": {"budget:welfare": 1.0, "budget:defence": 0.5, "budget:education_health": 0.3, "indexation": 0.2},
     "conditions": {"unemployment": -0.05},
     "provenance": "estimate", "note": "About 15 million WWII and 4 million WWI veterans in 1949; the GI Bill and veterans' pensions sit in the welfare budget."
   },
@@ -256,7 +256,7 @@ model = {
       "tax:payroll": {"class": {"industrial": -0.3, "labour_service": -0.3, "clerical_sales": -0.3}},
       "tax:excise": {"*": {"*": -0.15}},
       "tax:corporate": {"class": {"business": -0.3}},
-      "indexation": {"class": {"retired": 0.2}}
+      "indexation": {"class": {"retired": 0.1}}
     },
     "provenance": "estimate",
     "note": "Truman's Gallup approval was 69% in January 1949, after his upset re-election. Party leaning follows the New Deal coalition: Catholics, Jews, Black voters, union households and the Solid South for the Democrats; Protestants outside the South, business, farm owners and suburbanites for the Republicans. Approval falls about a point a quarter in office (Mueller's 'coalition of minorities'), with each point of unemployment above 4.5% costing about three points among exposed groups. Calibration choices, tuned so 1949–52 can reproduce Truman's slide when events (Korea, scandals) arrive."
@@ -275,33 +275,33 @@ model = {
        "seats": {"house": 103, "senate": 22},
        "groups": {"segregationists": 0.4, "farmers": 0.25, "anticommunists": 0.15, "mic": 0.1, "churches": 0.1},
        "stances": {"budget:welfare": -0.3, "budget:education_health": -0.5, "budget:defence": 0.4, "budget:infrastructure": 0.3,
-                   "tax:income": -0.1, "indexation": -0.2}},
+                   "tax:income": -0.1, "tax:tariff": -0.3, "indexation": -0.1}},
       {"id": "northern_democrats", "label": "Northern Democrats", "party": "democratic", "base": "rest",
        "description": "The New Deal coalition outside the South: big-city machines, labour liberals and the ADA.",
        "seats": {"house": 161, "senate": 32},
        "groups": {"labour": 0.4, "civil_rights": 0.15, "intellectuals": 0.15, "churches": 0.1, "veterans": 0.1, "farmers": 0.05, "radical_left": 0.05},
-       "stances": {"budget:welfare": 0.3, "budget:education_health": 0.3, "budget:infrastructure": 0.2}},
+       "stances": {"budget:welfare": 0.3, "budget:education_health": 0.3, "budget:infrastructure": 0.2, "tax:tariff": -0.3}},
       {"id": "taft_republicans", "label": "Taft Republicans", "party": "republican", "base": "rest",
        "description": "The Old Guard of 'Mr Republican', Robert A. Taft: balanced budgets, low taxes, suspicion of foreign commitments.",
        "seats": {"house": 100, "senate": 24},
        "groups": {"small_business": 0.35, "isolationists": 0.25, "big_business": 0.15, "farmers": 0.15, "anticommunists": 0.1},
        "stances": {"budget:foreign_aid": -0.8, "budget:welfare": -0.6, "tax:income": -0.6, "budget:general_government": -0.6,
-                   "budget:defence": -0.1, "tax:tariff": 0.3, "indexation": -0.6}},
+                   "budget:defence": -0.1, "tax:tariff": 0.3, "tax:corporate": -0.4, "indexation": -0.3}},
       {"id": "internationalist_republicans", "label": "Internationalist Republicans", "party": "republican", "base": "rest",
        "description": "The Eastern wing of Dewey and Vandenberg: bipartisan foreign policy, business-friendly, accepting much of the New Deal.",
        "seats": {"house": 71, "senate": 18},
        "groups": {"big_business": 0.4, "anticommunists": 0.2, "small_business": 0.15, "farmers": 0.15, "veterans": 0.1},
-       "stances": {"budget:foreign_aid": 0.4, "budget:defence": 0.4, "tax:income": -0.4, "budget:welfare": -0.2}}
+       "stances": {"budget:foreign_aid": 0.4, "budget:defence": 0.4, "tax:income": -0.4, "tax:corporate": -0.3, "budget:welfare": -0.2}}
     ],
     "bills": {
       "salience": 6, "statusQuo": 1.5, "loyalty": 0.6, "opposition": 0.4, "ownFaction": 0.3,
-      "approvalPull": 0.02, "groupPull": 0.015, "capitalPerPoint": 0.03, "whipUncertainty": 0.04,
+      "approvalPull": 0.02, "groupPull": 0.015, "capitalPerPoint": 0.02, "whipUncertainty": 0.06,
       "provenance": "estimate",
-      "note": "81st Congress (1949–51): House 263 Democrats, 171 Republicans, 1 American Labor (counted with the Northern Democrats); Senate 54–42. The Southern Democrat–Republican 'Conservative Coalition' blocked most of the Fair Deal (national health insurance, repeal of Taft–Hartley, civil rights) while passing housing, minimum wage and Social Security expansions. Faction splits between Taft and internationalist Republicans are estimates. Bill parameters are calibration choices: a modest Fair Deal spending increase starts below even odds; capital can carry it."
+      "note": "81st Congress (1949–51): House 263 Democrats, 171 Republicans, 1 American Labor (counted with the Northern Democrats); Senate 54–42. The Southern Democrat–Republican 'Conservative Coalition' blocked most of the Fair Deal (national health insurance, repeal of Taft–Hartley, civil rights) while passing housing, minimum wage and Social Security expansions. Faction splits between Taft and internationalist Republicans are estimates. Bill parameters are calibration choices, set so that at the start a small change passes almost always, welfare +20% is about even (60%), doubling federal health and education money (the Fair Deal health push) is a long shot (~5%) that capital can lift, tax cuts and defence rises sail through while tax rises and defence cuts fail, and indexing the budget needs a great deal of capital. See docs/models/politics.md."
     }
   },
-  "capital": {"start": 30, "max": 100, "base": 3, "approvalRate": 12, "failurePenalty": 3, "newTerm": 40,
-              "note": "Political capital is a game abstraction (GDD): it regenerates with approval and is spent getting bills through Congress."},
+  "capital": {"start": 30, "max": 100, "base": 3, "approvalRate": 12, "failurePenalty": 3, "victoryBonus": 4, "newTerm": 40,
+              "note": "Political capital is a game abstraction (GDD): it regenerates with approval and victories, is spent getting bills through Congress, and drains with failures. A passed bill pays victoryBonus × its chance of failing, so long shots pay best and sure things nothing; with the failure penalty, trying bills never pays on average."},
   "elections": {
     "legislative": {"every": 2, "quarter": 4, "first": 1950},
     "executive": {"every": 4, "quarter": 4, "first": 1952, "maxTerms": 2},

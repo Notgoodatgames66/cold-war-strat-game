@@ -17,10 +17,10 @@ const newGame = () => createGame(content, 'usa-1949');
 const usa = () => newGame().nations.usa!;
 
 describe('levers', () => {
-  it('measures budget changes in log points, taxes per 10 points and indexation as a switch', () => {
+  it('measures budget changes in log points, taxes per 10 points and indexation as a switch worth 0.5', () => {
     expect(leverChange('budget:defence', 10, 20)).toBeCloseTo(Math.log(2), 10);
     expect(leverChange('tax:income', 8, 18)).toBeCloseTo(1, 10);
-    expect(leverChange('indexation', 0, 1)).toBe(1);
+    expect(leverChange('indexation', 0, 1)).toBe(0.5);
   });
 
   it('reads every budget line, tax and indexation from a Keynesian economy', () => {

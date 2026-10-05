@@ -386,7 +386,7 @@
    },
    "indexation": {
     "class": {
-     "retired": 0.2
+     "retired": 0.1
     }
    }
   },
@@ -447,7 +447,7 @@
     "tax:income": 0.1,
     "tax:payroll": -0.2,
     "tax:excise": -0.3,
-    "indexation": 0.6
+    "indexation": 0.3
    },
    "conditions": {
     "unemployment": -0.15,
@@ -488,7 +488,7 @@
     "tax:tariff": -0.3,
     "budget:general_government": -0.4,
     "budget:research": 0.2,
-    "indexation": -0.5
+    "indexation": -0.25
    },
    "conditions": {
     "real_growth": 0.08,
@@ -529,7 +529,7 @@
     "budget:general_government": -0.6,
     "tax:tariff": 0.2,
     "tax:excise": -0.3,
-    "indexation": -0.6
+    "indexation": -0.3
    },
    "conditions": {
     "unemployment": -0.05,
@@ -790,7 +790,7 @@
     "budget:welfare": 1.0,
     "budget:defence": 0.5,
     "budget:education_health": 0.3,
-    "indexation": 0.4
+    "indexation": 0.2
    },
    "conditions": {
     "unemployment": -0.05
@@ -1109,7 +1109,8 @@
      "budget:defence": 0.4,
      "budget:infrastructure": 0.3,
      "tax:income": -0.1,
-     "indexation": -0.2
+     "tax:tariff": -0.3,
+     "indexation": -0.1
     }
    },
    {
@@ -1134,7 +1135,8 @@
     "stances": {
      "budget:welfare": 0.3,
      "budget:education_health": 0.3,
-     "budget:infrastructure": 0.2
+     "budget:infrastructure": 0.2,
+     "tax:tariff": -0.3
     }
    },
    {
@@ -1161,7 +1163,8 @@
      "budget:general_government": -0.6,
      "budget:defence": -0.1,
      "tax:tariff": 0.3,
-     "indexation": -0.6
+     "tax:corporate": -0.4,
+     "indexation": -0.3
     }
    },
    {
@@ -1185,6 +1188,7 @@
      "budget:foreign_aid": 0.4,
      "budget:defence": 0.4,
      "tax:income": -0.4,
+     "tax:corporate": -0.3,
      "budget:welfare": -0.2
     }
    }
@@ -1197,10 +1201,10 @@
    "ownFaction": 0.3,
    "approvalPull": 0.02,
    "groupPull": 0.015,
-   "capitalPerPoint": 0.03,
-   "whipUncertainty": 0.04,
+   "capitalPerPoint": 0.02,
+   "whipUncertainty": 0.06,
    "provenance": "estimate",
-   "note": "81st Congress (1949–51): House 263 Democrats, 171 Republicans, 1 American Labor (counted with the Northern Democrats); Senate 54–42. The Southern Democrat–Republican 'Conservative Coalition' blocked most of the Fair Deal (national health insurance, repeal of Taft–Hartley, civil rights) while passing housing, minimum wage and Social Security expansions. Faction splits between Taft and internationalist Republicans are estimates. Bill parameters are calibration choices: a modest Fair Deal spending increase starts below even odds; capital can carry it."
+   "note": "81st Congress (1949–51): House 263 Democrats, 171 Republicans, 1 American Labor (counted with the Northern Democrats); Senate 54–42. The Southern Democrat–Republican 'Conservative Coalition' blocked most of the Fair Deal (national health insurance, repeal of Taft–Hartley, civil rights) while passing housing, minimum wage and Social Security expansions. Faction splits between Taft and internationalist Republicans are estimates. Bill parameters are calibration choices, set so that at the start a small change passes almost always, welfare +20% is about even (60%), doubling federal health and education money (the Fair Deal health push) is a long shot (~5%) that capital can lift, tax cuts and defence rises sail through while tax rises and defence cuts fail, and indexing the budget needs a great deal of capital. See docs/models/politics.md."
   }
  },
  "capital": {
@@ -1209,8 +1213,9 @@
   "base": 3,
   "approvalRate": 12,
   "failurePenalty": 3,
+  "victoryBonus": 4,
   "newTerm": 40,
-  "note": "Political capital is a game abstraction (GDD): it regenerates with approval and is spent getting bills through Congress."
+  "note": "Political capital is a game abstraction (GDD): it regenerates with approval and victories, is spent getting bills through Congress, and drains with failures. A passed bill pays victoryBonus × its chance of failing, so long shots pay best and sure things nothing; with the failure penalty, trying bills never pays on average."
  },
  "elections": {
   "legislative": {

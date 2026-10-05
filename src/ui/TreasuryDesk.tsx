@@ -3,31 +3,53 @@
  *
  * Changes are drafted here and only take effect when the turn ends. Budget
  * changes then phase in over several quarters; tax changes apply at once.
+ * Where the nation has a legislature, every change is a bill: the desk shows
+ * the engine's odds and lets the player spend political capital on it.
  */
 
 import type { EconomyState, TaxId } from '../sim/economy/types';
 import { content } from '../sim/loadContent';
+import type { BillPreview } from '../sim/politics/bills';
+import type { PoliticsModelData, PoliticsState } from '../sim/politics/types';
 import type { PlayerOrders } from '../sim/schema';
+import { BillStrip, LastBills } from './BillPanels';
+
+export interface CongressView {
+  model: PoliticsModelData;
+  politics: PoliticsState;
+  /** The engine's odds for the drafted changes (sim/orders.ts proposedBills). */
+  bills: BillPreview[];
+}
 
 interface Props {
   economy: EconomyState;
   gdpNominal: number;
   draft: PlayerOrders;
   onDraft(next: PlayerOrders): void;
+  congress?: CongressView | null;
 }
 
 const money = (v: number) => `$${v.toFixed(1)} bn`;
 const pct = (v: number) => `${v.toFixed(1)}%`;
 
-export function TreasuryDesk({ economy, gdpNominal, draft, onDraft }: Props) {
+export function TreasuryDesk({ economy, gdpNominal, draft, onDraft, congress }: Props) {
   const setBudget = (id: string, value: number) =>
     onDraft({ ...draft, budget: { ...draft.budget, [id]: value } });
   const setTax = (id: string, value: number) => onDraft({ ...draft, taxes: { ...draft.taxes, [id]: value } });
+  const setCapital = (lever: string, value: number) => onDraft({ ...draft, capital: { ...draft.capital, [lever]: value } });
   const indexed = draft.budgetIndexed ?? economy.budgetIndexed;
   const pending =
     Object.keys(draft.budget ?? {}).length +
     Object.keys(draft.taxes ?? {}).length +
     (draft.budgetIndexed !== undefined ? 1 : 0);
+  const bills = congress?.bills ?? [];
+  const available = congress ? Math.floor(congress.politics.capital) : 0;
+  const committed = bills.reduce((s, b) => s + b.capital, 0);
+  const left = available - committed;
+  const bill = (lever: string) => {
+    const b = bills.find((x) => x.lever === lever);
+    return b && congress ? <BillStrip bill={b} model={congress.model} left={left} onCapital={(v) => setCapital(lever, v)} /> : null;
+  };
 
   return (
     <section className="treasury" aria-labelledby="treasury-title">
@@ -41,9 +63,30 @@ export function TreasuryDesk({ economy, gdpNominal, draft, onDraft }: Props) {
           </button>
         )}
       </div>
-      <p className="treasury__hint">
-        Changes take effect when you end the turn. Budget changes phase in over a few quarters; taxes change at once.
-      </p>
+      {congress ? (
+        <>
+          <p className="treasury__hint">
+            Every change is a bill. When you end the turn {congress.model.legislature.label} votes, and only what passes takes effect. Spend political capital to
+            win votes: it is spent whether the bill passes or not, and a defeat costs {congress.model.capital.failurePenalty} more. Budget changes phase in over a few
+            quarters; taxes change at once.
+          </p>
+          <p className="treasury__capital">
+            <span className="eyebrow">Political capital</span>
+            <strong>{available}</strong> available
+            {committed > 0 && (
+              <>
+                {' · '}
+                <strong>{committed}</strong> committed · <strong>{left}</strong> left
+              </>
+            )}
+          </p>
+          {congress.politics.lastBills.length > 0 && <LastBills model={congress.model} bills={congress.politics.lastBills} />}
+        </>
+      ) : (
+        <p className="treasury__hint">
+          Changes take effect when you end the turn. Budget changes phase in over a few quarters; taxes change at once.
+        </p>
+      )}
 
       <label className="treasury__index">
         <input
@@ -56,6 +99,7 @@ export function TreasuryDesk({ economy, gdpNominal, draft, onDraft }: Props) {
           growth and inflation. Off: budgets stay fixed in dollars, so inflation and growth shrink them.
         </span>
       </label>
+      {bill('indexation')}
 
       <div className="treasury__columns">
         <fieldset className="levers">
@@ -86,6 +130,7 @@ export function TreasuryDesk({ economy, gdpNominal, draft, onDraft }: Props) {
                   {pct((value / gdpNominal) * 100)} of GDP
                   {Math.abs(effective - target) > 0.05 && ` · spending ${money(effective)} now, phasing in`}
                 </p>
+                {bill(`budget:${line.id}`)}
               </div>
             );
           })}
@@ -116,6 +161,7 @@ export function TreasuryDesk({ economy, gdpNominal, draft, onDraft }: Props) {
                   onChange={(e) => setTax(line.id, Number(e.target.value))}
                 />
                 <p className="lever__note">Raised {money(receipts)} last quarter (annual rate)</p>
+                {bill(`tax:${line.id}`)}
               </div>
             );
           })}

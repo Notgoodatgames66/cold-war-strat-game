@@ -192,11 +192,12 @@ export function validatePoliticsModel(
     else
       for (const f of ['salience', 'statusQuo', 'loyalty', 'opposition', 'ownFaction', 'approvalPull', 'groupPull', 'capitalPerPoint', 'whipUncertainty'] as const)
         if (!isNum((leg.bills as Obj)[f])) err(`legislature.bills.${f} must be a number`);
+    if (isObj(leg.bills) && !((leg.bills as Obj).whipUncertainty as number > 0)) err('legislature.bills.whipUncertainty must be above zero');
   }
 
   // Capital
-  if (!isObj(raw.capital) || !['start', 'max', 'base', 'approvalRate', 'failurePenalty', 'newTerm'].every((k) => isNum((raw.capital as Obj)[k])))
-    err('capital needs start, max, base, approvalRate, failurePenalty and newTerm');
+  if (!isObj(raw.capital) || !['start', 'max', 'base', 'approvalRate', 'failurePenalty', 'victoryBonus', 'newTerm'].every((k) => isNum((raw.capital as Obj)[k])))
+    err('capital needs start, max, base, approvalRate, failurePenalty, victoryBonus and newTerm');
 
   // Leader
   const leader = raw.leader;

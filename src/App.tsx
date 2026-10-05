@@ -9,6 +9,7 @@ import { EconomyScreen } from './ui/EconomyScreen';
 import { EngineRoom } from './ui/EngineRoom';
 import { FilingCabinet } from './ui/FilingCabinet';
 import { IndustryScreen } from './ui/IndustryScreen';
+import { billsStatus } from './ui/bills';
 import { formatStat } from './ui/format';
 import { resolveTurn } from './ui/simClient';
 import { PoliticsScreen } from './ui/PoliticsScreen';
@@ -86,8 +87,9 @@ export function App() {
       setGame(next);
       setDraft({});
       const orders = countOrders(draft);
+      const congress = billsStatus(next.nations[next.playerNation]?.politics?.lastBills ?? []);
       setStatus(
-        `${formatDate(game.date)} resolved${orders ? ` with ${orders} order${orders === 1 ? '' : 's'}` : ''}. It is now ${formatDateLong(next.date)}.`,
+        `${formatDate(game.date)} resolved${orders ? ` with ${orders} order${orders === 1 ? '' : 's'}` : ''}.${congress ? ` ${congress}` : ''} It is now ${formatDateLong(next.date)}.`,
       );
     } catch (err) {
       setStatus(`The turn could not be resolved: ${err instanceof Error ? err.message : String(err)}`);

@@ -1247,6 +1247,17 @@ a:hover {
   }
 }
 
+/* Six tabs do not fit one row on a phone: two rows of three. */
+@media (max-width: 480px) {
+  .dock__tabs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .dock__tab {
+    min-width: 0;
+  }
+}
+
 @media (max-width: 520px) {
   .engine__log li {
     grid-template-columns: 64px 1fr;
@@ -1738,6 +1749,226 @@ a:hover {
   margin: 0;
   font-size: 11px;
   color: var(--ink-faint);
+}
+
+/* ---- Bills (Treasury desk) ------------------------------------------------ */
+
+.treasury__capital {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 0 0 14px;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+.treasury__capital strong {
+  font-family: var(--mono);
+  font-weight: 500;
+  color: var(--accent-bright);
+}
+
+.bill {
+  --bill-tone: var(--amber);
+  margin-top: 8px;
+  padding: 8px 10px;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--bill-tone);
+  display: grid;
+  gap: 6px;
+}
+
+.bill--good {
+  --bill-tone: var(--good);
+}
+
+.bill--bad {
+  --bill-tone: var(--bad);
+}
+
+.bill__row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.bill__tag,
+.bill__label {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.bill__meter {
+  flex: 1;
+  min-width: 60px;
+  height: 6px;
+  background: var(--meter-track, #1a2a3a);
+  position: relative;
+}
+
+.bill__meter span {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: var(--bill-tone);
+}
+
+.bill__odds {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-bright);
+  white-space: nowrap;
+}
+
+.bill__capital {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bill__step {
+  width: 32px;
+  height: 32px;
+  background: none;
+  border: 1px solid var(--line-strong);
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.bill__step:hover:not(:disabled) {
+  border-color: var(--accent);
+  background: rgba(111, 208, 224, 0.08);
+}
+
+.bill__step:disabled {
+  color: var(--ink-faint);
+  cursor: default;
+  opacity: 0.5;
+}
+
+.bill__spent {
+  min-width: 2.5ch;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--accent-bright);
+}
+
+.bill__more {
+  min-height: 32px;
+  background: none;
+  border: none;
+  padding: 0 4px;
+  color: var(--accent);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.bill__more:hover {
+  color: var(--accent-bright);
+  text-decoration: underline;
+}
+
+.bill__factions {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.bill__factions li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) 70px 58px;
+  align-items: center;
+  font-size: 12px;
+}
+
+.bill__faction {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bill__bar {
+  height: 5px;
+  background: var(--meter-track, #1a2a3a);
+  position: relative;
+}
+
+.bill__bar span {
+  position: absolute;
+  inset: 0 auto 0 0;
+}
+
+.bill__yes {
+  text-align: right;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-soft);
+}
+
+.bill__chambers {
+  margin: 6px 0 0;
+  font-size: 11px;
+  color: var(--ink-faint);
+}
+
+.lastbills {
+  margin: 0 0 16px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  background: var(--panel-2);
+}
+
+.lastbills ul {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.lastbills li {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr);
+  column-gap: 10px;
+  font-size: 13px;
+}
+
+.lastbills__verdict {
+  grid-row: span 2;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding-top: 3px;
+}
+
+.lastbills .is-passed .lastbills__verdict {
+  color: var(--good);
+}
+
+.lastbills .is-failed .lastbills__verdict {
+  color: var(--bad);
+}
+
+.lastbills__tally {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-faint);
+}
+
+.factions .lastbills {
+  margin: 14px 0 0;
 }
 
 /* ---- Industry screen ----------------------------------------------------- */
