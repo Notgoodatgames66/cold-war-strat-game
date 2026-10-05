@@ -101,7 +101,10 @@ export interface InterestGroupData {
 
 export interface PartyData {
   id: string;
+  /** Adjective, e.g. "Democratic". */
   label: string;
+  /** What its members are called, e.g. "Democrats". */
+  members: string;
 }
 
 export interface FactionData {
@@ -189,6 +192,8 @@ export interface ElectionsData {
   swingRatio: number;
   /** Standard deviation of the national swing (log-odds), rolled with the seeded RNG. */
   noise: number;
+  /** Standard deviation of each region's own swing on top of the national one (log-odds). */
+  regionNoise: number;
   /** Incumbents run again only with at least this approval (percent). */
   retireBelow: number;
   /** Party vote two-party share at the start (calibration target for party leaning). */
@@ -263,6 +268,8 @@ export interface ElectionResult {
   /** Executive races: the candidates, the winner and electoral votes. */
   candidates?: { name: string; party: string; electoral: number; vote: number }[];
   winner?: string;
+  /** First-party share of the two-party vote by region (pop-model order; −1 where nobody voted). */
+  regionVote?: number[];
 }
 
 export interface PoliticsState {

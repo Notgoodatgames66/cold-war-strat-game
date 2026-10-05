@@ -22,6 +22,8 @@ export interface MapMeasure {
   minSpan?: number;
   /** For diverging measures: which side is blue. */
   positive?: 'high' | 'low';
+  /** Colours to use instead of the default ramp (low to high). */
+  palette?: string[];
 }
 
 const SEQUENTIAL = ['#15263a', '#1d3651', '#28496b', '#365f88', '#4b79a6', '#6a98c4', '#93bde0'];
@@ -34,14 +36,19 @@ function span(m: MapMeasure, min: number, max: number): number {
 
 export function colourFor(m: MapMeasure, v: number, min: number, max: number): string {
   if (m.diverging) {
+    const ramp = m.palette ?? DIVERGING;
     const c = m.center ?? 0;
     let t = ((v - c) / span(m, min, max) + 1) / 2;
     if (m.positive === 'low') t = 1 - t;
-    return DIVERGING[Math.min(DIVERGING.length - 1, Math.max(0, Math.floor(t * DIVERGING.length)))]!;
+    return ramp[Math.min(ramp.length - 1, Math.max(0, Math.floor(t * ramp.length)))]!;
   }
+  const ramp = m.palette ?? SEQUENTIAL;
   const t = max > min ? (v - min) / (max - min) : 0.5;
-  return SEQUENTIAL[Math.min(SEQUENTIAL.length - 1, Math.floor(t * SEQUENTIAL.length))]!;
+  return ramp[Math.min(ramp.length - 1, Math.floor(t * ramp.length))]!;
 }
+
+/** Winner-take-all colours: every state clearly red or blue, deeper with a wider margin. */
+export const ELECTION_PALETTE = ['#c0574b', '#a04a40', '#823e36', '#66332d', '#284c6e', '#356390', '#4f80b0', '#7fb3dd'];
 
 /** Whether the model's regions are the US states. */
 export function hasStateMap(model: PopModelData): boolean {
@@ -72,7 +79,8 @@ export function StateMap({ model, measures, initial, eyebrow = 'By state' }: Pro
   const c = measure.center ?? 0;
   const s = span(measure, min, max);
   const stops = measure.diverging ? [c - s, c, c + s] : [min, (min + max) / 2, max];
-  const ramp = measure.diverging && measure.positive === 'low' ? [...DIVERGING].reverse() : measure.diverging ? DIVERGING : SEQUENTIAL;
+  const base = measure.palette ?? (measure.diverging ? DIVERGING : SEQUENTIAL);
+  const ramp = measure.diverging && measure.positive === 'low' ? [...base].reverse() : base;
 
   return (
     <figure className="panel statemap">

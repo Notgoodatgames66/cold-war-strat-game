@@ -947,11 +947,13 @@
   "parties": [
    {
     "id": "democratic",
-    "label": "Democratic"
+    "label": "Democratic",
+    "members": "Democrats"
    },
    {
     "id": "republican",
-    "label": "Republican"
+    "label": "Republican",
+    "members": "Republicans"
    }
   ],
   "chambers": [
@@ -1229,11 +1231,12 @@
    "first": 1952,
    "maxTerms": 2
   },
-  "approvalEffect": 0.013,
+  "approvalEffect": 0.009,
   "midtermPenalty": 0.07,
   "incumbency": 0.15,
   "swingRatio": 2.0,
-  "noise": 0.05,
+  "noise": 0.1,
+  "regionNoise": 0.08,
   "retireBelow": 40,
   "normalVote": 0.535,
   "electoralBonus": 2,
@@ -1645,6 +1648,6 @@
    }
   },
   "provenance": "estimate",
-  "note": "House elections every two years and presidential elections every four, resolved in the fourth quarter (November). Swing ratio about 2 (Tufte): a point of vote is worth about two points of seats. Each point of presidential approval above 50% is worth about 0.3 points of vote to his party; the president's party loses about two points in midterms. The Solid South's seats only change hands if white Southerners' Democratic loyalty breaks. Nominees are the historical ones unless an eligible incumbent with at least 40% approval runs again; personal appeal values are estimates. Seats are reapportioned from the pops after each census (Huntington–Hill), effective at the next election. Alaska and Hawaii are not modelled, so the Electoral College has 531 votes (534 once DC votes from 1964)."
+  "note": "House elections every two years and presidential elections every four, resolved in the fourth quarter (November). Swing ratio about 2 (Tufte): a point of vote is worth about two points of seats. Beyond what approval explains, the national swing has a standard deviation of about 2.5 points of vote (0.1 log-odds) and each state its own of about 2 points (0.08). Each point of presidential approval above 50% is worth about 0.22 points of vote to his party (between Tufte's 1975 midterm model, about 0.13, and Abramowitz's presidential model, about 0.22 per point of net approval… halved for approval alone); the president's party loses about two points in midterms. The Solid South's seats only change hands if white Southerners' Democratic loyalty breaks. Nominees are the historical ones unless an eligible incumbent with at least 40% approval runs again; personal appeal values are estimates. Seats are reapportioned from the pops after each census (Huntington–Hill), effective at the next election. Alaska and Hawaii are not modelled, so the Electoral College has 531 votes (534 once DC votes from 1964)."
  }
 }

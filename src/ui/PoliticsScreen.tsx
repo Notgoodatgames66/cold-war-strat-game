@@ -17,8 +17,9 @@ import type { PopModelData } from '../sim/pops/types';
 import type { GameState, NationState } from '../sim/schema';
 import { formatDate } from '../sim/time';
 import { LineChart, type ChartPoint } from './LineChart';
-import { StateMap, hasStateMap, type MapMeasure } from './StateMap';
+import { ELECTION_PALETTE, StateMap, hasStateMap, type MapMeasure } from './StateMap';
 import { factionColours } from './bills';
+import { partySeats } from './elections';
 import { LastBills } from './BillPanels';
 
 interface Props {
@@ -65,8 +66,8 @@ function Politics({ game, nation, politics, model, popModel }: InnerProps) {
           <p className="eyebrow">Politics · {nation.shortName}</p>
           <h2 className="section-title">The President and the people</h2>
           <p className="population__lead">
-            {nation.government.leader.title} {politics.leader.name} ({partyLabel(politics.leader.party)}), quarter {politics.leader.quartersInOffice + 1} of
-            his term. Approval counts adults who may vote; most Black Southerners could not.
+            {nation.government.leader.title} {politics.leader.name} ({partyLabel(politics.leader.party)}), quarter {politics.leader.quartersInOffice + 1} in
+            office. Approval counts adults who may vote; most Black Southerners could not.
           </p>
         </div>
       </header>
@@ -75,7 +76,7 @@ function Politics({ game, nation, politics, model, popModel }: InnerProps) {
         <Figure label="Approval" value={pct(politics.approval)} note={change(game, nation.id, 'approval')} tone={politics.approval >= 0.5 ? 'good' : 'bad'} />
         <Figure label="Political capital" value={politics.capital.toFixed(0)} note={`${regen >= 0 ? '+' : '−'}${Math.abs(regen).toFixed(1)} a quarter`} />
         {model.legislature.chambers.map((ch) => (
-          <Figure key={ch.id} label={`${ch.label} seats held`} value={`${seatsHeld(ch.id)} of ${ch.seats}`} note={`${partyLabel(politics.leader.party)}s`} />
+          <Figure key={ch.id} label={`${ch.label} seats held`} value={`${seatsHeld(ch.id)} of ${ch.seats}`} note={model.legislature.parties.find((p) => p.id === politics.leader.party)?.members ?? ''} />
         ))}
         {next && <Figure label="Next election" value={next.when} note={next.what} />}
       </dl>
@@ -113,6 +114,8 @@ function Politics({ game, nation, politics, model, popModel }: InnerProps) {
       </section>
 
       <Congress politics={politics} model={model} />
+
+      {politics.elections.length > 0 && <Elections politics={politics} model={model} />}
 
       <section aria-labelledby="pol-trends">
         <h3 id="pol-trends" className="section-title">
@@ -237,7 +240,8 @@ function OpinionPanels({ nation, politics, model, popModel }: InnerProps) {
         format: (x) => pct(x),
         diverging: true,
         center: 0.5,
-        minSpan: 0.15,
+        minSpan: 0.2,
+        palette: ELECTION_PALETTE,
       });
     }
     return list;
@@ -275,7 +279,7 @@ function OpinionPanels({ nation, politics, model, popModel }: InnerProps) {
         ))}
         {national !== null && (
           <p className="approvalby__vote">
-            If Congress were elected today, {model.legislature.parties[0]!.label}s would take about <strong>{pct(national)}</strong> of the two-party vote.
+            If Congress were elected today, {model.legislature.parties[0]!.members} would take about <strong>{pct(national)}</strong> of the two-party vote.
           </p>
         )}
       </div>
@@ -368,6 +372,63 @@ function Congress({ politics, model }: { politics: PoliticsState; model: Politic
           <p className="industry__note">Hover a faction for its outlook. Bills need a majority in both chambers.</p>
           {politics.lastBills.length > 0 && <LastBills model={model} bills={politics.lastBills} />}
         </div>
+      </div>
+    </section>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// The record of elections
+// ---------------------------------------------------------------------------
+
+function Elections({ politics, model }: { politics: PoliticsState; model: PoliticsModelData }) {
+  const first = model.legislature.parties[0]!;
+  const signed = (n: number) => (n > 0 ? `+${n}` : n < 0 ? `−${-n}` : '±0');
+  return (
+    <section aria-labelledby="elections-title">
+      <h3 id="elections-title" className="section-title">
+        Elections
+      </h3>
+      <div className="panel table-scroll">
+        <table className="sheet elections">
+          <thead>
+            <tr>
+              <th scope="col">Year</th>
+              <th scope="col" className="num">
+                {first.label} vote
+              </th>
+              {model.legislature.chambers.map((ch) => (
+                <th key={ch.id} scope="col" className="num">
+                  {first.members} in the {ch.label}
+                </th>
+              ))}
+              <th scope="col">White House</th>
+            </tr>
+          </thead>
+          <tbody>
+            {[...politics.elections].reverse().map((r) => {
+              const w = r.candidates?.find((c) => c.name === r.winner);
+              const l = r.candidates?.find((c) => c.name !== r.winner);
+              return (
+                <tr key={`${r.year}-${r.kind}`}>
+                  <th scope="row">
+                    {r.year} <span className="elections__kind">{r.kind === 'executive' ? 'presidential' : 'midterm'}</span>
+                  </th>
+                  <td className="num">{(r.vote * 100).toFixed(1)}%</td>
+                  {model.legislature.chambers.map((ch) => {
+                    const p = partySeats(model, r, ch.id, first.id);
+                    return (
+                      <td key={ch.id} className="num">
+                        {p.seats} <span className={`elections__change ${p.change > 0 ? 'is-up' : p.change < 0 ? 'is-down' : ''}`}>{signed(p.change)}</span>
+                      </td>
+                    );
+                  })}
+                  <td>{w && l ? `${w.name} ${w.electoral}–${l.electoral} over ${l.name}` : '—'}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       </div>
     </section>
   );

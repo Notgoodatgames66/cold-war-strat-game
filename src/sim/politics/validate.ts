@@ -136,6 +136,9 @@ export function validatePoliticsModel(
   // Parties and groups
   const leg = raw.legislature;
   const parties = new Set<string>(isObj(leg) && Array.isArray(leg.parties) ? (leg.parties as Obj[]).map((p) => p.id as string) : []);
+  if (isObj(leg) && Array.isArray(leg.parties))
+    for (const p of leg.parties as unknown[])
+      if (!isObj(p) || !isStr(p.id) || !isStr(p.label) || !isStr(p.members)) err('each party needs an id, a label and what its members are called');
   const groupIds = new Set<string>();
   if (!Array.isArray(raw.interestGroups) || raw.interestGroups.length === 0) err('interestGroups must list at least one group');
   else
@@ -208,8 +211,15 @@ export function validatePoliticsModel(
   if (el !== undefined) {
     if (!isObj(el)) err('elections must be an object');
     else {
-      for (const f of ['approvalEffect', 'midtermPenalty', 'incumbency', 'swingRatio', 'noise', 'retireBelow', 'normalVote', 'electoralBonus'] as const)
+      for (const f of ['approvalEffect', 'midtermPenalty', 'incumbency', 'swingRatio', 'noise', 'regionNoise', 'retireBelow', 'normalVote', 'electoralBonus'] as const)
         if (!isNum(el[f])) err(`elections.${f} must be a number`);
+      for (const k of ['legislative', 'executive'] as const) {
+        const s = el[k];
+        if (!isObj(s) || !isNum(s.every) || !isNum(s.quarter) || !isNum(s.first) || (s.every as number) < 1 || ![1, 2, 3, 4].includes(s.quarter as number))
+          err(`elections.${k} needs every (≥ 1), quarter (1–4) and first`);
+      }
+      if (!Array.isArray(el.censusYears) || !el.censusYears.every(isNum)) err('elections.censusYears must list years');
+      if (parties.size !== 2) err('elections need exactly two parties (the seat and electoral models are two-party)');
       if (!isObj(el.nominees)) err('elections.nominees must be an object');
       else
         for (const [year, byParty] of Object.entries(el.nominees)) {

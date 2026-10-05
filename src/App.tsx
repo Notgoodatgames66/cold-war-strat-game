@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { content } from './sim/loadContent';
 import { deserializeGame, serializeGame } from './sim/save';
+import type { ElectionResult } from './sim/politics/types';
 import type { GameState, PlayerOrders } from './sim/schema';
 import { formatDate, formatDateLong } from './sim/time';
 import { canAdvance, totalTurns } from './sim/turn';
@@ -10,6 +11,8 @@ import { EngineRoom } from './ui/EngineRoom';
 import { FilingCabinet } from './ui/FilingCabinet';
 import { IndustryScreen } from './ui/IndustryScreen';
 import { billsStatus } from './ui/bills';
+import { ElectionEvent } from './ui/ElectionEvent';
+import { electionStatus } from './ui/elections';
 import { formatStat } from './ui/format';
 import { resolveTurn } from './ui/simClient';
 import { PoliticsScreen } from './ui/PoliticsScreen';
@@ -66,6 +69,7 @@ export function App() {
   const [draft, setDraft] = useState<PlayerOrders>({});
   const [tab, setTab] = useState<TabId>('situation');
   const [showOpening, setShowOpening] = useState(initial.isNew);
+  const [election, setElection] = useState<{ result: ElectionResult; previous: { name: string; party: string } } | null>(null);
 
   const scenario = content.scenarios[game.scenarioId];
   const player = game.nations[game.playerNation];
@@ -87,10 +91,18 @@ export function App() {
       setGame(next);
       setDraft({});
       const orders = countOrders(draft);
-      const congress = billsStatus(next.nations[next.playerNation]?.politics?.lastBills ?? []);
+      const politicsBefore = game.nations[game.playerNation]?.politics;
+      const politicsAfter = next.nations[next.playerNation]?.politics;
+      const model = politicsAfter ? content.politics[politicsAfter.model] : undefined;
+      const congress = billsStatus(politicsAfter?.lastBills ?? []);
+      const held = politicsAfter?.elections.slice(politicsBefore?.elections.length ?? 0) ?? [];
+      const previous = politicsBefore ? { name: politicsBefore.leader.name, party: politicsBefore.leader.party } : { name: '', party: '' };
+      const voted = model ? held.map((r) => electionStatus(model, r, previous.name)).join(' ') : '';
       setStatus(
-        `${formatDate(game.date)} resolved${orders ? ` with ${orders} order${orders === 1 ? '' : 's'}` : ''}.${congress ? ` ${congress}` : ''} It is now ${formatDateLong(next.date)}.`,
+        `${formatDate(game.date)} resolved${orders ? ` with ${orders} order${orders === 1 ? '' : 's'}` : ''}.${congress ? ` ${congress}` : ''}${voted ? ` ${voted}` : ''} It is now ${formatDateLong(next.date)}.`,
       );
+      const presidential = held.find((r) => r.kind === 'executive');
+      if (presidential) setElection({ result: presidential, previous });
     } catch (err) {
       setStatus(`The turn could not be resolved: ${err instanceof Error ? err.message : String(err)}`);
     } finally {
@@ -100,6 +112,7 @@ export function App() {
 
   const load = (next: GameState, message: string) => {
     setGame(next);
+    setElection(null);
     setDraft({});
     setLastMs(null);
     setStatus(message);
@@ -223,6 +236,7 @@ export function App() {
       </nav>
 
       {showOpening && scenario?.opening && <SuperEvent event={scenario.opening} onClose={() => setShowOpening(false)} />}
+      {election && <ElectionEvent game={game} result={election.result} previous={election.previous} onClose={() => setElection(null)} />}
     </div>
   );
 }

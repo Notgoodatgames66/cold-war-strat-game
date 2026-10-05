@@ -1,10 +1,11 @@
 /**
  * A full-screen "super-event": the presentation for the moments that change
- * the game. For now it opens a new game; the Phase 3 events engine will use it
- * for the big ones (the Soviet bomb, Korea, Sputnik).
+ * the game. It opens a new game and announces presidential elections; the
+ * Phase 3 events engine will use it for the big ones (the Soviet bomb, Korea,
+ * Sputnik). An optional figure (a map, a chart) sits between text and button.
  */
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, type ReactNode } from 'react';
 
 export interface SuperEventContent {
   kicker: string;
@@ -17,9 +18,10 @@ export interface SuperEventContent {
 interface Props {
   event: SuperEventContent;
   onClose(): void;
+  children?: ReactNode;
 }
 
-export function SuperEvent({ event, onClose }: Props) {
+export function SuperEvent({ event, onClose, children }: Props) {
   const button = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -49,6 +51,7 @@ export function SuperEvent({ event, onClose }: Props) {
             <cite>{event.quote.source}</cite>
           </blockquote>
         )}
+        {children && <div className="superevent__figure">{children}</div>}
         <button ref={button} type="button" className="btn btn--primary superevent__action" onClick={onClose}>
           {event.action}
         </button>

@@ -2670,3 +2670,47 @@ a:hover {
     grid-template-columns: 1fr;
   }
 }
+
+/* ---- Super-event figure (election maps) ------------------------------- */
+
+.superevent__figure {
+  margin: 18px 0 26px;
+}
+
+.superevent__figure .statemap {
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+}
+
+/* ---- Election record (Politics tab) ------------------------------------ */
+
+.elections__kind {
+  margin-left: 6px;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.elections__change {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-faint);
+}
+
+.elections__change.is-up {
+  color: var(--ally);
+}
+
+.elections__change.is-down {
+  color: var(--rival);
+}
+
+.elections th,
+.elections td {
+  padding: 8px 14px;
+}
+
+.elections td:last-child {
+  text-align: left;
+}

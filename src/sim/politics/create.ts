@@ -112,15 +112,19 @@ export function createPolitics(model: PoliticsModelData, popModel: PopModelData,
       (x) => blocVotes(model, popModel, votesByRegion(model, popModel, pops, x, 0)).all,
       el.normalVote,
     );
-    // Seats–votes curve per bloc, so the starting vote reproduces the starting seats.
+    // Seats–votes curve per chamber and bloc, so the starting vote reproduces the starting seats.
+    // The first chamber's bias is also stored under the bloc alone.
     const v = blocVotes(model, popModel, votesByRegion(model, popModel, pops, politics.calib.voteIntercept, 0));
-    const chamber = model.legislature.chambers[0]!.id;
-    const firstSeats = firstPartySeatsByBloc(model, seats[chamber]!);
-    const total = blocSeats(model, popModel, apportionment[chamber]!);
-    for (const bloc of ['core', 'rest'] as const) {
-      const share = Math.min(0.995, Math.max(0.005, firstSeats[bloc] / total[bloc]));
-      politics.calib.seatBias[bloc] = logit(share) - el.swingRatio * logit(v[bloc]);
-    }
+    model.legislature.chambers.forEach((ch, ci) => {
+      const firstSeats = firstPartySeatsByBloc(model, seats[ch.id]!);
+      const total = blocSeats(model, popModel, apportionment[ch.id]!);
+      for (const bloc of ['core', 'rest'] as const) {
+        const share = Math.min(0.995, Math.max(0.005, firstSeats[bloc] / total[bloc]));
+        const bias = logit(share) - el.swingRatio * logit(v[bloc]);
+        politics.calib.seatBias[`${ch.id}:${bloc}`] = bias;
+        if (ci === 0) politics.calib.seatBias[bloc] = bias;
+      }
+    });
   }
 
   // Interest groups: intercepts that reproduce their starting approval.
