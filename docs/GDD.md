@@ -227,7 +227,11 @@ US politics is modelled through congressional factions, interest groups and stat
 
 **Presidents.** Each president has traits that tilt the cost of policies. A Taft-style Republican does not forbid a Marshall Plan, but Congress resists harder and the White House gives no boost. You can influence primaries, conventions and elections through Decision Sequences, shifting odds without fixing results.
 
-**Interest groups** (Victoria 3 style): organised labour, big business, farmers, the military-industrial complex, Southern segregationists, the civil rights movement, churches, anti-communists, and more. Each has approval, clout and demands, and clout changes over time and with your decisions.
+**Interest groups** (Victoria 3 style): organised labour, big business, small business, farmers, the military-industrial complex, Southern segregationists, the civil rights movement, churches, anti-communists, veterans, isolationists, intellectuals, and a fringe radical left (the Old Left in 1949, later the New Left, SDS and the Black Panthers). Each has approval, clout and demands, and clout changes over time and with your decisions. Members come from the pops.
+
+**Bills.** Every policy change the player orders is a bill. Each faction weighs it by what its interest groups and its own tradition want, resists change, follows or opposes its party's leader, and is swayed by his approval. The player sees the odds and can spend political capital to raise them; the vote is rolled at turn end, and failures cost capital.
+
+**Elections.** Congress every two years and the presidency every four, on the historical calendar. Pops vote by party leaning plus a national tide from approval, the midterm penalty, incumbency and the nominees' appeal; seats follow a seats–votes curve, and presidents are chosen state by state in the Electoral College. The House is reapportioned from the pops after each census. Nominees are historical until primaries and Decision Sequences arrive. The model is described in `docs/models/politics.md`.
 
 **Clout** combines money, numbers and organisation. The poor have little money to lobby with but can gain influence through unions, churches, protest and mass voting.
 
@@ -432,7 +436,7 @@ The interface has one fixed look for the whole game, **Night Desk** (decided by 
 
 Type: **Gloock** for headlines, dates and nation names; **Source Serif 4** for prose, events and briefings; **IBM Plex Mono** for every number, label and control. The fonts ship with the game rather than loading from Google. Colours: blues for the West, reds for the East, ochre for contested ground, amber for alerts. Simple, stylistic and fast is still the rule.
 
-**Super-events.** The biggest moments (the Soviet bomb, Korea, Sputnik, the Cuban crisis) are shown full-screen, TNO-style, with a headline, prose and a period quote. The frame exists (it opens a new game); the Phase 3 events engine will use it.
+**Super-events.** The biggest moments (the Soviet bomb, Korea, Sputnik, the Cuban crisis) are shown full-screen, TNO-style, with a headline, prose and a period quote. The frame exists: it opens a new game and announces each presidential election with the electoral map; the Phase 3 events engine will use it for the rest.
 
 **Icons.** A custom pixel icon set, not emoji, because emoji render differently on every operating system.
 
@@ -502,7 +506,7 @@ Development runs in five phases, each ending in a playable build. Most of the ti
 
 The gate is what the build must pass before the next phase begins.
 
-**Status:** Phases 1 and 2 complete: the Phase 2 gate (1949–55 playable) is passed. Phase 3 is next (see CLAUDE.md for the live status).
+**Status:** Phases 1 and 2 complete: the Phase 2 gate (1949–55 playable) is passed. Phase 3 is under way: pops (US and Soviet) and US politics (opinion, interest groups, Congress and bills, elections) are built; the events engine is next (see CLAUDE.md for the live status).
 
 ## 🛠️ Build guide for a first-time developer
 

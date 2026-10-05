@@ -202,7 +202,11 @@ model = {
     {"label": "Southern Regional Council, Black voter registration estimates (1947–1968)"},
     {"label": "Statistical Abstract of the United States 1952: union membership, voting, apportionment"},
     {"label": "Mueller, War, Presidents and Public Opinion (1973): approval decay and rally effects"},
-    {"label": "Tufte, 'The Relationship between Seats and Votes in Two-Party Systems' (1973): swing ratio"}
+    {"label": "Tufte, 'The Relationship between Seats and Votes in Two-Party Systems' (1973): swing ratio"},
+    {"label": "Tufte, 'Determinants of the Outcomes of Midterm Congressional Elections' (1975): approval and the midterm loss"},
+    {"label": "Abramowitz, 'An Improved Model for Predicting Presidential Election Outcomes' (1988): approval and the presidential vote"},
+    {"label": "US Census Bureau: computing apportionment by the method of equal proportions", "url": "https://www.census.gov/topics/public-sector/congressional-apportionment/about/computing.html"},
+    {"label": "Poole and Rosenthal, Congress: A Political-Economic History of Roll Call Voting (1997): the Conservative Coalition"}
   ],
   "leader": {"name": "Harry S. Truman", "party": "democratic", "faction": "northern_democrats", "termsWon": 1, "quartersInOffice": 0, "honeymoon": 0.35},
   "voting": {
@@ -364,7 +368,7 @@ model = {
                               {"name": "John McCain", "party": "republican", "faction": "internationalist_republicans", "appeal": 0.05}]}
     },
     "provenance": "estimate",
-    "note": "House elections every two years and presidential elections every four, resolved in the fourth quarter (November). Swing ratio about 2 (Tufte): a point of vote is worth about two points of seats. Beyond what approval explains, the national swing has a standard deviation of about 2.5 points of vote (0.1 log-odds) and each state its own of about 2 points (0.08). Each point of presidential approval above 50% is worth about 0.22 points of vote to his party (between Tufte's 1975 midterm model, about 0.13, and Abramowitz's presidential model, about 0.22 per point of net approval… halved for approval alone); the president's party loses about two points in midterms. The Solid South's seats only change hands if white Southerners' Democratic loyalty breaks. Nominees are the historical ones unless an eligible incumbent with at least 40% approval runs again; personal appeal values are estimates. Seats are reapportioned from the pops after each census (Huntington–Hill), effective at the next election. Alaska and Hawaii are not modelled, so the Electoral College has 531 votes (534 once DC votes from 1964)."
+    "note": "House elections every two years and presidential elections every four, resolved in the fourth quarter (November). Swing ratio about 2 (Tufte): a point of vote is worth about two points of seats. Beyond what approval explains, the national swing has a standard deviation of about 2.5 points of vote (0.1 log-odds) and each state its own of about 2 points (0.08). Each point of presidential approval above 50% is worth about 0.22 points of vote to his party (Tufte's 1975 midterm model gives about 0.13; Abramowitz's presidential model about 0.22, since each point of approval moves net approval by two); the president's party loses about two points in midterms. The Solid South's seats only change hands if white Southerners' Democratic loyalty breaks. Nominees are the historical ones unless an eligible incumbent with at least 40% approval runs again; personal appeal values are estimates. Seats are reapportioned from the pops after each census (Huntington–Hill), effective at the next election. Alaska and Hawaii are not modelled, so the Electoral College has 531 votes (534 once DC votes from 1964)."
   }
 }
 

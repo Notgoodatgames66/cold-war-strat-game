@@ -51,14 +51,14 @@ A deep, calculation-driven Cold War grand strategy simulator. Alpha scenario: th
 ## Layout
 
 ```
-data/            stats.json (stat registry), nations/, scenarios/, economy/ (models, levers, sectors, industry tables, plans), map/ (world geometry, 1949 blocs and crises)
-src/sim/         the engine: rng, time, schema, content, world, turn, orders, save, worker, systems/, economy/
-src/ui/          interface components and helpers (world map, situation screen, super-event, charts, Treasury desk, Industry screen, balance of power)
+data/            stats.json (stat registry), nations/, scenarios/, economy/ (models, levers, sectors, industry tables, plans), map/ (world geometry, 1949 blocs and crises), pops/, politics/
+src/sim/         the engine: rng, time, schema, content, world, turn, orders, save, worker, systems/, economy/, pops/, politics/
+src/ui/          interface components and helpers (world map, situation screen, super-events, charts, Treasury desk with bills, Industry, Politics and Population screens, balance of power)
 src/App.tsx      the main screen
 tests/           automated tests
 docs/GDD.md      the game design document
-docs/models/     plain-English papers explaining each model (economy, industry, planned, pops)
-tools/           data generators (usa_1950_pops.py builds data/pops/usa-1950.json from a readable state table)
+docs/models/     plain-English papers explaining each model (economy, industry, planned, pops, politics)
+tools/           data generators (usa_1950_pops.py, ussr_1950_pops.py and usa_1949_politics.py build data/pops/ and data/politics/ from readable tables)
 .github/workflows/deploy.yml   tests, builds and publishes to GitHub Pages on every push to main
 ```
 
@@ -72,18 +72,23 @@ tools/           data generators (usa_1950_pops.py builds data/pops/usa-1950.jso
 - **Phase 3 (Alpha systems): in progress.**
   - **Pops, step 1 (US): done** (4 Oct 2026). 27,000 US pops over 48 states and DC × race × sex × household class × religion × age × city/suburb/country, fitted to 1950 census tables by iterative proportional fitting (`src/sim/pops/build.ts`, data `data/pops/usa-1950.json`, generated from the readable state table in `tools/usa_1950_pops.py`). Quarterly births, deaths and ageing with a single-year age profile so the baby boom moves as a wave; fertility from the Easterlin effect, relative cohort size and women's work. Yearly class changes driven by the jobs each sector offers (farm exodus), retirement, suburbanisation, migration between states (Jim Crow as an explicit barrier), immigration. Pops set the labour force (replacing the placeholder growth rate) and the household spending mix by Engel's law. Save schema 5. Population tab with age pyramid, state map, breakdowns, trends and a state table. Model paper: `docs/models/pops.md`.
   - **Soviet pops: done** (4 Oct 2026). About 12,000 pops over the 15 republics × nationality × sex × social group (kolkhozniki, workers, office staff, specialists, officials, Gulag prisoners, pensioners) × religion × age × city/countryside (`data/pops/ussr-1950.json` from `tools/ussr_1950_pops.py`): the war's missing men and birth holes, kolkhozniki unable to move between republics, prisoners freed only by policy. The Soviet labour force and spending mix now come from its pops.
-  - **Next:** opinion and interest groups.
-- **Phase 3 remaining:** Pops and opinion, factions and interest groups, the events engine, military units, intelligence fog, the commodity market. Pops should also bring structural change (Engel's law in household spending, farm-to-factory migration), which fixes the known gap that industry and steel grow too slowly in the USSR and never lose ground to services in the USA (see "Known gaps" in `docs/models/planned.md`).
+  - **Politics: done** (5 Oct 2026). Opinion of the President per pop (party leaning, economy, cost of governing, honeymoon, policy), calibrated to Truman's 69%; who may vote under the 1949 franchise (Jim Crow, age 21). Thirteen interest groups with members from the pops, clout from wealth, numbers and organisation, lock-in and approval. Political capital. The 81st Congress by faction (Southern and Northern Democrats, Taft and internationalist Republicans): every Treasury change is a bill with odds, the player can spend capital, and the roll happens at turn end. Elections: Congress every two years from 1950, the President every four from 1952 through the Electoral College, reapportionment after each census, historical nominees. Politics tab, bill strips on the Treasury desk, a full-screen announcement for presidential elections. Save schema 6. Model paper: `docs/models/politics.md`.
+  - **Next:** the events engine (the first ten events: the Soviet bomb, Korea, McCarthy…), which also drives realignment and civil rights.
+- **Phase 3 remaining:** the events engine, military units, intelligence fog, the commodity market, regional industry (fixes the pops' migration bias that keeps the Northeast too big and the Sun Belt too small, which flows into reapportionment). Pops should also bring structural change (Engel's law in household spending, farm-to-factory migration), which fixes the known gap that industry and steel grow too slowly in the USSR and never lose ground to services in the USA (see "Known gaps" in `docs/models/planned.md`).
 
 ## Design decisions made by Ryan
 
-- **Budget indexation is off by default** (decided 30 Sep 2026). Budgets stay fixed in dollars, so a hands-off player meets fiscal drag; the Treasury desk switch turns indexation on.
+- **Budget indexation is off by default** (decided 30 Sep 2026). Budgets stay fixed in dollars, so a hands-off player meets fiscal drag; the Treasury desk switch turns indexation on. Since Congress arrived (5 Oct 2026) the switch is a bill like any other, and a hard one to pass in 1949.
 - **Price controls and ending the Fed peg wait for Phase 3** (decided 30 Sep 2026). They arrive as political decisions with costs (political capital, Congress, interest groups), not as free Treasury-desk switches.
 - **Phase 2C scope** (decided 30 Sep 2026):
   - The USSR runs a **simple planned economy**: output set by capacity, the Plan splits it between investment, defence, civil government and exports, households get the residual, full employment, shortages and a savings overhang instead of open inflation.
   - The Soviets **follow the historical Five-Year Plans by default but react to US defence spending** (a basic arms race) until the rival AI arrives.
   - The player sees **true Soviet figures**, labelled as a developer view, until intelligence and fog arrive in Phase 3.
   - Phase 2 stays a **pure economic sandbox**; events arrive in Phase 3.
+- **Politics scope** (decided 5 Oct 2026):
+  - **Congress gates policy with bills that have odds.** Every Treasury change is a bill; the player sees the odds, can spend political capital, and the vote is rolled at turn end. Budget indexation is a bill too.
+  - **Simple elections now:** Congress and the presidency on the historical calendar, with historical nominees; primaries and campaigns come later.
+  - **Thirteen interest groups:** the GDD's eight plus intellectuals, isolationists, small business, veterans and a fringe radical left (the Old Left in 1949, later the New Left, SDS and the Black Panthers).
 - **Interface look** (decided 4 Oct 2026):
   - **Night Desk** is the look: dark navy, phosphor-cyan actions, Gloock / Source Serif 4 / IBM Plex Mono, map first. Ryan approved the mockups as they were.
   - The look **stays fixed** for the whole game; it does not change with the era.
@@ -100,3 +105,4 @@ tools/           data generators (usa_1950_pops.py builds data/pops/usa-1950.jso
 - Check the Soviet 1950 estimates in `tools/ussr_1950_pops.py` (republic populations, nationality and urban shares, prisoners).
 - Check the 1950 census figures in `tools/usa_1950_pops.py` (state population, race, urban, farm and religion shares), rerun it, then set `"verification": "checked"` in `data/pops/usa-1950.json`.
 - Replace the estimated input–output table with an aggregation of the 1947 BEA benchmark table to the seven sectors.
+- Check the politics figures in `tools/usa_1949_politics.py` (81st Congress faction splits, Black registration by state, group memberships, nominee appeal), rerun it, then set `"verification": "checked"` in `data/politics/usa-1949.json`.
