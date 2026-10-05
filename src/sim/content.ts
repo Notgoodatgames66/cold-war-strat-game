@@ -26,6 +26,9 @@ import {
   type TaxLineDef,
 } from './economy/types';
 import { validatePopModel } from './pops/validate';
+import { leverIds } from './politics/levers';
+import type { PoliticsModelData } from './politics/types';
+import { validatePoliticsModel } from './politics/validate';
 import type { PopModelData } from './pops/types';
 import { PILLARS, STAT_UNITS, TIERS, type NationData, type ScenarioData, type StatDef } from './schema';
 import { compareDates, isValidDate } from './time';
@@ -455,6 +458,13 @@ export interface Content {
   economy: EconomyDefs;
   /** Pop models by id (data/pops/*.json). */
   pops: Record<string, PopModelData>;
+  /** Politics models by id (data/politics/*.json). */
+  politics: Record<string, PoliticsModelData>;
+}
+
+/** The politics model for a nation, when it has one. */
+export function politicsModelFor(content: Pick<Content, 'politics'>, nationId: string): PoliticsModelData | undefined {
+  return Object.values(content.politics).find((m) => m.nation === nationId);
 }
 
 /** The pop model for a nation, when it has one. */
@@ -472,8 +482,9 @@ export interface RawContent {
   sectors: unknown;
   industryTables: Record<string, unknown>;
   plans: Record<string, unknown>;
-  /** Optional so older callers (tests) can leave it out. */
+  /** Optional so older callers (tests) can leave them out. */
   pops?: Record<string, unknown>;
+  politics?: Record<string, unknown>;
 }
 
 /** Validates raw file contents and assembles them. Throws with every problem listed. */
@@ -566,8 +577,22 @@ export function buildContent(raw: RawContent): Content {
     }
   }
 
+  const politics: Record<string, PoliticsModelData> = {};
+  const levers = leverIds(budgetLines, economy.taxLines);
+  for (const [file, polRaw] of Object.entries(raw.politics ?? {})) {
+    const problems = validatePoliticsModel(polRaw, file, nationIds, pops, levers, statIds);
+    errors.push(...problems);
+    if (problems.length === 0) {
+      const model = polRaw as PoliticsModelData;
+      if (politics[model.id]) errors.push(`${file}: duplicate politics model id "${model.id}"`);
+      if (Object.values(politics).some((m) => m.nation === model.nation))
+        errors.push(`${file}: nation "${model.nation}" already has a politics model`);
+      politics[model.id] = model;
+    }
+  }
+
   if (errors.length > 0) {
     throw new Error(`Content errors:\n- ${errors.join('\n- ')}`);
   }
-  return { stats, nations, scenarios, economy, pops };
+  return { stats, nations, scenarios, economy, pops, politics };
 }

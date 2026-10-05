@@ -2247,6 +2247,161 @@ a:hover {
   color: var(--accent);
 }
 
+/* ---- Politics screen --------------------------------------------------- */
+
+.popfigure--good dd {
+  color: var(--good);
+}
+
+.popfigure--bad dd {
+  color: var(--bad);
+}
+
+.approvalby {
+  display: grid;
+  gap: 12px;
+}
+
+.approvalby__block .drivers__title {
+  margin-top: 4px;
+}
+
+.approvalby__bar span.is-good {
+  background: var(--ally);
+}
+
+.approvalby__bar span.is-bad {
+  background: var(--rival);
+}
+
+.approvalby__vote {
+  margin: 4px 0 0;
+  font-family: var(--prose);
+  font-size: 15px;
+  color: var(--ink-soft);
+}
+
+.groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 14px;
+}
+
+.group {
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.group__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.group__name {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 21px;
+  color: var(--ink-bright);
+}
+
+.group__clout {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.group__meter {
+  height: 6px;
+  background: var(--line-soft);
+}
+
+.group__fill {
+  display: block;
+  height: 100%;
+}
+
+.group__fill.is-good {
+  background: var(--good);
+}
+
+.group__fill.is-mid {
+  background: var(--amber);
+}
+
+.group__fill.is-bad {
+  background: var(--bad);
+}
+
+.group__approval {
+  margin: 0;
+  font-size: 11.5px;
+  color: var(--ink-muted);
+}
+
+.group__approval strong {
+  color: var(--ink-bright);
+  font-weight: 500;
+}
+
+.group__desc {
+  margin: 0;
+  font-family: var(--prose);
+  font-size: 14.5px;
+  line-height: 1.45;
+  color: var(--ink-soft);
+}
+
+.group__wants {
+  margin: auto 0 0;
+  padding-top: 8px;
+  border-top: 1px solid var(--line-soft);
+  font-size: 12px;
+  color: var(--ink);
+}
+
+.group__wants .eyebrow {
+  display: inline;
+  margin-right: 6px;
+}
+
+.congress {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 14px;
+  align-items: start;
+}
+
+.chamber {
+  margin: 0;
+  padding: 14px 16px;
+}
+
+.chamber svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: 8px;
+}
+
+.factions {
+  padding: 14px 16px;
+}
+
+.faction__swatch {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
 /* Grid children default to min-width: auto, which lets a wide table push the
    whole page sideways; min-width: 0 lets .table-scroll do the scrolling. */
 .screen > *,

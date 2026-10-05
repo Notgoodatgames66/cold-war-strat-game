@@ -6,12 +6,12 @@
  * SCHEMA_VERSION and add a migration below so old saves keep loading.
  */
 
-import { popModelFor, type Content } from './content';
+import { politicsModelFor, popModelFor, type Content } from './content';
 import { createEconomy } from './economy/calibrate';
 import { createNationEconomy } from './economy/create';
 import { normalCapacities } from './economy/industry';
 import { stepPlanned } from './economy/planned';
-import { addPops } from './world';
+import { addPolitics, addPops } from './world';
 import { SCHEMA_VERSION, type GameState, type HistoryEntry, type NationState } from './schema';
 import { isValidDate } from './time';
 
@@ -174,6 +174,21 @@ const MIGRATIONS: Record<number, Migration> = {
     for (const nation of Object.values(nations)) {
       const model = popModelFor(content, nation.id);
       if (model && !nation.pops) addPops(nation, model);
+    }
+    return state;
+  },
+
+  /**
+   * v5 (pops) → v6 (politics): nations with a politics model gain opinion,
+   * interest groups and a legislature, calibrated at the save's current date
+   * (approval starts at the model's starting value).
+   */
+  5: (state, content) => {
+    const nations = state.nations as Record<string, NationState>;
+    for (const nation of Object.values(nations)) {
+      const model = politicsModelFor(content, nation.id);
+      const popModel = popModelFor(content, nation.id);
+      if (model && popModel && nation.pops && !nation.politics) addPolitics(nation, model, popModel);
     }
     return state;
   },

@@ -14,6 +14,7 @@
  */
 
 import type { NationEconomy, NationEconomyData } from './economy/types';
+import type { PoliticsState } from './politics/types';
 import type { PopsState } from './pops/types';
 import type { GameDate } from './time';
 
@@ -135,6 +136,8 @@ export interface NationState {
   economy?: NationEconomy;
   /** The population as pops, when the nation has a pop model (data/pops/). */
   pops?: PopsState;
+  /** Opinion, interest groups, the legislature and elections, when the nation has a politics model (data/politics/). */
+  politics?: PoliticsState;
 }
 
 /** One sector's figures in a history snapshot. */
@@ -190,4 +193,4 @@ export interface PlayerOrders {
   budgetIndexed?: boolean;
 }
 
-export const SCHEMA_VERSION = 5;
+export const SCHEMA_VERSION = 6;

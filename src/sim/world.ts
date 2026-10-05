@@ -2,7 +2,10 @@
  * Creating a new game from a scenario.
  */
 
-import { popModelFor, type Content } from './content';
+import { politicsModelFor, popModelFor, type Content } from './content';
+import { createPolitics } from './politics/create';
+import { politicsStats } from './politics/step';
+import type { PoliticsModelData } from './politics/types';
 import { initialPopsState } from './pops/build';
 import { calibrateDemography } from './pops/demography';
 import { labourForce, linkEconomy, womenWork } from './pops/economy';
@@ -12,7 +15,12 @@ import type { EconomyDefs } from './economy/calibrate';
 import { createNationEconomy } from './economy/create';
 import { SCHEMA_VERSION, type GameState, type HistoryEntry, type NationData, type NationState } from './schema';
 
-export function nationStateFrom(data: NationData, economyDefs: EconomyDefs, popModel?: PopModelData): NationState {
+export function nationStateFrom(
+  data: NationData,
+  economyDefs: EconomyDefs,
+  popModel?: PopModelData,
+  politicsModel?: PoliticsModelData,
+): NationState {
   const stats: Record<string, number> = {};
   const statProvenance: NationState['statProvenance'] = {};
   for (const [id, entry] of Object.entries(data.stats)) {
@@ -34,7 +42,17 @@ export function nationStateFrom(data: NationData, economyDefs: EconomyDefs, popM
     ...(data.economy ? { economy: createNationEconomy(data, economyDefs) } : {}),
   };
   if (popModel) addPops(nation, popModel);
+  if (popModel && politicsModel) addPolitics(nation, politicsModel, popModel);
   return nation;
+}
+
+/** Starts a nation's politics (needs its pops) and adds the stats it provides. */
+export function addPolitics(nation: NationState, model: PoliticsModelData, popModel: PopModelData): void {
+  nation.politics = createPolitics(model, popModel, nation);
+  for (const [id, value] of Object.entries(politicsStats(model, nation.politics))) {
+    nation.stats[id] = value;
+    nation.statProvenance[id] ??= 'estimate';
+  }
 }
 
 /**
@@ -82,7 +100,7 @@ export function createGame(content: Content, scenarioId: string, seed?: string):
   for (const id of scenario.nations) {
     const data = content.nations[id];
     if (!data) throw new Error(`Scenario "${scenarioId}" needs nation "${id}", which has no data file`);
-    nations[id] = nationStateFrom(data, content.economy, popModelFor(content, id));
+    nations[id] = nationStateFrom(data, content.economy, popModelFor(content, id), politicsModelFor(content, id));
   }
 
   const chosenSeed = seed?.trim() || scenario.defaultSeed;

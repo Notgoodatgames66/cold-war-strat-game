@@ -182,5 +182,29 @@
     "unit": "percent",
     "decimals": 1,
     "description": "Share of what households tried to buy that the shops could not supply: queues and empty shelves."
+  },
+  {
+    "id": "approval",
+    "label": "Approval",
+    "pillar": "politics",
+    "unit": "percent",
+    "decimals": 0,
+    "description": "Share of those who may vote who approve of the head of government (Gallup-style)."
+  },
+  {
+    "id": "political_capital",
+    "label": "Political capital",
+    "pillar": "politics",
+    "unit": "count",
+    "decimals": 0,
+    "description": "Goodwill to spend on getting bills through the legislature. Regenerates with approval."
+  },
+  {
+    "id": "congress_support",
+    "label": "House seats held",
+    "pillar": "politics",
+    "unit": "percent",
+    "decimals": 0,
+    "description": "Share of seats in the lower chamber held by the head of government's party."
   }
 ]

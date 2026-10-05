@@ -20,7 +20,7 @@ import type { GameState } from '../sim/schema';
 import { formatDate } from '../sim/time';
 import { formatChange, formatStat } from './format';
 import { LineChart, type ChartPoint } from './LineChart';
-import { usMap } from './usMap';
+import { StateMap, hasStateMap, type MapMeasure } from './StateMap';
 
 interface Props {
   game: GameState;
@@ -146,22 +146,13 @@ function Panels({ game, model, pops, startPopulation }: PanelProps) {
     <>
       <div className="popgrid">
         <AgePyramid game={game} model={model} pops={pops} />
-        {region && hasStateMap(model) && <StateMap model={model} pops={pops} baseline={baseline} early={game.history.length < 8} />}
+        {region && hasStateMap(model) && <PopulationMap model={model} pops={pops} baseline={baseline} early={game.history.length < 8} />}
         {region && !hasStateMap(model) && <RegionBars model={model} pops={pops} baseline={baseline} regionId={region.id} />}
       </div>
       <Breakdowns model={model} pops={pops} baseline={baseline} />
       {region && <RegionTable model={model} pops={pops} baseline={baseline} regionId={region.id} />}
     </>
   );
-}
-
-/** The state map applies when the model's regions are the US states. */
-function hasStateMap(model: PopModelData): boolean {
-  const codec = codecFor(model);
-  if (codec.role.region === undefined) return false;
-  const names = new Set(usMap().states.map((s) => s.name));
-  const cats = codec.attributes[codec.role.region]!.categories;
-  return cats.filter((c) => names.has(c.label)).length >= cats.length - 1;
 }
 
 // ---------------------------------------------------------------------------
@@ -239,17 +230,7 @@ function AgePyramid({ game, model, pops }: { game: GameState; model: PopModelDat
 // State map
 // ---------------------------------------------------------------------------
 
-interface Measure {
-  id: string;
-  label: string;
-  /** Value per region category index. */
-  values: number[];
-  format(v: number): string;
-  diverging?: boolean;
-}
-
-const SEQUENTIAL = ['#15263a', '#1d3651', '#28496b', '#365f88', '#4b79a6', '#6a98c4', '#93bde0'];
-const DIVERGING = ['#7a302b', '#62302c', '#3a2a2c', '#1f2a35', '#22384f', '#2c5578', '#4b79a6', '#7fb3dd'];
+type Measure = MapMeasure;
 
 function shareOf(model: PopModelData, pops: Pick<PopsState, 'keys' | 'size'>, regionId: string, attrId: string, cats: (c: { id: string; farm?: boolean }) => boolean): number[] | null {
   const attr = model.attributes.find((a) => a.id === attrId);
@@ -268,7 +249,7 @@ function useMeasures(model: PopModelData, pops: PopsState, baseline: Pick<PopsSt
     const now = peopleBy(model, pops, regionId);
     const then = peopleBy(model, baseline, regionId);
     const list: Measure[] = [
-      { id: 'change', label: `Population change`, values: now.map((n, i) => (then[i]! > 0 ? n / then[i]! - 1 : 0)), format: (v) => `${v >= 0 ? '+' : '−'}${Math.abs(v * 100).toFixed(0)}%`, diverging: true },
+      { id: 'change', label: `Population change`, chip: 'Change', values: now.map((n, i) => (then[i]! > 0 ? n / then[i]! - 1 : 0)), format: (v) => `${v >= 0 ? '+' : '−'}${Math.abs(v * 100).toFixed(0)}%`, diverging: true },
       { id: 'people', label: 'Population', values: now, format: millions },
     ];
     const add = (id: string, label: string, attr: string | undefined, test: (c: { id: string; farm?: boolean }) => boolean) => {
@@ -286,67 +267,9 @@ function useMeasures(model: PopModelData, pops: PopsState, baseline: Pick<PopsSt
   }, [model, pops, baseline]);
 }
 
-function colourFor(m: Measure, v: number, min: number, max: number): string {
-  if (m.diverging) {
-    // At least ±5%, so rounding noise early in the game is not painted as change.
-    const span = Math.max(Math.abs(min), Math.abs(max), 0.05);
-    const t = (v / span + 1) / 2;
-    return DIVERGING[Math.min(DIVERGING.length - 1, Math.max(0, Math.floor(t * DIVERGING.length)))]!;
-  }
-  const t = max > min ? (v - min) / (max - min) : 0.5;
-  return SEQUENTIAL[Math.min(SEQUENTIAL.length - 1, Math.floor(t * SEQUENTIAL.length))]!;
-}
-
-function StateMap({ model, pops, baseline, early }: { model: PopModelData; pops: PopsState; baseline: Pick<PopsState, 'keys' | 'size'>; early: boolean }) {
+function PopulationMap({ model, pops, baseline, early }: { model: PopModelData; pops: PopsState; baseline: Pick<PopsState, 'keys' | 'size'>; early: boolean }) {
   const measures = useMeasures(model, pops, baseline);
-  const [measureId, setMeasureId] = useState(early ? 'people' : 'change');
-  const measure = measures.find((m) => m.id === measureId) ?? measures[0]!;
-  const codec = codecFor(model);
-  const regionCats = codec.attributes[codec.role.region!]!.categories;
-  const byName = new Map(regionCats.map((c, i) => [c.label, i]));
-  const map = usMap();
-  const values = measure.values;
-  const min = Math.min(...values);
-  const max = Math.max(...values);
-  const span = Math.max(Math.abs(min), Math.abs(max), 0.05);
-  const legendStops = measure.diverging
-    ? [-span, 0, span]
-    : [min, (min + max) / 2, max];
-
-  return (
-    <figure className="panel statemap">
-      <figcaption className="statemap__head">
-        <span className="eyebrow">By state</span>
-        <div className="statemap__measures" role="group" aria-label="Colour the map by">
-          {measures.map((m) => (
-            <button key={m.id} type="button" className={`chip${m.id === measure.id ? ' chip--on' : ''}`} aria-pressed={m.id === measure.id} onClick={() => setMeasureId(m.id)}>
-              {m.id === 'change' ? 'Change' : m.label}
-            </button>
-          ))}
-        </div>
-      </figcaption>
-      <svg className="statemap__svg" viewBox={map.viewBox} role="img" aria-label={`Map of the states: ${measure.label}`}>
-        {map.states.map((s) => {
-          const i = byName.get(s.name);
-          const v = i === undefined ? undefined : values[i];
-          return (
-            <path key={s.name} className="statemap__state" d={s.d} fill={v === undefined ? '#141c25' : colourFor(measure, v, min, max)}>
-              <title>{v === undefined ? s.name : `${s.name}: ${measure.format(v)}`}</title>
-            </path>
-          );
-        })}
-      </svg>
-      <div className="statemap__legend">
-        <span>{measure.label}</span>
-        <span className="statemap__ramp" style={{ background: `linear-gradient(90deg, ${(measure.diverging ? DIVERGING : SEQUENTIAL).join(', ')})` }} aria-hidden="true" />
-        <span className="statemap__stops">
-          {legendStops.map((v, i) => (
-            <span key={i}>{measure.format(v)}</span>
-          ))}
-        </span>
-      </div>
-    </figure>
-  );
+  return <StateMap model={model} measures={measures} initial={early ? 'people' : 'change'} />;
 }
 
 /** Regions as bars, largest first: for nations without a region map. */

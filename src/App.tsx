@@ -11,6 +11,7 @@ import { FilingCabinet } from './ui/FilingCabinet';
 import { IndustryScreen } from './ui/IndustryScreen';
 import { formatStat } from './ui/format';
 import { resolveTurn } from './ui/simClient';
+import { PoliticsScreen } from './ui/PoliticsScreen';
 import { PopulationScreen } from './ui/PopulationScreen';
 import { SituationScreen } from './ui/SituationScreen';
 import { SuperEvent } from './ui/SuperEvent';
@@ -22,6 +23,7 @@ const TABS = [
   { id: 'situation', label: 'Situation' },
   { id: 'economy', label: 'Economy' },
   { id: 'industry', label: 'Industry' },
+  { id: 'politics', label: 'Politics' },
   { id: 'population', label: 'Population' },
   { id: 'files', label: 'Files' },
 ] as const;
@@ -113,6 +115,7 @@ export function App() {
     { label: 'Growth', id: 'real_growth', signed: true },
     { label: 'Unemployed', id: 'unemployment' },
     { label: 'Budget', id: 'budget_balance', signed: true },
+    { label: 'Approval', id: 'approval' },
   ];
   const warheads = indicator(player, 'nuclear_warheads');
   const rivalWarheads = indicator(rival, 'nuclear_warheads');
@@ -170,6 +173,12 @@ export function App() {
         {tab === 'industry' && (
           <div className="screen">
             <IndustryScreen game={game} />
+          </div>
+        )}
+
+        {tab === 'politics' && (
+          <div className="screen">
+            <PoliticsScreen game={game} />
           </div>
         )}
 
