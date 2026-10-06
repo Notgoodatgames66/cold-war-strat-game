@@ -25,6 +25,8 @@ import {
   type SectorDef,
   type TaxLineDef,
 } from './economy/types';
+import type { EventContent } from './events/types';
+import { validateEventFiles } from './events/validate';
 import { validatePopModel } from './pops/validate';
 import { leverIds } from './politics/levers';
 import type { PoliticsModelData } from './politics/types';
@@ -460,6 +462,8 @@ export interface Content {
   pops: Record<string, PopModelData>;
   /** Politics models by id (data/politics/*.json). */
   politics: Record<string, PoliticsModelData>;
+  /** Events and meters from every file in data/events/. */
+  events: EventContent;
 }
 
 /** The politics model for a nation, when it has one. */
@@ -485,6 +489,7 @@ export interface RawContent {
   /** Optional so older callers (tests) can leave them out. */
   pops?: Record<string, unknown>;
   politics?: Record<string, unknown>;
+  events?: Record<string, unknown>;
 }
 
 /** Validates raw file contents and assembles them. Throws with every problem listed. */
@@ -591,8 +596,17 @@ export function buildContent(raw: RawContent): Content {
     }
   }
 
+  const eventFiles = validateEventFiles(raw.events ?? {}, {
+    nations: nationIds,
+    stats: statIds,
+    budgetLines: new Set(budgetLines.map((l) => l.id)),
+    levers,
+    politics,
+  });
+  errors.push(...eventFiles.errors);
+
   if (errors.length > 0) {
     throw new Error(`Content errors:\n- ${errors.join('\n- ')}`);
   }
-  return { stats, nations, scenarios, economy, pops, politics };
+  return { stats, nations, scenarios, economy, pops, politics, events: eventFiles.content };
 }

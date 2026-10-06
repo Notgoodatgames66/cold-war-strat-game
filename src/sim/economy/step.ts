@@ -73,6 +73,19 @@ function indexBudget(e: EconomyState, potentialBefore: number) {
   }
 }
 
+/**
+ * Shocks from events this quarter (modifiers): shares added to desired
+ * consumption, investment and export demand, and points added to inflation.
+ */
+export interface EconomyShocks {
+  consumption: number;
+  investment: number;
+  exports: number;
+  inflation: number;
+}
+
+export const NO_SHOCKS: EconomyShocks = { consumption: 0, investment: 0, exports: 0, inflation: 0 };
+
 const scaled = (shares: Vector, amount: number): Vector => shares.map((s) => s * amount);
 const add = (a: Vector, b: Vector): Vector => a.map((x, i) => x + b[i]!);
 
@@ -81,7 +94,12 @@ const add = (a: Vector, b: Vector): Vector => a.map((x, i) => x + b[i]!);
  * growth of the labour force from the pops (1.003 = +0.3%); without it the
  * labour force grows at the model's placeholder rate.
  */
-export function stepEconomy(e: EconomyState, population: number, labourFactor?: number): Record<string, number> {
+export function stepEconomy(
+  e: EconomyState,
+  population: number,
+  labourFactor?: number,
+  shocks: EconomyShocks = NO_SHOCKS,
+): Record<string, number> {
   const p = e.params;
   const c = e.calib;
   const ind = e.industry;
@@ -109,7 +127,7 @@ export function stepEconomy(e: EconomyState, population: number, labourFactor?: 
   const permanentIncome = c.disposableIncome0 * scale;
   const perceivedIncome =
     p.current_income_weight * e.disposableIncomeReal + (1 - p.current_income_weight) * permanentIncome;
-  const desiredConsumption = c.autonomousConsumption * scale + p.mpc * perceivedIncome;
+  const desiredConsumption = (c.autonomousConsumption * scale + p.mpc * perceivedIncome) * (1 + shocks.consumption);
   const consumptionDemand = e.consumption + p.consumption_adjustment * (desiredConsumption - e.consumption);
 
   const desiredInvestment =
@@ -117,7 +135,8 @@ export function stepEconomy(e: EconomyState, population: number, labourFactor?: 
     e.potential *
     (1 + p.accelerator * previousGap) *
     Math.exp(-p.investment_rate_sensitivity * (realRate - c.realRate0)) *
-    (1 - (p.investment_corporate_tax_sensitivity * (e.taxRates.corporate - c.corporateRate0)) / 100);
+    (1 - (p.investment_corporate_tax_sensitivity * (e.taxRates.corporate - c.corporateRate0)) / 100) *
+    (1 + shocks.investment);
   const investmentDemand = e.fixedInvestment + p.investment_adjustment * (Math.max(0, desiredInvestment) - e.fixedInvestment);
 
   const desiredStock = p.inventory_ratio * previousFinalSales;
@@ -144,7 +163,7 @@ export function stepEconomy(e: EconomyState, population: number, labourFactor?: 
     fixed_investment: scaled(ind.bridges.fixed_investment, investmentDemand),
     inventories: scaled(ind.bridges.inventory_investment, inventoryDemand),
     government: governmentProducts,
-    exports: add(scaled(ind.bridges.exports, e.exportBase), scaled(ind.bridges.aid_exports, aidExports)),
+    exports: add(scaled(ind.bridges.exports, e.exportBase * (1 + shocks.exports)), scaled(ind.bridges.aid_exports, aidExports)),
   };
   const tariffFactor = Math.pow((1 + c.tariffRate0 / 100) / (1 + e.taxRates.tariff / 100), p.import_tariff_elasticity);
   const normalCapacity = normalCapacities(ind, e.potential);
@@ -215,7 +234,28 @@ export function stepEconomy(e: EconomyState, population: number, labourFactor?: 
     );
   const unmetTotal = DEMAND_COMPONENTS.reduce((s, k) => s + production.unmet[k], 0);
   const shortages = (unmetTotal / e.potential) * 100;
-  const rawInflation = e.expectedInflation + gapPressure + bottlenecks + shortages;
+  // A general freeze holds back most price rises. Rises from demand pressure
+  // wait in a stock that leaks out while controls last and comes out when
+  // they end; rises from expected inflation (the wage–price spiral) are
+  // simply stopped, because wages are frozen too.
+  const pressure = gapPressure + bottlenecks + shortages;
+  let heldBack = 0;
+  let released = 0;
+  if (e.priceControls) {
+    const heldPressure = pressure > 0 ? pressure * (1 - p.price_control_passthrough) : 0;
+    const excessExpected = e.expectedInflation - p.inflation_anchor;
+    const heldExpectations = excessExpected > 0 ? excessExpected * (1 - p.price_control_passthrough) : 0;
+    heldBack = heldPressure + heldExpectations;
+    e.repressedInflation += heldPressure * QUARTER;
+    const leak = e.repressedInflation * p.price_control_leak;
+    e.repressedInflation -= leak;
+    released = leak / QUARTER;
+  } else if (e.repressedInflation > 0) {
+    const out = e.repressedInflation * p.price_control_release;
+    e.repressedInflation -= out;
+    released = out / QUARTER;
+  }
+  const rawInflation = e.expectedInflation + pressure - heldBack + released + shocks.inflation;
   e.inflation = Math.min(INFLATION_CEILING, Math.max(INFLATION_FLOOR, rawInflation));
   e.breakdown.inflation = [
     { label: 'Expected inflation', value: e.expectedInflation },
@@ -223,6 +263,9 @@ export function stepEconomy(e: EconomyState, population: number, labourFactor?: 
     { label: 'Industry bottlenecks', value: bottlenecks },
     { label: 'Shortages', value: shortages },
   ];
+  if (heldBack !== 0) e.breakdown.inflation.push({ label: 'Price controls', value: -heldBack });
+  if (released !== 0) e.breakdown.inflation.push({ label: 'Held-back prices coming out', value: released });
+  if (shocks.inflation !== 0) e.breakdown.inflation.push({ label: 'Events', value: shocks.inflation });
   e.priceLevel *= Math.pow(1 + e.inflation / 100, QUARTER);
   const P = e.priceLevel;
   const gdpNominal = output * P;
@@ -237,7 +280,12 @@ export function stepEconomy(e: EconomyState, population: number, labourFactor?: 
     p.policy_gap_response * gapPct;
   const rateCeiling = e.monetaryRegime === 'treasury_peg' ? e.shortRateCeiling : Infinity;
   const targetRate = Math.min(rateCeiling, Math.max(p.policy_rate_floor, desiredRate));
-  e.shortRate += p.policy_rate_smoothing * (targetRate - e.shortRate);
+  const step = p.policy_rate_smoothing * (targetRate - e.shortRate);
+  e.shortRate += Math.min(p.policy_rate_max_step, Math.max(-p.policy_rate_max_step, step));
+  // Once the peg ends, long yields follow the bill rate plus a term premium.
+  if (e.monetaryRegime !== 'treasury_peg') {
+    e.longRate += p.long_rate_adjustment * (e.shortRate + p.term_premium - e.longRate);
+  }
 
   // --- Federal budget (nominal) -------------------------------------------------
   const rate = (t: TaxId) => e.taxRates[t] / 100;

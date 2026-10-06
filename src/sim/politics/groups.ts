@@ -90,11 +90,11 @@ export function cloutShares(model: PoliticsModelData, strength: ReturnType<typeo
 export function groupApprovalZ(
   _model: PoliticsModelData,
   g: InterestGroupData,
-  politics: Pick<PoliticsState, 'leader' | 'calib'>,
+  politics: Pick<PoliticsState, 'leader' | 'calib' | 'eventEffects'>,
   levers: Record<string, number>,
   stats: Record<string, number>,
 ): number {
-  let z = 0;
+  let z = politics.eventEffects?.groups[g.id] ?? 0;
   for (const [lever, pref] of Object.entries(g.preferences)) {
     const now = levers[lever];
     const then = politics.calib.levers0[lever];
@@ -114,7 +114,7 @@ export function groupStates(
   model: PoliticsModelData,
   popModel: PopModelData,
   pops: PopsState,
-  politics: Pick<PoliticsState, 'leader' | 'calib'>,
+  politics: Pick<PoliticsState, 'leader' | 'calib' | 'eventEffects'>,
   levers: Record<string, number>,
   stats: Record<string, number>,
 ): GroupState[] {

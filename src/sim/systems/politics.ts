@@ -4,6 +4,7 @@
  * capital regenerates, and in election quarters the voters have their say.
  */
 
+import { stateModifier } from '../events/modifiers';
 import { content } from '../loadContent';
 import { holdElections } from '../politics/elections';
 import { politicsStats, stepPolitics } from '../politics/step';
@@ -20,6 +21,11 @@ export const politics: SimSystem = {
       const model = content.politics[p.model];
       const popModel = content.pops[nation.pops.model];
       if (!model || !popModel) throw new Error(`${nation.id}: unknown politics or pop model`);
+      const mod = (target: string) => stateModifier(state, content.events, nation.id, target);
+      p.eventEffects = {
+        approval: mod('approval'),
+        groups: Object.fromEntries(model.interestGroups.map((g) => [g.id, mod(`group:${g.id}`)])),
+      };
       stepPolitics(model, popModel, p, nation);
       holdElections(model, popModel, p, nation, resolving, rng(`elections:${nation.id}`));
       for (const [id, value] of Object.entries(politicsStats(model, p))) {

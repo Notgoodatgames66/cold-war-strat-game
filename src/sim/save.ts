@@ -10,6 +10,7 @@ import { politicsModelFor, popModelFor, type Content } from './content';
 import { createEconomy } from './economy/calibrate';
 import { createNationEconomy } from './economy/create';
 import { normalCapacities } from './economy/industry';
+import { createEventsState } from './events/engine';
 import { stepPlanned } from './economy/planned';
 import { addPolitics, addPops } from './world';
 import { SCHEMA_VERSION, type GameState, type HistoryEntry, type NationState } from './schema';
@@ -189,6 +190,26 @@ const MIGRATIONS: Record<number, Migration> = {
       const model = politicsModelFor(content, nation.id);
       const popModel = popModelFor(content, nation.id);
       if (model && popModel && nation.pops && !nation.politics) addPolitics(nation, model, popModel);
+    }
+    return state;
+  },
+
+  /**
+   * v6 (politics) → v7 (events): the world gains flags, meters, modifiers and
+   * an event record, starting empty at the save's date (events whose windows
+   * have passed simply never fire). Keynesian economies gain price controls,
+   * held-back inflation and the parameters for the Accord and controls.
+   */
+  6: (state, content) => {
+    state.events ??= createEventsState(content.events);
+    const nations = state.nations as Record<string, NationState>;
+    for (const nation of Object.values(nations)) {
+      const e = nation.economy as unknown as Record<string, any> | undefined;
+      if (!e || e.engine !== 'keynesian') continue;
+      e.priceControls ??= false;
+      e.repressedInflation ??= 0;
+      const model = content.economy.models[e.model as string];
+      if (model) for (const [key, entry] of Object.entries(model.params)) e.params[key] ??= entry.value;
     }
     return state;
   },

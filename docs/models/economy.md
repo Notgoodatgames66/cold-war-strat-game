@@ -68,9 +68,15 @@ Output cannot exceed potential by more than 6% (the workforce limit), and no ind
 
   Bottlenecks add a point of inflation for each point by which an industry runs more than 3% above normal capacity, weighted by the industry's size. Shortages add the demand that went unfilled.
 
-### 6. Interest rates (the Treasury peg)
+### 6. Interest rates (the Treasury peg, then the Accord)
 
-The Fed's desired rate leans against inflation and the output gap. Under the peg it may ease in a slump but cannot rise above the 1.25% ceiling. That asymmetry is the historical peg: it held down the Treasury's borrowing costs but left the Fed unable to fight inflation, which is why the 1951 Accord happened. Ending the peg arrives with politics in Phase 3.
+The Fed's desired rate leans against inflation and the output gap. Under the peg it may ease in a slump but cannot rise above the 1.25% ceiling. That asymmetry is the historical peg: it held down the Treasury's borrowing costs but left the Fed unable to fight inflation, which is why the 1951 Accord happened.
+
+The Accord arrives as an event (`docs/models/events.md`). After it, the Fed is independent: no ceiling, but it moves at most half a point a quarter, as the Fed of the 1950s did. Long-term yields then follow the bill rate plus a term premium of 1 point, so the debt costs more.
+
+### Price controls
+
+A general price freeze, also from an event, holds back 65% of price rises above the 2% anchor, from demand pressure and from expected inflation alike. Held-back demand pressure is stored and comes out, a quarter of it each quarter, once controls end.
 
 ### 7. The federal budget
 
@@ -101,12 +107,12 @@ The balance of payments is net exports + income from abroad − foreign aid − 
 - Tax cuts raise consumption, tariffs cut imports, and corporate tax discourages investment.
 - Public investment raises capacity over decades, and demand past capacity becomes inflation.
 - The peg ceiling holds, and unemployment respects its floor.
-- 1949–55 with no policy changes stays historically plausible.
+- 1949–55 with no policy changes stays historically plausible (with events switched off; the events paper covers the game with them).
 - The model never produces impossible numbers over 52 years, even under absurd policies.
 
 ## Known gaps (to fix in later phases)
 
-- **The peg is permanent** until the Accord arrives with Phase 3 politics, and there are no price controls. Rearmament on the scale of Korea therefore gives double-digit inflation unless taxes rise a long way. That was the reason for both tools.
+- **Korea still overheats the economy.** The Accord and price controls now arrive as events and hold 1952 inflation to about 4–5%, against 1–2% in history, because output sits at the capacity ceiling through 1951–52.
 - **Nothing floats the dollar.** Gold drains as imports grow, reaching roughly the real 1971 level on its own, but no mechanic yet ends Bretton Woods and lets the dollar fall when the gold runs out.
 - **Frozen budgets cause slow stagnation** over decades, because receipts rise with the economy while spending does not. That is realistic fiscal drag, but it means a hands-off player needs indexation on or regular tax cuts.
 - **Figures are unchecked.** Many 1949 values are approximate and marked as estimates. The Monte Carlo fidelity test in Phase 4 will check the whole path against history.

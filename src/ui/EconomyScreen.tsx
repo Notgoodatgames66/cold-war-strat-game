@@ -226,9 +226,22 @@ function Drivers({ economy: e }: { economy: EconomyState }) {
         <div>
           <dt>Interest rate</dt>
           <dd>
-            {e.shortRate.toFixed(2)}%{e.monetaryRegime === 'treasury_peg' && ` · pegged, ceiling ${e.shortRateCeiling.toFixed(2)}%`}
+            {e.shortRate.toFixed(2)}%
+            {e.monetaryRegime === 'treasury_peg' ? ` · pegged, ceiling ${e.shortRateCeiling.toFixed(2)}%` : ' · set by an independent Fed'}
           </dd>
         </div>
+        <div>
+          <dt>Long-term yield</dt>
+          <dd>{e.longRate.toFixed(2)}%</dd>
+        </div>
+        {(e.priceControls || e.repressedInflation > 0.05) && (
+          <div>
+            <dt>Price controls</dt>
+            <dd>
+              {e.priceControls ? 'In force' : 'Lifted'} · {e.repressedInflation.toFixed(1)}% of prices held back
+            </dd>
+          </div>
+        )}
         <div>
           <dt>Balance of payments</dt>
           <dd>{money(e.balanceOfPayments)}</dd>

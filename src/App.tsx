@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { content } from './sim/loadContent';
 import { deserializeGame, serializeGame } from './sim/save';
 import type { ElectionResult } from './sim/politics/types';
@@ -12,6 +12,8 @@ import { FilingCabinet } from './ui/FilingCabinet';
 import { IndustryScreen } from './ui/IndustryScreen';
 import { billsStatus } from './ui/bills';
 import { ElectionEvent } from './ui/ElectionEvent';
+import { EventDialog } from './ui/EventDialog';
+import { eventData, eventsThisQuarter, pendingEvents } from './ui/events';
 import { electionStatus } from './ui/elections';
 import { formatStat } from './ui/format';
 import { resolveTurn } from './ui/simClient';
@@ -70,12 +72,34 @@ export function App() {
   const [tab, setTab] = useState<TabId>('situation');
   const [showOpening, setShowOpening] = useState(initial.isNew);
   const [election, setElection] = useState<{ result: ElectionResult; previous: { name: string; party: string } } | null>(null);
+  /** The event open on screen (a record key such as "korean_war@7"), and the pending ones already shown this turn. */
+  const [openEvent, setOpenEvent] = useState<string | null>(null);
+  const [seenEvents, setSeenEvents] = useState<string[]>([]);
 
   const scenario = content.scenarios[game.scenarioId];
   const player = game.nations[game.playerNation];
   const others = Object.values(game.nations).filter((n) => n.id !== game.playerNation);
   const finished = !canAdvance(game);
   const pending = countOrders(draft);
+  const decisions = useMemo(() => pendingEvents(game), [game]);
+  const undecided = decisions.filter((d) => !draft.events?.[d.pending.key]).length;
+
+  // Events that need an answer open by themselves, biggest first, once the opening and any election have been seen.
+  useEffect(() => {
+    if (showOpening || election || openEvent) return;
+    const next = decisions.find((d) => !seenEvents.includes(d.pending.key));
+    if (next) setOpenEvent(next.pending.key);
+  }, [decisions, seenEvents, showOpening, election, openEvent]);
+
+  const closeEvent = useCallback(() => {
+    if (openEvent) setSeenEvents((seen) => (seen.includes(openEvent) ? seen : [...seen, openEvent]));
+    setOpenEvent(null);
+  }, [openEvent]);
+
+  const chooseOption = (key: string, option: string) => {
+    setDraft((d) => ({ ...d, events: { ...d.events, [key]: option } }));
+    closeEvent();
+  };
 
   useEffect(() => {
     writeSlot(AUTOSAVE_KEY, serializeGame(game));
@@ -90,7 +114,10 @@ export function App() {
       setLastMs(performance.now() - t0);
       setGame(next);
       setDraft({});
+      setSeenEvents([]);
       const orders = countOrders(draft);
+      const defaulted = next.events.record.filter((r) => r.defaulted && r.turn === game.turn).length;
+      const news = eventsThisQuarter(next).map((x) => x.event.headline);
       const politicsBefore = game.nations[game.playerNation]?.politics;
       const politicsAfter = next.nations[next.playerNation]?.politics;
       const model = politicsAfter ? content.politics[politicsAfter.model] : undefined;
@@ -99,7 +126,7 @@ export function App() {
       const previous = politicsBefore ? { name: politicsBefore.leader.name, party: politicsBefore.leader.party } : { name: '', party: '' };
       const voted = model ? held.map((r) => electionStatus(model, r, previous.name)).join(' ') : '';
       setStatus(
-        `${formatDate(game.date)} resolved${orders ? ` with ${orders} order${orders === 1 ? '' : 's'}` : ''}.${congress ? ` ${congress}` : ''}${voted ? ` ${voted}` : ''} It is now ${formatDateLong(next.date)}.`,
+        `${formatDate(game.date)} resolved${orders ? ` with ${orders} order${orders === 1 ? '' : 's'}` : ''}.${congress ? ` ${congress}` : ''}${voted ? ` ${voted}` : ''}${defaulted ? ` ${defaulted} unanswered event${defaulted === 1 ? '' : 's'} took the historical course.` : ''} It is now ${formatDateLong(next.date)}.${news.length ? ` New: ${news.join(' · ')}.` : ''}`,
       );
       const presidential = held.find((r) => r.kind === 'executive');
       if (presidential) setElection({ result: presidential, previous });
@@ -113,6 +140,8 @@ export function App() {
   const load = (next: GameState, message: string) => {
     setGame(next);
     setElection(null);
+    setOpenEvent(null);
+    setSeenEvents([]);
     setDraft({});
     setLastMs(null);
     setStatus(message);
@@ -177,7 +206,15 @@ export function App() {
       </header>
 
       <main className="main">
-        {tab === 'situation' && <SituationScreen game={game} status={status} onOpenEconomy={() => setTab('economy')} />}
+        {tab === 'situation' && (
+          <SituationScreen
+            game={game}
+            status={status}
+            choices={draft.events ?? {}}
+            onOpenEconomy={() => setTab('economy')}
+            onOpenEvent={setOpenEvent}
+          />
+        )}
 
         {tab === 'economy' && (
           <div className="screen">
@@ -225,11 +262,13 @@ export function App() {
             >
               {t.label}
               {t.id === 'economy' && pending > 0 && <span className="dock__badge">{pending}</span>}
+              {t.id === 'situation' && undecided > 0 && <span className="dock__badge">{undecided}</span>}
             </button>
           ))}
         </div>
         <p className="dock__status" aria-live="polite">
           {pending > 0 && !busy ? `${pending} order${pending === 1 ? '' : 's'} ready to send. ` : ''}
+          {undecided > 0 && !busy ? `${undecided} event${undecided === 1 ? '' : 's'} awaiting your decision. ` : ''}
           {status}
         </p>
         <p className="dock__build">Phase 3 build</p>
@@ -237,6 +276,24 @@ export function App() {
 
       {showOpening && scenario?.opening && <SuperEvent event={scenario.opening} onClose={() => setShowOpening(false)} />}
       {election && <ElectionEvent game={game} result={election.result} previous={election.previous} onClose={() => setElection(null)} />}
+      {openEvent && !showOpening && !election && (() => {
+        const record = game.events.record.find((r) => r.key === openEvent);
+        const event = record && eventData(record.event);
+        if (!record || !event) return null;
+        const isPending = game.events.pending.some((p) => p.key === openEvent);
+        return (
+          <EventDialog
+            key={openEvent}
+            game={game}
+            event={event}
+            {...(isPending ? { pendingKey: openEvent } : {})}
+            {...(draft.events?.[openEvent] ? { chosen: draft.events[openEvent] } : {})}
+            {...(record.option ? { taken: record.option } : {})}
+            onChoose={(option) => chooseOption(openEvent, option)}
+            onClose={closeEvent}
+          />
+        );
+      })()}
     </div>
   );
 }

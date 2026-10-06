@@ -13,6 +13,7 @@ import { livingStandard, popStats } from './pops/summary';
 import type { PopModelData } from './pops/types';
 import type { EconomyDefs } from './economy/calibrate';
 import { createNationEconomy } from './economy/create';
+import { createEventsState } from './events/engine';
 import { SCHEMA_VERSION, type GameState, type HistoryEntry, type NationData, type NationState } from './schema';
 
 export function nationStateFrom(
@@ -114,6 +115,7 @@ export function createGame(content: Content, scenarioId: string, seed?: string):
     startDate: { ...scenario.startDate },
     endDate: { ...scenario.endDate },
     nations,
+    events: createEventsState(content.events),
     history: [],
     log: [],
   };

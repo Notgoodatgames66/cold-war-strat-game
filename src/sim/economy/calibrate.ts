@@ -229,6 +229,8 @@ export function createEconomy(nation: NationData, defs: EconomyDefs): EconomySta
     unemployment: u0,
     shortRate: s.short_rate,
     shortRateCeiling: s.short_rate_ceiling,
+    priceControls: false,
+    repressedInflation: 0,
     longRate: s.long_rate,
     debtRate: s.debt_interest / debt0,
 

@@ -14,6 +14,7 @@
  */
 
 import type { NationEconomy, NationEconomyData } from './economy/types';
+import type { EventsState } from './events/types';
 import type { PoliticsState } from './politics/types';
 import type { PopsState } from './pops/types';
 import type { GameDate } from './time';
@@ -176,6 +177,8 @@ export interface GameState {
   startDate: GameDate;
   endDate: GameDate;
   nations: Record<string, NationState>;
+  /** World flags, meters, modifiers, events awaiting a choice, and the record of every event. */
+  events: EventsState;
   history: HistoryEntry[];
   log: TurnLogEntry[];
 }
@@ -197,6 +200,11 @@ export interface PlayerOrders {
    * change above is a bill that takes effect only if it passes.
    */
   capital?: Record<string, number>;
+  /**
+   * Answers to events awaiting a choice: event key ("korean_war@7") → option
+   * id. Unanswered events take their default (the historical choice).
+   */
+  events?: Record<string, string>;
 }
 
-export const SCHEMA_VERSION = 6;
+export const SCHEMA_VERSION = 7;

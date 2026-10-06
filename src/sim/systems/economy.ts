@@ -8,7 +8,9 @@
  */
 
 import { stepPlanned } from '../economy/planned';
-import { stepEconomy } from '../economy/step';
+import { stepEconomy, type EconomyShocks } from '../economy/step';
+import { stateModifier } from '../events/modifiers';
+import { content } from '../loadContent';
 import type { GameState } from '../schema';
 import type { SimSystem } from './system';
 
@@ -18,6 +20,12 @@ export function defenceShare(state: GameState, nationId: string): number | null 
   const defence = stats?.defence_spending;
   const gdp = stats?.gdp_nominal;
   return defence !== undefined && gdp !== undefined && gdp > 0 ? defence / gdp : null;
+}
+
+/** This quarter's shocks to a nation's economy from events. */
+export function economyShocks(state: GameState, nationId: string): EconomyShocks {
+  const m = (target: string) => stateModifier(state, content.events, nationId, target);
+  return { consumption: m('consumption'), investment: m('investment'), exports: m('exports'), inflation: m('inflation') };
 }
 
 /** The price level used to value a planned economy's output in current dollars. */
@@ -39,7 +47,7 @@ export const economy: SimSystem = {
       const labourFactor = pops && pops.previousLabourForce > 0 ? pops.labourForce / pops.previousLabourForce : undefined;
       const headline =
         e.engine === 'keynesian'
-          ? stepEconomy(e, nation.stats.population ?? 1, labourFactor)
+          ? stepEconomy(e, nation.stats.population ?? 1, labourFactor, economyShocks(state, nation.id))
           : stepPlanned(e, {
               date: resolving,
               rivalDefenceShare: defenceShare(state, e.rival),

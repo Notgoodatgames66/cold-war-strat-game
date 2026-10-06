@@ -16,6 +16,7 @@ Each pop's approval of the President is a logistic curve of a sum of effects, me
   - growth in living standards helps.
 - **The cost of governing**: 0.04 log-odds a quarter in office (Mueller's "coalition of minorities"). A new President starts with a **honeymoon** of 0.5 that fades by a fifth each quarter.
 - **Pocketbook effects of policy.** A welfare rise pleases the retired and costs among managers.
+- **Events.** Approval modifiers and pressure meters from events (the Korean rally, the Red Scare, war weariness) add to the national intercept; `group:` modifiers add to an interest group's approval (see `events.md`).
 
 **Who may vote** follows the 1949 rules:
 
@@ -96,6 +97,7 @@ u = salience × Δ × (Σ group weight × group preference + faction stance) −
   + approvalPull × (approval − 50)
   + groupPull × Σ group weight × (group approval − 50)
   + capitalPerPoint × capital spent
+  + any "bill:<lever>" modifiers from events
 ```
 
 Δ is the size of the change in a comparable unit:

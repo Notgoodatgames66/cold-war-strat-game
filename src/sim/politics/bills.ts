@@ -10,6 +10,7 @@
  *     + approvalPull × (approval − 50)
  *     + groupPull × Σ_g weight_g × (group approval − 50)
  *     + capitalPerPoint × political capital spent on the bill
+ *     + any "bill:<lever>" modifiers from events (an emergency, a scare)
  *
  * and Δ is the size of the change in the lever's comparable unit (levers.ts):
  * the faction weighs what its interest groups and its own tradition want,
@@ -73,6 +74,8 @@ export function factionUtility(
   lever: string,
   change: number,
   capital: number,
+  /** Log-odds added to every faction by events ("bill:<lever>" modifiers). */
+  bonus = 0,
 ): number {
   const b = model.legislature.bills;
   const f = model.legislature.factions.find((x) => x.id === factionId);
@@ -91,7 +94,7 @@ export function factionUtility(
   u += b.approvalPull * (politics.approval * 100 - 50);
   u += b.groupPull * groupMood;
   u += b.capitalPerPoint * capital;
-  return u;
+  return u + bonus;
 }
 
 /** The odds of a bill changing `lever` from `from` to `to`, with `capital` spent on it. */
@@ -102,10 +105,11 @@ export function billPreview(
   from: number,
   to: number,
   capital: number,
+  bonus = 0,
 ): BillPreview {
   const change = leverChange(lever, from, to);
   const factions: Record<string, number> = {};
-  for (const f of model.legislature.factions) factions[f.id] = logistic(factionUtility(model, politics, f.id, lever, change, capital));
+  for (const f of model.legislature.factions) factions[f.id] = logistic(factionUtility(model, politics, f.id, lever, change, capital, bonus));
   const votes: Record<string, number> = {};
   const needed: Record<string, number> = {};
   const chambers: Record<string, number> = {};

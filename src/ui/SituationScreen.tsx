@@ -9,6 +9,8 @@ import { content } from '../sim/loadContent';
 import type { GameState, NationState } from '../sim/schema';
 import { compareDates, formatDateLong } from '../sim/time';
 import { BalanceOfPower } from './BalanceOfPower';
+import { EventRecord } from './EventRecord';
+import { eventsThisQuarter, optionsFor, TIER_LABEL } from './events';
 import { formatChange, formatStat } from './format';
 import { prepareMap } from './mapData';
 import { NationDossier } from './NationDossier';
@@ -17,7 +19,10 @@ import { WorldMap } from './WorldMap';
 interface Props {
   game: GameState;
   status: string;
+  /** This turn's answers to pending events: event key → option id. */
+  choices: Record<string, string>;
   onOpenEconomy(): void;
+  onOpenEvent(key: string): void;
 }
 
 const TIER_LABELS: Record<NationState['tier'], string> = {
@@ -42,13 +47,16 @@ const PANEL_STATS = [
   'savings_overhang',
 ];
 
-export function SituationScreen({ game, status, onOpenEconomy }: Props) {
+export function SituationScreen({ game, status, choices, onOpenEconomy, onOpenEvent }: Props) {
   const [selected, setSelected] = useState(game.playerNation);
   const nations = Object.values(game.nations);
   const nation = game.nations[selected] ?? game.nations[game.playerNation]!;
   const previous = game.history.length > 1 ? game.history[game.history.length - 2] : undefined;
   const scenario = content.scenarios[game.scenarioId];
   const crises = prepareMap().hotspots.filter((h) => compareDates(game.date, h.until) <= 0);
+  const happenings = eventsThisQuarter(game);
+  const pendingKeys = new Set(game.events.pending.map((p) => p.key));
+  const meters = content.events.meters.filter((m) => (game.events.meters[m.id] ?? 0) >= 1);
 
   const panelStats = PANEL_STATS.map((id) => content.stats.find((s) => s.id === id))
     .filter((def) => def && nation.stats[def.id] !== undefined)
@@ -123,6 +131,44 @@ export function SituationScreen({ game, status, onOpenEconomy }: Props) {
                 <span className="wire__text">{status}</span>
               </li>
             )}
+            {happenings.map(({ record, event }) => {
+              const waiting = pendingKeys.has(record.key);
+              const answer = waiting ? choices[record.key] : undefined;
+              const answerLabel = answer ? optionsFor(game, event).find((o) => o.id === answer)?.label : undefined;
+              return (
+                <li key={record.key} className={`wire__event wire__event--${event.tier}${waiting ? ' wire__event--waiting' : ''}`}>
+                  <span className={`eyebrow${event.tier === 'super' || waiting ? ' eyebrow--amber' : ' eyebrow--muted'}`}>
+                    {TIER_LABEL[event.tier]}
+                    {waiting && (answerLabel ? ' · answered' : ' · awaiting your decision')}
+                  </span>
+                  <button type="button" className="wire__headline" onClick={() => onOpenEvent(record.key)}>
+                    {event.headline}
+                  </button>
+                  {answerLabel && <span className="wire__text wire__text--small">Your answer: {answerLabel}</span>}
+                </li>
+              );
+            })}
+            {meters.length > 0 && (
+              <li>
+                <span className="eyebrow eyebrow--muted">Pressure</span>
+                <dl className="wire__meters">
+                  {meters.map((m) => {
+                    const level = game.events.meters[m.id] ?? 0;
+                    return (
+                      <div key={m.id} title={m.description}>
+                        <dt>{m.label}</dt>
+                        <dd>
+                          <span className="wire__meter" aria-hidden="true">
+                            <span style={{ width: `${(100 * (level - m.min)) / (m.max - m.min)}%` }} />
+                          </span>
+                          {level.toFixed(0)}
+                        </dd>
+                      </div>
+                    );
+                  })}
+                </dl>
+              </li>
+            )}
             {crises.length > 0 && (
               <li>
                 <span className="eyebrow eyebrow--ochre">
@@ -153,6 +199,7 @@ export function SituationScreen({ game, status, onOpenEconomy }: Props) {
           ))}
         </div>
         <BalanceOfPower game={game} />
+        <EventRecord game={game} onOpenEvent={onOpenEvent} />
       </div>
     </div>
   );

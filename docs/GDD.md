@@ -506,7 +506,7 @@ Development runs in five phases, each ending in a playable build. Most of the ti
 
 The gate is what the build must pass before the next phase begins.
 
-**Status:** Phases 1 and 2 complete: the Phase 2 gate (1949–55 playable) is passed. Phase 3 is under way: pops (US and Soviet) and US politics (opinion, interest groups, Congress and bills, elections) are built; the events engine is next (see CLAUDE.md for the live status).
+**Status:** Phases 1 and 2 complete: the Phase 2 gate (1949–55 playable) is passed. Phase 3 is under way: pops (US and Soviet), US politics (opinion, interest groups, Congress and bills, elections) and the events engine with the first events of 1949–53 are built (see CLAUDE.md for the live status and `docs/models/events.md`).
 
 ## 🛠️ Build guide for a first-time developer
 

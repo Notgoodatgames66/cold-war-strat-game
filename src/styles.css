@@ -2714,3 +2714,289 @@ a:hover {
 .elections td:last-child {
   text-align: left;
 }
+
+/* ---- Events ------------------------------------------------------------- */
+
+/* Decisions and cables share the super-event frame at a smaller scale. */
+.eventdialog--major .eventdialog__card,
+.eventdialog--minor .eventdialog__card,
+.eventdialog--news .eventdialog__card {
+  width: min(680px, 100%);
+}
+
+.eventdialog--major .eventdialog__headline {
+  font-size: clamp(32px, 5vw, 46px);
+}
+
+.eventdialog--minor .eventdialog__card,
+.eventdialog--news .eventdialog__card {
+  border-top-color: var(--line-strong);
+}
+
+.eventdialog--minor .superevent__kicker,
+.eventdialog--news .superevent__kicker {
+  color: var(--ink-muted);
+}
+
+.eventdialog--minor .eventdialog__headline,
+.eventdialog--news .eventdialog__headline {
+  font-family: var(--mono);
+  font-size: clamp(20px, 3.4vw, 26px);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.eventdialog--minor .eventdialog__body,
+.eventdialog--news .eventdialog__body {
+  font-size: 16px;
+}
+
+.eventdialog__tier {
+  font-weight: 600;
+}
+
+.eventdialog__fallout {
+  margin: 0 0 22px;
+  padding: 12px 16px;
+  border: 1px solid var(--line);
+  background: var(--panel-2);
+}
+
+.eventdialog__fallout ul,
+.eventoption__effects {
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 4px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+.eventdialog__fallout li::before,
+.eventoption__effects li::before {
+  content: '▸ ';
+  color: var(--ink-faint);
+}
+
+.eventdialog__options {
+  display: grid;
+  gap: 10px;
+  margin: 0 0 22px;
+}
+
+.eventoption {
+  display: grid;
+  gap: 6px;
+  width: 100%;
+  padding: 14px 16px;
+  text-align: left;
+  background: var(--panel-2);
+  border: 1px solid var(--line-strong);
+  border-left: 3px solid var(--line-strong);
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.eventoption:hover:not(:disabled) {
+  border-color: var(--accent);
+  background: var(--panel-3);
+}
+
+.eventoption--on {
+  border-left-color: var(--accent);
+  background: var(--panel-3);
+}
+
+.eventoption:disabled {
+  cursor: default;
+}
+
+.eventoption__label {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  font-family: var(--prose);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ink-bright);
+}
+
+.eventoption--on .eventoption__label {
+  color: var(--accent-bright);
+}
+
+.eventoption__history {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.eventoption__desc {
+  font-family: var(--prose);
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--ink-soft);
+}
+
+.eventdialog__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.eventdialog__hint {
+  flex: 1 1 260px;
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--ink-faint);
+}
+
+/* The wire: this quarter's events and the pressure gauges. */
+.wire__headline {
+  padding: 0;
+  border: none;
+  background: none;
+  text-align: left;
+  font-family: var(--prose);
+  font-size: 16px;
+  line-height: 1.35;
+  color: var(--ink-bright);
+  cursor: pointer;
+}
+
+.wire__headline:hover {
+  color: var(--accent-bright);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.wire__event--super .wire__headline {
+  font-family: var(--display);
+  font-size: 20px;
+}
+
+.wire__event--waiting {
+  border-left: 2px solid var(--amber);
+}
+
+.wire__meters {
+  margin: 4px 0 0;
+  display: grid;
+  gap: 6px;
+}
+
+.wire__meters div {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 10px;
+}
+
+.wire__meters dt {
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+.wire__meters dd {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--ink-bright);
+}
+
+.wire__meter {
+  display: inline-block;
+  width: 90px;
+  height: 6px;
+  background: var(--meter-track);
+}
+
+.wire__meter span {
+  display: block;
+  height: 100%;
+  background: var(--amber);
+}
+
+/* The record of events. */
+.eventrecord {
+  margin-top: 28px;
+}
+
+.eventrecord__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: var(--panel);
+  border: 1px solid var(--line);
+}
+
+.eventrecord__item {
+  display: grid;
+  grid-template-columns: 74px 78px minmax(0, 1fr) minmax(0, 1.1fr);
+  align-items: baseline;
+  gap: 12px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.eventrecord__item:last-child {
+  border-bottom: none;
+}
+
+.eventrecord__date,
+.eventrecord__tier {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.eventrecord__item--super .eventrecord__tier {
+  color: var(--amber);
+}
+
+.eventrecord__headline {
+  padding: 0;
+  border: none;
+  background: none;
+  text-align: left;
+  font-family: var(--prose);
+  font-size: 15px;
+  color: var(--ink-bright);
+  cursor: pointer;
+}
+
+.eventrecord__headline:hover {
+  color: var(--accent-bright);
+}
+
+.eventrecord__choice {
+  font-family: var(--prose);
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+
+@media (max-width: 720px) {
+  .eventrecord__item {
+    grid-template-columns: 64px minmax(0, 1fr);
+  }
+  .eventrecord__tier {
+    display: none;
+  }
+  .eventrecord__choice {
+    grid-column: 2;
+  }
+}

@@ -157,7 +157,9 @@ export function approvalInputs(model: PoliticsModelData, politics: PoliticsState
     if (then !== undefined) changes[lever] = leverChange(lever, then, now);
   }
   return {
-    intercept: politics.calib.approvalIntercept - op.termDecay * politics.leader.quartersInOffice + politics.leader.honeymoon,
+    intercept:
+      politics.calib.approvalIntercept - op.termDecay * politics.leader.quartersInOffice + politics.leader.honeymoon +
+      (politics.eventEffects?.approval ?? 0),
     sign: partySign(model, politics.leader.party),
     economy: {
       unemployment: e.unemployment * (m.unemployment - e.unemploymentRef),

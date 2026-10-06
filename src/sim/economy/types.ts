@@ -57,7 +57,11 @@ export interface EconomyModelData {
   params: Record<string, SourcedValue>;
 }
 
-export const MONETARY_REGIMES = ['treasury_peg'] as const;
+/**
+ * treasury_peg = the Fed holds Treasury yields down (rates may fall, not rise);
+ * independent  = after an Accord: the Fed sets rates against inflation and the gap.
+ */
+export const MONETARY_REGIMES = ['treasury_peg', 'independent'] as const;
 export type MonetaryRegime = (typeof MONETARY_REGIMES)[number];
 
 /** Starting figures a nation's economy block must provide. */
@@ -128,11 +132,17 @@ export const MODEL_PARAM_KEYS = [
   'policy_inflation_response',
   'policy_gap_response',
   'policy_rate_smoothing',
+  'policy_rate_max_step',
   'policy_rate_floor',
   'profit_cyclicality',
   'income_tax_progressivity',
   'gold_settlement_share',
   'debt_rate_adjustment',
+  'term_premium',
+  'long_rate_adjustment',
+  'price_control_passthrough',
+  'price_control_leak',
+  'price_control_release',
 ] as const;
 export type ModelParamKey = (typeof MODEL_PARAM_KEYS)[number];
 
@@ -438,6 +448,10 @@ export interface EconomyState {
   shortRate: number;
   /** Highest short rate the Treasury allows while the peg lasts. */
   shortRateCeiling: number;
+  /** A general price freeze is in force: demand pressure is held back rather than showing in prices. */
+  priceControls: boolean;
+  /** Price rises held back by controls, percent of the price level, waiting to come out. */
+  repressedInflation: number;
   longRate: number;
   debtRate: number;
 

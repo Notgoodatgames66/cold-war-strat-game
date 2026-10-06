@@ -159,6 +159,11 @@
       "provenance": "estimate",
       "note": "Share of the gap to the desired rate closed each quarter; central banks move gradually."
     },
+    "policy_rate_max_step": {
+      "value": 0.5,
+      "provenance": "estimate",
+      "note": "Most the short rate moves in one quarter, in points. The Fed of the 1950s and 1960s moved the discount rate in quarter- and half-point steps and rarely more than a point in a quarter; until the Accord this never binds upwards because the peg caps the rate at 1.25%."
+    },
     "policy_rate_floor": {
       "value": 0.25,
       "provenance": "estimate",
@@ -183,6 +188,31 @@
       "value": 0.05,
       "provenance": "estimate",
       "note": "Share of the debt stock refinanced at current long rates each quarter."
+    },
+    "term_premium": {
+      "value": 1.0,
+      "provenance": "estimate",
+      "note": "Long-term yields over the bill rate once the Fed is free to set rates. Long Treasuries yielded roughly 0.8–1.5 points over bills in the early and mid-1950s. Under the peg the long rate stays pegged at its 1949 level."
+    },
+    "long_rate_adjustment": {
+      "value": 0.1,
+      "provenance": "estimate",
+      "note": "Share of the gap between the long rate and the bill rate plus the term premium closed each quarter after the peg ends. Long yields drifted up from about 2.5% (1951) to about 3% (1953)."
+    },
+    "price_control_passthrough": {
+      "value": 0.35,
+      "provenance": "estimate",
+      "note": "Share of price rises above the anchor that still shows under a general freeze, whether from demand pressure (output gap, bottlenecks, shortages) or from expected inflation (wages are frozen too). The 1951 freeze took consumer-price inflation from about 8% (1951) to under 2% (1952) while demand stayed strong; something over a third leaked through reclassification, quality cuts and uncontrolled goods. Held-back demand pressure is stored and released later; held-back expectations are not."
+    },
+    "price_control_leak": {
+      "value": 0.05,
+      "provenance": "estimate",
+      "note": "Share of the held-back price rises that leaks into prices each quarter while controls last (grey markets, exemptions, approved increases)."
+    },
+    "price_control_release": {
+      "value": 0.25,
+      "provenance": "estimate",
+      "note": "Share of the held-back price rises released each quarter after controls end. Prices rose in the year after the 1946 decontrol by about as much as had been suppressed; the 1953 decontrol released little because demand had cooled."
     },
     "capital_share": {
       "value": 0.3,

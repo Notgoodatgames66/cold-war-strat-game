@@ -1,0 +1,2380 @@
+{
+  "note": "The first events: Truman's second term, 1949–53. Historical anchors fire inside a window with odds per quarter, so history is the likeliest path but not a script. The default option of each event is the historical choice and is taken when the player does not answer. Effects on approval and group approval are in log-odds (0.1 is about two points of approval near 50–70%). Quotes are from US government documents, which are in the public domain. Every effect size is a calibration choice to be tuned in play.",
+  "events": [
+    {
+      "id": "berlin_blockade_lifted",
+      "tier": "news",
+      "nation": "usa",
+      "window": {
+        "from": "1949-Q2",
+        "to": "1949-Q3"
+      },
+      "triggers": [],
+      "chance": {
+        "base": 0.85
+      },
+      "kicker": "Berlin · May 1949",
+      "headline": "The Blockade Is Lifted",
+      "paragraphs": [
+        "After almost eleven months, Soviet barriers on the roads, railways and canals into West Berlin come down. The airlift flew in over two million tons of food, coal and supplies; Stalin has gained nothing by it except a divided Germany."
+      ],
+      "effects": [
+        {
+          "flag": "berlin_lifted"
+        },
+        {
+          "modifier": {
+            "target": "approval",
+            "value": 0.1,
+            "duration": 4,
+            "curve": "decay"
+          }
+        },
+        {
+          "modifier": {
+            "target": "group:anticommunists",
+            "value": 0.15,
+            "duration": 4,
+            "curve": "decay"
+          }
+        }
+      ],
+      "provenance": "measured",
+      "note": "The blockade ended on 12 May 1949; the airlift carried about 2.3 million tons. Small, fading credit for the administration."
+    },
+    {
+      "id": "nato_treaty",
+      "tier": "major",
+      "nation": "usa",
+      "window": {
+        "from": "1949-Q2",
+        "to": "1949-Q4"
+      },
+      "triggers": [],
+      "chance": {
+        "base": 0.85
+      },
+      "kicker": "Washington · April 1949",
+      "headline": "A Peacetime Alliance",
+      "paragraphs": [
+        "Twelve foreign ministers have gathered in Washington to sign a North Atlantic Treaty. Its fifth article would bind the United States to treat an attack on Western Europe as an attack on itself: the first peacetime alliance since the treaty with France was dissolved in 1800.",
+        "The Senate must ratify it by two-thirds. Senator Taft and the isolationists warn that the pact means American troops in Europe for a generation, and a costly programme of military aid to follow."
+      ],
+      "quote": {
+        "text": "An armed attack against one or more of them in Europe or North America shall be considered an attack against them all.",
+        "source": "North Atlantic Treaty, Article 5, 4 April 1949"
+      },
+      "options": [
+        {
+          "id": "sign",
+          "label": "Sign the treaty and fight for ratification",
+          "description": "Commit America to Europe's defence. Internationalists and anti-communists rally; isolationists are outraged. Congress will look more kindly on military aid.",
+          "default": true,
+          "effects": [
+            {
+              "flag": "nato"
+            },
+            {
+              "capital": -5
+            },
+            {
+              "modifier": {
+                "target": "group:isolationists",
+                "value": -0.4,
+                "duration": 8,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:anticommunists",
+                "value": 0.2,
+                "duration": 8,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:big_business",
+                "value": 0.1,
+                "duration": 8,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "bill:budget:foreign_aid",
+                "value": 0.3,
+                "duration": 8
+              }
+            }
+          ]
+        },
+        {
+          "id": "loose_declaration",
+          "label": "Settle for a looser declaration of support",
+          "description": "No binding commitment and no troops. The Senate is spared a fight, but the Europeans doubt America will come, and the anti-communist press calls it appeasement.",
+          "effects": [
+            {
+              "flag": "nato_weak"
+            },
+            {
+              "modifier": {
+                "target": "group:isolationists",
+                "value": 0.3,
+                "duration": 8,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:anticommunists",
+                "value": -0.3,
+                "duration": 8,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "investment",
+                "value": -0.01,
+                "duration": 4,
+                "curve": "decay"
+              }
+            }
+          ]
+        }
+      ],
+      "provenance": "measured",
+      "note": "Signed 4 April 1949; ratified by the Senate 82–13 on 21 July 1949. The Mutual Defense Assistance Act ($1.3bn of military aid) followed in October 1949."
+    },
+    {
+      "id": "soviet_bomb",
+      "tier": "super",
+      "nation": "usa",
+      "window": {
+        "from": "1949-Q3",
+        "to": "1951-Q2"
+      },
+      "triggers": [],
+      "chance": {
+        "base": 0.5,
+        "modifiers": [
+          {
+            "if": [
+              {
+                "after": "1950-Q1"
+              }
+            ],
+            "multiply": 1.5
+          }
+        ]
+      },
+      "kicker": "Washington · September 1949",
+      "headline": "The Russians Have the Bomb",
+      "paragraphs": [
+        "An Air Force weather plane flying off Kamchatka has brought back filters thick with radioactive debris. The physicists are unanimous: the Soviet Union has tested an atomic bomb, years before the intelligence estimates said it could.",
+        "The American monopoly is over. Every war plan rests on it, and so does the public's sense of safety. How the news is told, and what comes next, is your decision."
+      ],
+      "quote": {
+        "text": "We have evidence that within recent weeks an atomic explosion occurred in the U.S.S.R.",
+        "source": "Harry S. Truman, statement of 23 September 1949"
+      },
+      "effects": [
+        {
+          "flag": "soviet_bomb"
+        },
+        {
+          "stat": "nuclear_warheads",
+          "nation": "ussr",
+          "add": 1
+        },
+        {
+          "meter": "red_scare",
+          "add": 12
+        },
+        {
+          "modifier": {
+            "target": "bill:budget:defence",
+            "value": 0.5,
+            "duration": 8,
+            "curve": "decay"
+          }
+        }
+      ],
+      "options": [
+        {
+          "id": "announce",
+          "label": "Tell the nation plainly",
+          "description": "A short, calm statement from the White House. The shock is real but brief, and the question of what to build next comes to your desk.",
+          "default": true,
+          "effects": [
+            {
+              "modifier": {
+                "target": "approval",
+                "value": -0.05,
+                "duration": 4,
+                "curve": "decay"
+              }
+            },
+            {
+              "queue": "h_bomb_decision",
+              "delay": 1
+            }
+          ]
+        },
+        {
+          "id": "announce_and_review",
+          "label": "Announce it and order a review of strategy",
+          "description": "Tell the nation and set the State and Defense Departments to rethink everything. The review will come back asking for far more money; the defence lobby is delighted.",
+          "effects": [
+            {
+              "capital": -3
+            },
+            {
+              "meter": "red_scare",
+              "add": 5
+            },
+            {
+              "modifier": {
+                "target": "group:mic",
+                "value": 0.2,
+                "duration": 8,
+                "curve": "decay"
+              }
+            },
+            {
+              "queue": "h_bomb_decision",
+              "delay": 1
+            },
+            {
+              "queue": "nsc_68",
+              "delay": 2
+            }
+          ]
+        },
+        {
+          "id": "withhold",
+          "label": "Keep it quiet while the evidence is checked",
+          "description": "Buy time to prepare a response. If the news leaks first, or Moscow announces it, the administration will look as if it was hiding the danger.",
+          "effects": [
+            {
+              "flag": "bomb_secret"
+            },
+            {
+              "queue": "h_bomb_decision",
+              "delay": 2
+            }
+          ]
+        }
+      ],
+      "provenance": "measured",
+      "note": "RDS-1 was tested on 29 August 1949; a WB-29 sampling flight detected it on 3 September and Truman announced it on 23 September. The window allows the test up to two years late; most seeds fire in 1949."
+    },
+    {
+      "id": "soviet_bomb_leak",
+      "tier": "minor",
+      "nation": "usa",
+      "triggers": [
+        {
+          "flag": "bomb_secret"
+        }
+      ],
+      "chance": {
+        "base": 0.7
+      },
+      "kicker": "Cable · Moscow",
+      "headline": "TASS Confirms Soviet Atomic Weapon",
+      "paragraphs": [
+        "Moscow has announced its bomb before Washington did. The press wants to know how long the White House knew, and why it said nothing."
+      ],
+      "effects": [
+        {
+          "clearFlag": "bomb_secret"
+        },
+        {
+          "capital": -6
+        },
+        {
+          "meter": "red_scare",
+          "add": 10
+        },
+        {
+          "modifier": {
+            "target": "approval",
+            "value": -0.3,
+            "duration": 6,
+            "curve": "decay"
+          }
+        }
+      ],
+      "provenance": "estimate",
+      "note": "Counterfactual consequence of withholding the news. TASS did respond within two days of Truman's statement in 1949."
+    },
+    {
+      "id": "fall_of_china",
+      "tier": "major",
+      "nation": "usa",
+      "window": {
+        "from": "1949-Q3",
+        "to": "1950-Q2"
+      },
+      "triggers": [],
+      "chance": {
+        "base": 0.5,
+        "modifiers": [
+          {
+            "if": [
+              {
+                "after": "1949-Q4"
+              }
+            ],
+            "multiply": 1.6
+          }
+        ]
+      },
+      "kicker": "Peking · October 1949",
+      "headline": "The People's Republic of China",
+      "paragraphs": [
+        "From the gate of Tiananmen, Mao Zedong has proclaimed a new state. Chiang Kai-shek's government is retreating to Formosa with what remains of its army and its gold. A quarter of humanity has gone Communist.",
+        "The State Department's White Paper blames Chiang's own corruption, but the China Lobby and the Republican right are asking a question that will not go away: who lost China?"
+      ],
+      "effects": [
+        {
+          "flag": "prc"
+        },
+        {
+          "meter": "red_scare",
+          "add": 12
+        },
+        {
+          "modifier": {
+            "target": "approval",
+            "value": -0.15,
+            "duration": 6,
+            "curve": "decay"
+          }
+        },
+        {
+          "modifier": {
+            "target": "group:anticommunists",
+            "value": -0.3,
+            "duration": 8,
+            "curve": "decay"
+          }
+        }
+      ],
+      "options": [
+        {
+          "id": "let_dust_settle",
+          "label": "Let the dust settle",
+          "description": "Acheson's line: make no new commitments to Chiang and wait to see whether Mao becomes a Chinese Tito. The China Lobby will not forgive it.",
+          "default": true,
+          "effects": [
+            {
+              "flag": "china_wait"
+            }
+          ]
+        },
+        {
+          "id": "defend_formosa",
+          "label": "Pledge to defend Formosa",
+          "description": "Put the Seventh Fleet between Mao and Chiang's last stronghold. The right is mollified; aid and patrols cost money, and Peking will see America as its enemy.",
+          "effects": [
+            {
+              "flag": "formosa_pledge"
+            },
+            {
+              "budget": "defence",
+              "add": 0.5
+            },
+            {
+              "budget": "foreign_aid",
+              "add": 0.3
+            },
+            {
+              "modifier": {
+                "target": "group:anticommunists",
+                "value": 0.4,
+                "duration": 8,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:intellectuals",
+                "value": -0.1,
+                "duration": 6,
+                "curve": "decay"
+              }
+            }
+          ]
+        },
+        {
+          "id": "open_channel",
+          "label": "Open a quiet channel to Peking",
+          "description": "Explore recognition, as Britain is about to do. Traders and scholars approve. To the anti-communists it is proof of treason in the State Department.",
+          "effects": [
+            {
+              "flag": "prc_channel"
+            },
+            {
+              "meter": "red_scare",
+              "add": 8
+            },
+            {
+              "modifier": {
+                "target": "approval",
+                "value": -0.1,
+                "duration": 6,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:anticommunists",
+                "value": -0.5,
+                "duration": 12,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:intellectuals",
+                "value": 0.2,
+                "duration": 8,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:big_business",
+                "value": 0.1,
+                "duration": 8,
+                "curve": "decay"
+              }
+            }
+          ]
+        }
+      ],
+      "provenance": "measured",
+      "note": "The People's Republic was proclaimed on 1 October 1949; the ROC government moved to Taipei in December. The China White Paper appeared in August 1949; Britain recognised the PRC in January 1950."
+    },
+    {
+      "id": "h_bomb_decision",
+      "tier": "major",
+      "nation": "usa",
+      "window": {
+        "from": "1949-Q4",
+        "to": "1953-Q4"
+      },
+      "triggers": [
+        {
+          "fired": "soviet_bomb"
+        },
+        {
+          "notFlag": "h_bomb_programme"
+        }
+      ],
+      "chance": {
+        "base": 0.35
+      },
+      "repeatable": true,
+      "cooldown": 4,
+      "kicker": "Atomic Energy Commission · January 1950",
+      "headline": "The Super",
+      "paragraphs": [
+        "Edward Teller and his allies want a crash programme to build a hydrogen bomb, a weapon a thousand times more powerful than the one that destroyed Hiroshima. Oppenheimer's General Advisory Committee calls it a weapon of genocide and urges you not to start the race.",
+        "The Joint Chiefs and the Joint Committee on Atomic Energy are clear: if the Russians can build it, they will, and America cannot let them have it first."
+      ],
+      "quote": {
+        "text": "I have directed the Atomic Energy Commission to continue its work on all forms of atomic weapons, including the so-called hydrogen or superbomb.",
+        "source": "Harry S. Truman, statement of 31 January 1950"
+      },
+      "options": [
+        {
+          "id": "crash_programme",
+          "label": "Authorise the crash programme",
+          "description": "Build the Super. The anti-communists and the defence industry cheer; many of the scientists who built the first bomb are appalled.",
+          "default": true,
+          "effects": [
+            {
+              "flag": "h_bomb_programme"
+            },
+            {
+              "budget": "defence",
+              "add": 0.3
+            },
+            {
+              "modifier": {
+                "target": "group:anticommunists",
+                "value": 0.2,
+                "duration": 8,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:mic",
+                "value": 0.2,
+                "duration": 8,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:intellectuals",
+                "value": -0.2,
+                "duration": 8,
+                "curve": "decay"
+              }
+            }
+          ]
+        },
+        {
+          "id": "seek_control",
+          "label": "Propose international control first",
+          "description": "Offer Moscow a mutual ban before anyone builds it. Scientists and liberals applaud. The right calls it naive, and if Moscow refuses the question comes back.",
+          "effects": [
+            {
+              "capital": -6
+            },
+            {
+              "meter": "red_scare",
+              "add": 6
+            },
+            {
+              "modifier": {
+                "target": "group:intellectuals",
+                "value": 0.3,
+                "duration": 8,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:anticommunists",
+                "value": -0.4,
+                "duration": 8,
+                "curve": "decay"
+              }
+            }
+          ]
+        },
+        {
+          "id": "defer",
+          "label": "Defer the decision",
+          "description": "Ask for more study. Nobody is pleased, and the question returns within the year.",
+          "effects": [
+            {
+              "modifier": {
+                "target": "group:mic",
+                "value": -0.1,
+                "duration": 4,
+                "curve": "decay"
+              }
+            }
+          ]
+        }
+      ],
+      "provenance": "measured",
+      "note": "The GAC report of October 1949 opposed a crash programme; Truman decided to proceed on 31 January 1950. Ivy Mike was tested in November 1952. The extra $0.3bn stands in for the H-bomb's share of the AEC weapons budget until the nuclear programme is modelled."
+    },
+    {
+      "id": "alger_hiss_convicted",
+      "tier": "news",
+      "nation": "usa",
+      "window": {
+        "from": "1950-Q1",
+        "to": "1950-Q1"
+      },
+      "triggers": [],
+      "chance": {
+        "base": 0.85
+      },
+      "kicker": "New York · January 1950",
+      "headline": "Hiss Guilty of Perjury",
+      "paragraphs": [
+        "A second jury has convicted Alger Hiss, once a senior State Department official at Yalta, of lying under oath about passing documents to Whittaker Chambers. Congressman Nixon, who pursued the case, is suddenly a national figure."
+      ],
+      "effects": [
+        {
+          "meter": "red_scare",
+          "add": 6
+        },
+        {
+          "modifier": {
+            "target": "group:intellectuals",
+            "value": -0.1,
+            "duration": 4,
+            "curve": "decay"
+          }
+        }
+      ],
+      "provenance": "measured",
+      "note": "Convicted 21 January 1950 after a hung jury in 1949."
+    },
+    {
+      "id": "mccarthy_wheeling",
+      "tier": "major",
+      "nation": "usa",
+      "window": {
+        "from": "1950-Q1",
+        "to": "1951-Q4"
+      },
+      "triggers": [
+        {
+          "meter": "red_scare",
+          "above": 15
+        }
+      ],
+      "chance": {
+        "base": 0.5,
+        "modifiers": [
+          {
+            "if": [
+              {
+                "meter": "red_scare",
+                "above": 30
+              }
+            ],
+            "multiply": 1.6
+          }
+        ]
+      },
+      "kicker": "Wheeling, West Virginia · February 1950",
+      "headline": "A Senator With a List",
+      "paragraphs": [
+        "Speaking to a Republican women's club, Senator Joseph McCarthy of Wisconsin has claimed to hold a list of Communists working in the State Department. The number changes with each telling, and he has named nobody, but the wire services have run the story everywhere.",
+        "The country is primed to believe him: the Soviet bomb, China, Hiss. Your advisers are split on whether to ignore him, fight him, or take the issue away from him."
+      ],
+      "effects": [
+        {
+          "flag": "mccarthy"
+        },
+        {
+          "meter": "red_scare",
+          "add": 10
+        }
+      ],
+      "options": [
+        {
+          "id": "dismiss",
+          "label": "Dismiss him as a sideshow",
+          "description": "Refuse to dignify the charges. It costs nothing now, but while he goes unchecked the Red Scare keeps growing.",
+          "default": true,
+          "effects": []
+        },
+        {
+          "id": "confront",
+          "label": "Take him on in the Senate",
+          "description": "Have loyal Democrats investigate the charges and expose them. It slows the scare, but the fight is bitter, costly, and makes enemies on the right.",
+          "effects": [
+            {
+              "flag": "mccarthy_confronted"
+            },
+            {
+              "capital": -10
+            },
+            {
+              "meter": "red_scare",
+              "add": -8
+            },
+            {
+              "modifier": {
+                "target": "group:anticommunists",
+                "value": -0.3,
+                "duration": 8,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:intellectuals",
+                "value": 0.3,
+                "duration": 8,
+                "curve": "decay"
+              }
+            }
+          ]
+        },
+        {
+          "id": "loyalty_drive",
+          "label": "Outflank him with a tougher loyalty programme",
+          "description": "Prove the administration is tougher on subversion than he is. It wins some respect from the right, feeds the fear, and falls hardest on the left, the unions' radicals and the civil service.",
+          "effects": [
+            {
+              "meter": "red_scare",
+              "add": 5
+            },
+            {
+              "modifier": {
+                "target": "approval",
+                "value": 0.05,
+                "duration": 4,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:anticommunists",
+                "value": 0.3,
+                "duration": 8,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:intellectuals",
+                "value": -0.3,
+                "duration": 8,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:radical_left",
+                "value": -0.5,
+                "duration": 12,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:civil_rights",
+                "value": -0.1,
+                "duration": 8,
+                "curve": "decay"
+              }
+            }
+          ]
+        }
+      ],
+      "provenance": "measured",
+      "note": "McCarthy's Wheeling speech was on 9 February 1950. The Tydings subcommittee called his charges a fraud in July 1950, and Tydings lost his seat that November. Triggers only once the scare has built up."
+    },
+    {
+      "id": "mccarthy_accusation",
+      "tier": "minor",
+      "nation": "usa",
+      "triggers": [
+        {
+          "flag": "mccarthy"
+        },
+        {
+          "notFlag": "mccarthy_censured"
+        },
+        {
+          "meter": "red_scare",
+          "above": 20
+        }
+      ],
+      "chance": {
+        "base": 0.35
+      },
+      "repeatable": true,
+      "cooldown": 3,
+      "kicker": "Senate Office Building",
+      "headline": "McCarthy Names Another 'Security Risk'",
+      "paragraphs": [
+        "A new set of charges from the Senator's office: another official, another file, another headline. The accused protests; the denial runs on page twelve."
+      ],
+      "effects": [
+        {
+          "meter": "red_scare",
+          "add": 4
+        },
+        {
+          "modifier": {
+            "target": "approval",
+            "value": -0.08,
+            "duration": 4,
+            "curve": "decay"
+          }
+        }
+      ],
+      "provenance": "estimate",
+      "note": "A pool event standing for McCarthy's steady stream of accusations, 1950–54."
+    },
+    {
+      "id": "mccarthy_censure",
+      "tier": "major",
+      "nation": "usa",
+      "window": {
+        "from": "1953-Q2",
+        "to": "1957-Q2"
+      },
+      "triggers": [
+        {
+          "flag": "mccarthy"
+        },
+        {
+          "notFlag": "mccarthy_censured"
+        }
+      ],
+      "chance": {
+        "base": 0.15,
+        "modifiers": [
+          {
+            "if": [
+              {
+                "after": "1954-Q2"
+              }
+            ],
+            "multiply": 2.5
+          }
+        ]
+      },
+      "repeatable": true,
+      "cooldown": 4,
+      "kicker": "Senate chamber · 1954",
+      "headline": "Have You No Sense of Decency?",
+      "paragraphs": [
+        "McCarthy has turned on the Army itself, and the hearings are on television. Millions have watched him bully witnesses. Senators who feared him for four years are drafting a motion of censure.",
+        "The White House can lend its weight, or stay above the fray and let the Senate police its own."
+      ],
+      "options": [
+        {
+          "id": "back_censure",
+          "label": "Quietly back the censure motion",
+          "description": "Help the Senate end his career. The Red Scare loses its loudest voice; his admirers will not forget who helped.",
+          "default": true,
+          "effects": [
+            {
+              "flag": "mccarthy_censured"
+            },
+            {
+              "capital": -4
+            },
+            {
+              "meter": "red_scare",
+              "add": -20
+            },
+            {
+              "modifier": {
+                "target": "group:anticommunists",
+                "value": -0.2,
+                "duration": 8,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:intellectuals",
+                "value": 0.2,
+                "duration": 8,
+                "curve": "decay"
+              }
+            }
+          ]
+        },
+        {
+          "id": "stay_out",
+          "label": "Stay out of it",
+          "description": "Leave him to the Senate. Nothing is spent, and nothing is settled: he will still be there next year.",
+          "effects": []
+        }
+      ],
+      "provenance": "measured",
+      "note": "The Army–McCarthy hearings ran April–June 1954; the Senate censured McCarthy 67–22 on 2 December 1954. Eisenhower worked against him behind the scenes. The headline is Joseph Welch's question of 9 June 1954."
+    },
+    {
+      "id": "nsc_68",
+      "tier": "major",
+      "nation": "usa",
+      "window": {
+        "from": "1950-Q1",
+        "to": "1951-Q2"
+      },
+      "triggers": [
+        {
+          "any": [
+            {
+              "fired": "soviet_bomb"
+            },
+            {
+              "fired": "fall_of_china"
+            }
+          ]
+        }
+      ],
+      "chance": {
+        "base": 0.4
+      },
+      "kicker": "National Security Council · April 1950",
+      "headline": "NSC-68",
+      "paragraphs": [
+        "Paul Nitze's review of national strategy has reached your desk. It describes a Soviet Union bent on world domination and an America too weak to stop it, and it calls for a rapid build-up of conventional and atomic forces. It names no figure, but its authors talk privately of a defence budget of forty or fifty billion dollars, three times today's.",
+        "Your Secretary of Defense has spent a year cutting the services to the bone. The Budget Bureau says the economy cannot bear it."
+      ],
+      "quote": {
+        "text": "The issues that face us are momentous, involving the fulfillment or destruction not only of this Republic but of civilization itself.",
+        "source": "NSC-68, April 1950"
+      },
+      "options": [
+        {
+          "id": "adopt",
+          "label": "Adopt it: rearm now",
+          "description": "Send Congress the bill for rearmament without waiting for a crisis. Defence bills become much easier to pass for three years; small business and the economisers are alarmed.",
+          "effects": [
+            {
+              "flag": "nsc68_adopted"
+            },
+            {
+              "capital": -5
+            },
+            {
+              "modifier": {
+                "target": "bill:budget:defence",
+                "value": 1.0,
+                "duration": 12
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:mic",
+                "value": 0.3,
+                "duration": 12,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:small_business",
+                "value": -0.2,
+                "duration": 8,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:isolationists",
+                "value": -0.2,
+                "duration": 8,
+                "curve": "decay"
+              }
+            }
+          ]
+        },
+        {
+          "id": "shelve",
+          "label": "Note it, and hold the budget line",
+          "description": "Approve its analysis in principle but keep defence near $13 billion. The budget stays balanced; if war comes, the forces will be thin.",
+          "default": true,
+          "effects": [
+            {
+              "flag": "nsc68_shelved"
+            },
+            {
+              "modifier": {
+                "target": "group:small_business",
+                "value": 0.1,
+                "duration": 4,
+                "curve": "decay"
+              }
+            }
+          ]
+        }
+      ],
+      "provenance": "measured",
+      "note": "NSC-68 was delivered on 7 April 1950. Truman withheld approval and asked for costings; the Korean War settled the question, and he approved it as policy on 30 September 1950. Louis Johnson was Secretary of Defense until September 1950."
+    },
+    {
+      "id": "korean_war",
+      "tier": "super",
+      "nation": "usa",
+      "window": {
+        "from": "1950-Q2",
+        "to": "1951-Q4"
+      },
+      "triggers": [
+        {
+          "notFlag": "korea_war"
+        }
+      ],
+      "chance": {
+        "base": 0.45,
+        "modifiers": [
+          {
+            "if": [
+              {
+                "flag": "nsc68_adopted"
+              }
+            ],
+            "multiply": 0.6
+          },
+          {
+            "if": [
+              {
+                "flag": "formosa_pledge"
+              }
+            ],
+            "multiply": 0.85
+          }
+        ]
+      },
+      "kicker": "Seoul · June 1950",
+      "headline": "War in Korea",
+      "paragraphs": [
+        "Before dawn on Sunday, North Korean divisions led by Soviet-built T-34 tanks crossed the 38th parallel along its whole length. The South Korean army is falling back in disorder; Seoul may fall within days.",
+        "In January your Secretary of State described America's defence perimeter in the Pacific without mentioning Korea. Now the Security Council, with the Soviet delegate boycotting it, has called on members to help the South. General MacArthur in Tokyo awaits orders."
+      ],
+      "quote": {
+        "text": "Communism has passed beyond the use of subversion to conquer independent nations and will now use armed invasion and war.",
+        "source": "Harry S. Truman, statement of 27 June 1950"
+      },
+      "effects": [
+        {
+          "flag": "korea_invasion"
+        },
+        {
+          "meter": "red_scare",
+          "add": 8
+        }
+      ],
+      "options": [
+        {
+          "id": "intervene",
+          "label": "Commit American forces under the UN flag",
+          "description": "Send ground troops from Japan and ask Congress for an emergency supplemental. Defence spending jumps by about 70% at once and the draft expands. The country rallies; consumers rush to buy before shortages.",
+          "default": true,
+          "effects": [
+            {
+              "flag": "korea_war"
+            },
+            {
+              "budget": "defence",
+              "multiply": 1.7
+            },
+            {
+              "stat": "active_personnel",
+              "add": 700000
+            },
+            {
+              "modifier": {
+                "target": "approval",
+                "value": 0.35,
+                "duration": 4,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "consumption",
+                "value": 0.05,
+                "duration": 3,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "investment",
+                "value": 0.06,
+                "duration": 6,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "bill:budget:defence",
+                "value": 1.5,
+                "duration": 12
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:anticommunists",
+                "value": 0.4,
+                "duration": 8,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:mic",
+                "value": 0.3,
+                "duration": 12,
+                "curve": "decay"
+              }
+            },
+            {
+              "queue": "chinese_intervention",
+              "delay": 2
+            }
+          ]
+        },
+        {
+          "id": "air_naval_only",
+          "label": "Send air and naval support only",
+          "description": "Help from the sea and the sky, but no American infantry. Cheaper and less risky, if the South can hold on its own.",
+          "effects": [
+            {
+              "flag": "korea_limited"
+            },
+            {
+              "budget": "defence",
+              "multiply": 1.25
+            },
+            {
+              "modifier": {
+                "target": "approval",
+                "value": 0.1,
+                "duration": 3,
+                "curve": "decay"
+              }
+            },
+            {
+              "queue": "korea_overrun",
+              "delay": 1
+            }
+          ]
+        },
+        {
+          "id": "stay_out",
+          "label": "Stay out: Korea lies outside our perimeter",
+          "description": "Protest at the UN and keep American boys at home. Isolationists approve. To the rest of the country, after China, it will look like another country lost.",
+          "effects": [
+            {
+              "flag": "korea_lost"
+            },
+            {
+              "meter": "red_scare",
+              "add": 20
+            },
+            {
+              "modifier": {
+                "target": "approval",
+                "value": -0.3,
+                "duration": 10,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:anticommunists",
+                "value": -0.8,
+                "duration": 16,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:isolationists",
+                "value": 0.4,
+                "duration": 8,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:veterans",
+                "value": -0.2,
+                "duration": 8,
+                "curve": "decay"
+              }
+            }
+          ]
+        }
+      ],
+      "provenance": "measured",
+      "note": "North Korea invaded on 25 June 1950; Truman committed ground troops on 30 June. Defence outlays rose from $13bn (FY1950) to $23bn (FY1951) and $46bn (FY1952). Consumer spending surged in Q3 1950 as households hoarded goods remembered as scarce in 1942. Acheson's National Press Club speech was on 12 January 1950. Rearmament before the war makes the invasion less likely."
+    },
+    {
+      "id": "korea_overrun",
+      "tier": "major",
+      "nation": "usa",
+      "triggers": [
+        {
+          "flag": "korea_limited"
+        }
+      ],
+      "chance": {
+        "base": 0
+      },
+      "kicker": "Pusan · August 1950",
+      "headline": "South Korea Is Collapsing",
+      "paragraphs": [
+        "Air power alone has not stopped the North Korean tanks. The remnants of the South Korean army are pinned against the sea around Pusan. Without American ground troops, the peninsula will be Communist within weeks."
+      ],
+      "effects": [
+        {
+          "meter": "red_scare",
+          "add": 10
+        },
+        {
+          "modifier": {
+            "target": "approval",
+            "value": -0.2,
+            "duration": 8,
+            "curve": "decay"
+          }
+        },
+        {
+          "modifier": {
+            "target": "group:anticommunists",
+            "value": -0.4,
+            "duration": 12,
+            "curve": "decay"
+          }
+        }
+      ],
+      "options": [
+        {
+          "id": "commit_troops",
+          "label": "Commit ground troops after all",
+          "description": "Send the divisions from Japan, late and under fire. The war becomes America's.",
+          "default": true,
+          "effects": [
+            {
+              "clearFlag": "korea_limited"
+            },
+            {
+              "flag": "korea_war"
+            },
+            {
+              "budget": "defence",
+              "multiply": 1.4
+            },
+            {
+              "stat": "active_personnel",
+              "add": 700000
+            },
+            {
+              "modifier": {
+                "target": "investment",
+                "value": 0.05,
+                "duration": 6,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "consumption",
+                "value": 0.04,
+                "duration": 3,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "bill:budget:defence",
+                "value": 1.5,
+                "duration": 12
+              }
+            },
+            {
+              "queue": "chinese_intervention",
+              "delay": 2
+            }
+          ]
+        },
+        {
+          "id": "accept_loss",
+          "label": "Accept the loss and evacuate",
+          "description": "Take off whoever can be saved. Korea is lost, and so, many will say, is America's word.",
+          "effects": [
+            {
+              "clearFlag": "korea_limited"
+            },
+            {
+              "flag": "korea_lost"
+            },
+            {
+              "meter": "red_scare",
+              "add": 15
+            },
+            {
+              "modifier": {
+                "target": "approval",
+                "value": -0.3,
+                "duration": 10,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:anticommunists",
+                "value": -0.6,
+                "duration": 16,
+                "curve": "decay"
+              }
+            }
+          ]
+        }
+      ],
+      "provenance": "estimate",
+      "note": "Counterfactual. Only fires when queued by choosing air and naval support only. In 1950 the Pusan Perimeter held only with American ground forces."
+    },
+    {
+      "id": "chinese_intervention",
+      "tier": "super",
+      "nation": "usa",
+      "triggers": [
+        {
+          "flag": "korea_war"
+        }
+      ],
+      "window": {
+        "from": "1950-Q3",
+        "to": "1952-Q4"
+      },
+      "chance": {
+        "base": 0
+      },
+      "kicker": "The Yalu River · November 1950",
+      "headline": "An Entirely New War",
+      "paragraphs": [
+        "After Inchon the war seemed won. MacArthur's armies drove north towards the Chinese border, and he promised the troops would be home by Christmas. Now some three hundred thousand Chinese soldiers have fallen on them out of the frozen hills. The Eighth Army is in the longest retreat in its history.",
+        "MacArthur wants to bomb the bases in Manchuria and blockade China's coast. The allies, and the Joint Chiefs, fear a third world war."
+      ],
+      "quote": {
+        "text": "We face an entirely new war.",
+        "source": "UN Command communiqué, 28 November 1950"
+      },
+      "effects": [
+        {
+          "meter": "red_scare",
+          "add": 10
+        },
+        {
+          "meter": "war_weariness",
+          "add": 8
+        },
+        {
+          "stat": "active_personnel",
+          "add": 900000
+        },
+        {
+          "modifier": {
+            "target": "approval",
+            "value": -0.2,
+            "duration": 6,
+            "curve": "decay"
+          }
+        }
+      ],
+      "options": [
+        {
+          "id": "limited_war",
+          "label": "Fight a limited war in Korea",
+          "description": "Hold the line, rearm at home and in Europe, and do not carry the war into China. Defence spending rises by half now, and Congress will be asked for nearly as much again next year; a long, grinding war begins.",
+          "default": true,
+          "effects": [
+            {
+              "flag": "korea_stalemate"
+            },
+            {
+              "budget": "defence",
+              "multiply": 1.45
+            },
+            {
+              "modifier": {
+                "target": "consumption",
+                "value": 0.04,
+                "duration": 2,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "investment",
+                "value": 0.04,
+                "duration": 4,
+                "curve": "decay"
+              }
+            },
+            {
+              "queue": "macarthur_crisis",
+              "delay": 2
+            },
+            {
+              "queue": "rearmament_budget",
+              "delay": 3
+            }
+          ]
+        },
+        {
+          "id": "widen",
+          "label": "Widen the war: bomb Manchuria, blockade China",
+          "description": "Give MacArthur what he asks. The anti-communists are jubilant; the allies are terrified, and the risk of Soviet intervention is real.",
+          "effects": [
+            {
+              "flag": "korea_widened"
+            },
+            {
+              "flag": "korea_stalemate"
+            },
+            {
+              "budget": "defence",
+              "multiply": 1.7
+            },
+            {
+              "stat": "active_personnel",
+              "add": 400000
+            },
+            {
+              "meter": "red_scare",
+              "add": 5
+            },
+            {
+              "meter": "war_weariness",
+              "add": 10
+            },
+            {
+              "modifier": {
+                "target": "approval",
+                "value": 0.1,
+                "duration": 3,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:anticommunists",
+                "value": 0.5,
+                "duration": 8,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:intellectuals",
+                "value": -0.4,
+                "duration": 8,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "consumption",
+                "value": 0.05,
+                "duration": 3,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "investment",
+                "value": 0.05,
+                "duration": 4,
+                "curve": "decay"
+              }
+            },
+            {
+              "queue": "rearmament_budget",
+              "delay": 3
+            }
+          ]
+        },
+        {
+          "id": "ceasefire",
+          "label": "Seek a ceasefire at the 38th parallel",
+          "description": "Cut the losses and negotiate. The boys come home sooner; to the right it is a surrender, and the scare deepens.",
+          "effects": [
+            {
+              "flag": "korea_truce"
+            },
+            {
+              "clearFlag": "korea_war"
+            },
+            {
+              "budget": "defence",
+              "multiply": 1.3
+            },
+            {
+              "stat": "active_personnel",
+              "add": -600000
+            },
+            {
+              "meter": "red_scare",
+              "add": 12
+            },
+            {
+              "modifier": {
+                "target": "approval",
+                "value": -0.15,
+                "duration": 6,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:anticommunists",
+                "value": -0.6,
+                "duration": 12,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:veterans",
+                "value": -0.2,
+                "duration": 8,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:intellectuals",
+                "value": 0.2,
+                "duration": 8,
+                "curve": "decay"
+              }
+            }
+          ]
+        }
+      ],
+      "provenance": "measured",
+      "note": "China's Second Phase Offensive began on 25 November 1950. Truman declared a national emergency on 16 December. Defence outlays went from $23bn (FY1951) to $46bn (FY1952) and $52bn (FY1953); active personnel from 1.46 million (June 1950) to 3.25 million (June 1951) and 3.64 million (June 1952). The rise is split between this event and the rearmament budget that follows, because procurement takes time to spend. Only fires when queued by entering the war."
+    },
+    {
+      "id": "macarthur_crisis",
+      "tier": "major",
+      "nation": "usa",
+      "triggers": [
+        {
+          "flag": "korea_stalemate"
+        },
+        {
+          "notFlag": "korea_widened"
+        }
+      ],
+      "chance": {
+        "base": 0
+      },
+      "kicker": "Tokyo · April 1951",
+      "headline": "The General and the President",
+      "paragraphs": [
+        "General MacArthur has written to the Republican leader in the House that there is no substitute for victory, and has issued his own ultimatum to the Chinese commander, undercutting your peace feelers. The Joint Chiefs say he has defied the policy of his government.",
+        "He is the most admired soldier in America. Relieving him would be a storm; keeping him would leave a general making foreign policy."
+      ],
+      "options": [
+        {
+          "id": "relieve",
+          "label": "Relieve him of command",
+          "description": "Assert civilian control and give the command to Ridgway. Expect a hero's welcome for MacArthur, hearings in the Senate and a collapse in your popularity.",
+          "default": true,
+          "effects": [
+            {
+              "flag": "macarthur_relieved"
+            },
+            {
+              "capital": -8
+            },
+            {
+              "meter": "red_scare",
+              "add": 5
+            },
+            {
+              "modifier": {
+                "target": "approval",
+                "value": -0.35,
+                "duration": 8,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:veterans",
+                "value": -0.3,
+                "duration": 8,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:anticommunists",
+                "value": -0.4,
+                "duration": 8,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:intellectuals",
+                "value": 0.2,
+                "duration": 8,
+                "curve": "decay"
+              }
+            }
+          ]
+        },
+        {
+          "id": "keep",
+          "label": "Keep him, and keep him quiet",
+          "description": "Avoid the storm with a private rebuke. He will not stay quiet for long, the allies lose faith in Washington's control of its own general, and the war drags on.",
+          "effects": [
+            {
+              "flag": "macarthur_kept"
+            },
+            {
+              "capital": -8
+            },
+            {
+              "meter": "war_weariness",
+              "add": 10
+            },
+            {
+              "modifier": {
+                "target": "approval",
+                "value": -0.1,
+                "duration": 8,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:anticommunists",
+                "value": 0.2,
+                "duration": 6,
+                "curve": "decay"
+              }
+            }
+          ]
+        }
+      ],
+      "provenance": "measured",
+      "note": "Truman relieved MacArthur on 11 April 1951; Gallup put Truman's approval at 23% that spring, then a record low. Only fires when queued by choosing a limited war."
+    },
+    {
+      "id": "korean_armistice",
+      "tier": "major",
+      "nation": "usa",
+      "window": {
+        "from": "1951-Q3",
+        "to": "1956-Q4"
+      },
+      "triggers": [
+        {
+          "flag": "korea_war"
+        }
+      ],
+      "chance": {
+        "base": 0.1,
+        "modifiers": [
+          {
+            "if": [
+              {
+                "after": "1953-Q1"
+              }
+            ],
+            "multiply": 2.5
+          },
+          {
+            "if": [
+              {
+                "leaderParty": "republican"
+              }
+            ],
+            "multiply": 2
+          },
+          {
+            "if": [
+              {
+                "meter": "war_weariness",
+                "above": 40
+              }
+            ],
+            "multiply": 1.5
+          }
+        ]
+      },
+      "repeatable": true,
+      "cooldown": 2,
+      "kicker": "Panmunjom · 1953",
+      "headline": "An Armistice in Korea",
+      "paragraphs": [
+        "After two years of talks over prisoners and lines on the map, the negotiators at Panmunjom have a text. It ends the shooting roughly where the war began, near the 38th parallel. It is not a peace treaty, and it is not a victory."
+      ],
+      "options": [
+        {
+          "id": "sign",
+          "label": "Sign the armistice",
+          "description": "End the war. Defence spending comes down by about a quarter and the draft eases; the right complains that the war was not won.",
+          "default": true,
+          "effects": [
+            {
+              "flag": "korea_over"
+            },
+            {
+              "clearFlag": "korea_war"
+            },
+            {
+              "budget": "defence",
+              "multiply": 0.75
+            },
+            {
+              "stat": "active_personnel",
+              "add": -700000
+            },
+            {
+              "meter": "war_weariness",
+              "add": -30
+            },
+            {
+              "modifier": {
+                "target": "approval",
+                "value": 0.2,
+                "duration": 4,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:anticommunists",
+                "value": -0.2,
+                "duration": 6,
+                "curve": "decay"
+              }
+            }
+          ]
+        },
+        {
+          "id": "fight_on",
+          "label": "Hold out for better terms",
+          "description": "Keep fighting for a better line or the return of every prisoner. The talks will resume; the casualty lists continue.",
+          "effects": [
+            {
+              "meter": "war_weariness",
+              "add": 5
+            },
+            {
+              "modifier": {
+                "target": "group:anticommunists",
+                "value": 0.2,
+                "duration": 6,
+                "curve": "decay"
+              }
+            }
+          ]
+        }
+      ],
+      "provenance": "measured",
+      "note": "Talks began in July 1951; the armistice was signed on 27 July 1953, six months after Eisenhower took office. Defence outlays fell from $52bn (FY1953) to $49bn (FY1954) and $42bn (FY1955)."
+    },
+    {
+      "id": "price_freeze",
+      "tier": "major",
+      "nation": "usa",
+      "window": {
+        "from": "1950-Q3",
+        "to": "1953-Q2"
+      },
+      "triggers": [
+        {
+          "priceControls": false
+        },
+        {
+          "any": [
+            {
+              "flag": "korea_war"
+            },
+            {
+              "stat": "inflation",
+              "above": 6
+            }
+          ]
+        },
+        {
+          "not": {
+            "quartersSince": "end_price_controls",
+            "atMost": 8
+          }
+        }
+      ],
+      "chance": {
+        "base": 0.15,
+        "modifiers": [
+          {
+            "if": [
+              {
+                "stat": "inflation",
+                "above": 6
+              }
+            ],
+            "multiply": 3
+          },
+          {
+            "if": [
+              {
+                "after": "1951-Q1"
+              }
+            ],
+            "multiply": 2
+          }
+        ]
+      },
+      "repeatable": true,
+      "cooldown": 4,
+      "kicker": "Office of Price Stabilization · January 1951",
+      "headline": "Freeze Prices?",
+      "paragraphs": [
+        "Prices are rising faster than at any time since 1947. Housewives are hoarding sugar and nylons; unions want wage rises to catch up; the Defense Production Act gives you the power to freeze prices and wages across the economy.",
+        "Business and the farm lobby hate controls; labour hates them less than inflation. Controls hold prices down, but the pressure does not vanish: it waits for the day they are lifted."
+      ],
+      "options": [
+        {
+          "id": "freeze",
+          "label": "Impose a general freeze on prices and wages",
+          "description": "Most demand pressure stops showing in prices for as long as controls last. Business, farmers and small shopkeepers are furious; held-back price rises come out when controls end.",
+          "default": true,
+          "effects": [
+            {
+              "priceControls": true
+            },
+            {
+              "capital": -5
+            },
+            {
+              "modifier": {
+                "target": "approval",
+                "value": 0.1,
+                "duration": 4,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:small_business",
+                "value": -0.4,
+                "duration": 12,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:big_business",
+                "value": -0.3,
+                "duration": 12,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:farmers",
+                "value": -0.3,
+                "duration": 12,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:labour",
+                "value": 0.2,
+                "duration": 8,
+                "curve": "decay"
+              }
+            }
+          ]
+        },
+        {
+          "id": "taxes_and_credit",
+          "label": "Rely on taxes and credit controls",
+          "description": "Fight inflation the orthodox way: raise taxes on the Treasury desk and let the Fed tighten, if it is free to. No freeze for now; the question returns if prices keep running.",
+          "effects": [
+            {
+              "modifier": {
+                "target": "group:big_business",
+                "value": 0.1,
+                "duration": 4,
+                "curve": "decay"
+              }
+            }
+          ]
+        }
+      ],
+      "provenance": "measured",
+      "note": "The Economic Stabilization Agency imposed the General Ceiling Price Regulation and a wage freeze on 26 January 1951. Consumer prices rose about 8% in 1951 and under 2% in 1952."
+    },
+    {
+      "id": "end_price_controls",
+      "tier": "major",
+      "nation": "usa",
+      "triggers": [
+        {
+          "priceControls": true
+        },
+        {
+          "quartersSince": "price_freeze",
+          "atLeast": 6
+        }
+      ],
+      "chance": {
+        "base": 0.15,
+        "modifiers": [
+          {
+            "if": [
+              {
+                "leaderParty": "republican"
+              }
+            ],
+            "multiply": 4
+          },
+          {
+            "if": [
+              {
+                "flag": "korea_over"
+              }
+            ],
+            "multiply": 2
+          },
+          {
+            "if": [
+              {
+                "stat": "inflation",
+                "below": 3
+              }
+            ],
+            "multiply": 1.5
+          },
+          {
+            "if": [
+              {
+                "stat": "inflation",
+                "above": 4
+              }
+            ],
+            "multiply": 0.3
+          }
+        ]
+      },
+      "repeatable": true,
+      "cooldown": 2,
+      "kicker": "Washington · February 1953",
+      "headline": "Lift the Controls?",
+      "paragraphs": [
+        "Business wants the price ceilings gone, and the bureaucracy that enforces them is unpopular. Economists warn that whatever inflation the controls have bottled up will come out when the cork is pulled. How much depends on how hot the economy is running."
+      ],
+      "options": [
+        {
+          "id": "lift",
+          "label": "Lift price and wage controls",
+          "description": "Let markets set prices again. Business and farmers cheer; held-back price rises come out over the following year.",
+          "default": true,
+          "effects": [
+            {
+              "priceControls": false
+            },
+            {
+              "modifier": {
+                "target": "group:small_business",
+                "value": 0.3,
+                "duration": 8,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:big_business",
+                "value": 0.3,
+                "duration": 8,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:farmers",
+                "value": 0.2,
+                "duration": 8,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:labour",
+                "value": -0.1,
+                "duration": 4,
+                "curve": "decay"
+              }
+            }
+          ]
+        },
+        {
+          "id": "keep",
+          "label": "Keep them for now",
+          "description": "Prices stay calm and pressure keeps building behind the dam. The question comes back.",
+          "effects": [
+            {
+              "capital": -3
+            },
+            {
+              "modifier": {
+                "target": "group:small_business",
+                "value": -0.2,
+                "duration": 4,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:labour",
+                "value": 0.1,
+                "duration": 4,
+                "curve": "decay"
+              }
+            }
+          ]
+        }
+      ],
+      "provenance": "measured",
+      "note": "Eisenhower ended wage and most price controls in February 1953 and the rest by March. Prices rose less than 1% in 1953 because demand had cooled. Decontrol is much less likely while prices are still rising fast, because the case for it in 1953 rested on prices having steadied."
+    },
+    {
+      "id": "treasury_fed_accord",
+      "tier": "major",
+      "nation": "usa",
+      "window": {
+        "from": "1950-Q4",
+        "to": "1960-Q4"
+      },
+      "triggers": [
+        {
+          "monetaryRegime": "treasury_peg"
+        },
+        {
+          "any": [
+            {
+              "stat": "inflation",
+              "above": 4
+            },
+            {
+              "after": "1951-Q1"
+            }
+          ]
+        }
+      ],
+      "chance": {
+        "base": 0.3,
+        "modifiers": [
+          {
+            "if": [
+              {
+                "stat": "inflation",
+                "above": 6
+              }
+            ],
+            "multiply": 2
+          }
+        ]
+      },
+      "repeatable": true,
+      "cooldown": 3,
+      "kicker": "Federal Reserve Board · March 1951",
+      "headline": "The Fed Wants Its Freedom",
+      "paragraphs": [
+        "Since the war the Federal Reserve has bought whatever bonds it must to keep Treasury yields pegged, printing money to do it. With prices rising, Marriner Eccles and the Open Market Committee say they will no longer do so. The Treasury wants cheap money for the war.",
+        "An accord would let the Fed raise rates against inflation. Borrowing would cost the Treasury, homebuyers and farmers more."
+      ],
+      "quote": {
+        "text": "The Treasury and the Federal Reserve System have reached full accord with respect to debt-management and monetary policies.",
+        "source": "Joint announcement, 4 March 1951"
+      },
+      "options": [
+        {
+          "id": "accept",
+          "label": "Accept an accord: free the Fed",
+          "description": "End the peg. The Fed can now raise rates as high as inflation demands, and long-term yields drift up, so the debt costs more. Bankers approve; borrowers do not.",
+          "default": true,
+          "effects": [
+            {
+              "monetaryRegime": "independent"
+            },
+            {
+              "capital": -4
+            },
+            {
+              "modifier": {
+                "target": "group:big_business",
+                "value": 0.2,
+                "duration": 8,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:small_business",
+                "value": -0.1,
+                "duration": 6,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:farmers",
+                "value": -0.1,
+                "duration": 6,
+                "curve": "decay"
+              }
+            }
+          ]
+        },
+        {
+          "id": "hold_peg",
+          "label": "Hold the peg: cheap money for the war",
+          "description": "Order the Treasury to fight. Rates stay low and the Fed keeps buying bonds; inflation has one fewer brake. The Fed will press again.",
+          "effects": [
+            {
+              "capital": -6
+            },
+            {
+              "modifier": {
+                "target": "group:big_business",
+                "value": -0.2,
+                "duration": 6,
+                "curve": "decay"
+              }
+            }
+          ]
+        }
+      ],
+      "provenance": "measured",
+      "note": "The Treasury–Federal Reserve Accord was announced on 4 March 1951 after a public fight between the Fed (Eccles, McCabe) and the Treasury (Snyder). Bill rates rose from about 1.4% (early 1951) to 2% (1953); long yields from 2.5% to about 3%."
+    },
+    {
+      "id": "rosenbergs_arrested",
+      "tier": "news",
+      "nation": "usa",
+      "window": {
+        "from": "1950-Q3",
+        "to": "1950-Q3"
+      },
+      "triggers": [
+        {
+          "fired": "soviet_bomb"
+        }
+      ],
+      "chance": {
+        "base": 0.9
+      },
+      "kicker": "New York · July 1950",
+      "headline": "Atom Spy Ring: Rosenberg Arrested",
+      "paragraphs": [
+        "The FBI has arrested Julius Rosenberg, a New York engineer, as part of the ring that passed Los Alamos secrets to Moscow through Klaus Fuchs and David Greenglass. His wife Ethel is expected to follow."
+      ],
+      "effects": [
+        {
+          "meter": "red_scare",
+          "add": 6
+        }
+      ],
+      "provenance": "measured",
+      "note": "Klaus Fuchs confessed in January 1950; Julius Rosenberg was arrested on 17 July 1950 and Ethel on 11 August."
+    },
+    {
+      "id": "strike_wave",
+      "tier": "minor",
+      "nation": "usa",
+      "window": {
+        "from": "1949-Q2"
+      },
+      "triggers": [],
+      "chance": {
+        "base": 0.03,
+        "modifiers": [
+          {
+            "if": [
+              {
+                "stat": "inflation",
+                "above": 5
+              }
+            ],
+            "multiply": 4
+          },
+          {
+            "if": [
+              {
+                "stat": "unemployment",
+                "below": 3.5
+              }
+            ],
+            "multiply": 2
+          },
+          {
+            "if": [
+              {
+                "stat": "unemployment",
+                "above": 6
+              }
+            ],
+            "multiply": 0.5
+          }
+        ]
+      },
+      "repeatable": true,
+      "cooldown": 4,
+      "kicker": "Telegram · Department of Labor",
+      "headline": "Strike Wave",
+      "paragraphs": [
+        "Contracts are expiring and prices have outrun pay packets. The steelworkers, the miners or the auto workers are walking out, and suppliers down the line are laying men off. Industry wants an injunction; the unions want the government to stay out."
+      ],
+      "effects": [
+        {
+          "modifier": {
+            "target": "investment",
+            "value": -0.02,
+            "duration": 2,
+            "curve": "decay"
+          }
+        },
+        {
+          "modifier": {
+            "target": "consumption",
+            "value": -0.01,
+            "duration": 2,
+            "curve": "decay"
+          }
+        }
+      ],
+      "options": [
+        {
+          "id": "bargain",
+          "label": "Let collective bargaining run its course",
+          "description": "Wait for a settlement. Labour is grateful; the settlement will push up wages and prices for a while.",
+          "default": true,
+          "effects": [
+            {
+              "modifier": {
+                "target": "inflation",
+                "value": 0.6,
+                "duration": 2,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:labour",
+                "value": 0.2,
+                "duration": 4,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:big_business",
+                "value": -0.1,
+                "duration": 4,
+                "curve": "decay"
+              }
+            }
+          ]
+        },
+        {
+          "id": "taft_hartley",
+          "label": "Invoke Taft–Hartley: an 80-day cooling-off",
+          "description": "Get the men back to work by court order. Business approves; labour will remember that a Democratic White House used the law it called a slave-labour act.",
+          "effects": [
+            {
+              "capital": -3
+            },
+            {
+              "modifier": {
+                "target": "group:labour",
+                "value": -0.5,
+                "duration": 8,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:big_business",
+                "value": 0.2,
+                "duration": 4,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:small_business",
+                "value": 0.1,
+                "duration": 4,
+                "curve": "decay"
+              }
+            }
+          ]
+        },
+        {
+          "id": "seize",
+          "label": "Seize the plants for the war effort",
+          "description": "Wartime powers: put the plants under government control and keep production going. Labour is pleased; business calls it tyranny, and the courts may agree.",
+          "requires": [
+            {
+              "flag": "korea_war"
+            }
+          ],
+          "effects": [
+            {
+              "capital": -8
+            },
+            {
+              "modifier": {
+                "target": "approval",
+                "value": -0.05,
+                "duration": 4,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:labour",
+                "value": 0.2,
+                "duration": 4,
+                "curve": "decay"
+              }
+            },
+            {
+              "modifier": {
+                "target": "group:big_business",
+                "value": -0.6,
+                "duration": 8,
+                "curve": "decay"
+              }
+            }
+          ]
+        }
+      ],
+      "provenance": "estimate",
+      "note": "A pool event. Major strikes came in 1949 (steel, coal), 1952 (steel, with Truman's seizure struck down in Youngstown Sheet & Tube v. Sawyer) and later. Odds rise with inflation and a tight labour market."
+    },
+    {
+      "id": "rearmament_budget",
+      "tier": "news",
+      "nation": "usa",
+      "triggers": [
+        {
+          "any": [
+            {
+              "flag": "korea_war"
+            },
+            {
+              "flag": "korea_widened"
+            }
+          ]
+        }
+      ],
+      "chance": {
+        "base": 0
+      },
+      "kicker": "Capitol Hill · 1951",
+      "headline": "Congress Votes the Rearmament Budget",
+      "paragraphs": [
+        "The defence appropriation for the coming fiscal year has passed both chambers by wide margins. It pays for the Army in Korea, four more divisions for Europe, and an Air Force growing towards 143 wings. The aircraft and tank orders it finances will take years to deliver."
+      ],
+      "effects": [
+        {
+          "budget": "defence",
+          "multiply": 1.3
+        },
+        {
+          "modifier": {
+            "target": "investment",
+            "value": 0.03,
+            "duration": 4,
+            "curve": "decay"
+          }
+        }
+      ],
+      "provenance": "measured",
+      "note": "Stands for the FY1952 defence appropriations (October 1951), which took outlays from about $23bn (FY1951) to $46bn (FY1952). Only fires when queued by a widening Korean war. The 143-wing Air Force goal was set in late 1951."
+    }
+  ]
+}

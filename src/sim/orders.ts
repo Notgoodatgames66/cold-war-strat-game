@@ -13,6 +13,8 @@
 
 import { TAX_IDS, type NationEconomy, type TaxId } from './economy/types';
 import { content } from './loadContent';
+import { resolveChoices } from './events/engine';
+import { stateModifier } from './events/modifiers';
 import { billPreview, capitalAfterBills, rollBill, type BillPreview } from './politics/bills';
 import { leverValues } from './politics/levers';
 import { createRng } from './rng';
@@ -70,11 +72,29 @@ export function proposedBills(state: GameState, orders: PlayerOrders): BillPrevi
       const asked = orders.capital?.[lever];
       const capital = clamp(Number.isFinite(asked) ? Math.floor(asked!) : 0, 0, available);
       available -= capital;
-      return billPreview(model, politics, lever, levers[lever] ?? 0, proposals[lever]!, capital);
+      const bonus = stateModifier(state, content.events, nation.id, `bill:${lever}`);
+      return billPreview(model, politics, lever, levers[lever] ?? 0, proposals[lever]!, capital, bonus);
     });
 }
 
+/**
+ * The player's orders: first the bills (so the odds the player saw are the
+ * odds rolled), then the answers to this quarter's events.
+ */
 export function applyOrders(state: GameState, orders: PlayerOrders): void {
+  applyBills(state, orders);
+  resolveChoices(state, eventEngineContent(), orders.events);
+}
+
+/** Event content plus each nation's political capital cap. */
+export function eventEngineContent() {
+  return {
+    ...content.events,
+    capitalMax: (nation: string) => Object.values(content.politics).find((m) => m.nation === nation)?.capital.max,
+  };
+}
+
+function applyBills(state: GameState, orders: PlayerOrders): void {
   const nation = state.nations[state.playerNation];
   const economy = nation?.economy;
   // The Treasury desk exists only for Keynesian economies; a planned economy runs on its Plan.

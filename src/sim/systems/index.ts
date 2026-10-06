@@ -5,6 +5,7 @@
 
 import { demography } from './demography';
 import { economy } from './economy';
+import { events } from './events';
 import { politics } from './politics';
 import { population } from './population';
 import type { SimSystem } from './system';
@@ -12,9 +13,10 @@ import type { SimSystem } from './system';
 /**
  * Population runs first so the economy sees this quarter's people; politics
  * runs after the economy so opinion reacts to this quarter's figures; the
- * yearly demography placeholder covers only nations without pops.
+ * yearly demography placeholder covers only nations without pops; events run
+ * last, looking ahead to the quarter about to begin.
  */
-export const SYSTEMS: readonly SimSystem[] = [population, economy, politics, demography];
+export const SYSTEMS: readonly SimSystem[] = [population, economy, politics, demography, events];
 
 export { isDue, makeContext } from './system';
 export type { Frequency, SimSystem, SystemContext } from './system';

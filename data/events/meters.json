@@ -1,0 +1,43 @@
+{
+  "note": "Pressure gauges that events feed and that feed back into the world. Levels run from 0 to 100. Every per-point effect is in log-odds (approval and group approval) and is a calibration choice, not a measured figure.",
+  "meters": [
+    {
+      "id": "red_scare",
+      "label": "Red Scare",
+      "description": "Fear of Communist subversion at home: spy trials, loyalty oaths, blacklists and congressional hunts. It makes defence bills easier to pass and the President harder to love, and it bears down on intellectuals and the left.",
+      "min": 0,
+      "max": 100,
+      "start": 12,
+      "decay": 0.06,
+      "drift": [
+        { "if": [{ "flag": "mccarthy" }, { "notFlag": "mccarthy_censured" }, { "notFlag": "mccarthy_confronted" }], "add": 2 },
+        { "if": [{ "flag": "mccarthy" }, { "notFlag": "mccarthy_censured" }, { "flag": "mccarthy_confronted" }], "add": 1 }
+      ],
+      "effects": [
+        { "target": "approval", "nation": "usa", "perPoint": -0.003 },
+        { "target": "group:intellectuals", "nation": "usa", "perPoint": -0.008 },
+        { "target": "group:radical_left", "nation": "usa", "perPoint": -0.012 },
+        { "target": "bill:budget:defence", "nation": "usa", "perPoint": 0.01 }
+      ],
+      "provenance": "estimate",
+      "note": "Starts at 12: HUAC's Hollywood hearings (1947), the Hiss case and the Smith Act trial of Communist leaders (from January 1949) were under way, but the scare had not yet peaked. Fades by 6% a quarter unless fed; while McCarthy is unchecked it rises 2 points a quarter (1 once he has been confronted). At 50 it costs the President about 0.15 log-odds (three or four points of approval)."
+    },
+    {
+      "id": "war_weariness",
+      "label": "War weariness",
+      "description": "The public's tiring of a war with no end in sight: casualty lists, the draft, controls. It rises every quarter American troops are fighting and fades once they come home.",
+      "min": 0,
+      "max": 100,
+      "start": 0,
+      "decay": 0.1,
+      "drift": [{ "if": [{ "flag": "korea_war" }], "add": 4 }],
+      "effects": [
+        { "target": "approval", "nation": "usa", "perPoint": -0.008 },
+        { "target": "group:isolationists", "nation": "usa", "perPoint": -0.008 },
+        { "target": "group:veterans", "nation": "usa", "perPoint": -0.004 }
+      ],
+      "provenance": "estimate",
+      "note": "Rises 4 points a quarter while American troops fight in Korea and fades by 10% a quarter, so it settles near 40 in a long war, costing about 0.3 log-odds (six or seven points of approval). Mueller (War, Presidents and Public Opinion, 1973) found support for Korea and Vietnam fell with the logarithm of casualties; this is a simpler stand-in until military units and casualties exist."
+    }
+  ]
+}

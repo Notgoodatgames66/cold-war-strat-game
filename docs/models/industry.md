@@ -116,7 +116,7 @@ With the budget left un-indexed (as Truman's appropriations were), defence raise
 | Gold reserves, 1949–55 | $24.4bn → $21.3bn | $24.6bn → $21.8bn |
 | Inflation, 1952 | about 11% | about 2% |
 
-Technology hits its capacity limit within a year, and investment then flows into it. The big miss is inflation. The real economy had **price controls** (the 1951 general price freeze) and the **Treasury–Fed Accord** (March 1951), which ended the peg. Both are policy tools that arrive with Phase 3 politics. Without them the model's answer is the honest one.
+Technology hits its capacity limit within a year, and investment then flows into it. The big miss is inflation. The real economy had **price controls** (the 1951 general price freeze) and the **Treasury–Fed Accord** (March 1951), which ended the peg. Both now arrive as events (`events.md`); with them, hands-off play gives about 4–5% inflation in 1952. The table above is the economy without them.
 
 ## What the tests check
 

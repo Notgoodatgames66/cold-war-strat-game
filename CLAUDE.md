@@ -51,13 +51,13 @@ A deep, calculation-driven Cold War grand strategy simulator. Alpha scenario: th
 ## Layout
 
 ```
-data/            stats.json (stat registry), nations/, scenarios/, economy/ (models, levers, sectors, industry tables, plans), map/ (world geometry, 1949 blocs and crises), pops/, politics/
-src/sim/         the engine: rng, time, schema, content, world, turn, orders, save, worker, systems/, economy/, pops/, politics/
-src/ui/          interface components and helpers (world map, situation screen, super-events, charts, Treasury desk with bills, Industry, Politics and Population screens, balance of power)
+data/            stats.json (stat registry), nations/, scenarios/, economy/ (models, levers, sectors, industry tables, plans), map/ (world geometry, 1949 blocs and crises), pops/, politics/, events/ (meters and events)
+src/sim/         the engine: rng, time, schema, content, world, turn, orders, save, worker, systems/, economy/, pops/, politics/, events/
+src/ui/          interface components and helpers (world map, situation screen, super-events, event dialogs and record, charts, Treasury desk with bills, Industry, Politics and Population screens, balance of power)
 src/App.tsx      the main screen
 tests/           automated tests
 docs/GDD.md      the game design document
-docs/models/     plain-English papers explaining each model (economy, industry, planned, pops, politics)
+docs/models/     plain-English papers explaining each model (economy, industry, planned, pops, politics, events)
 tools/           data generators (usa_1950_pops.py, ussr_1950_pops.py and usa_1949_politics.py build data/pops/ and data/politics/ from readable tables)
 .github/workflows/deploy.yml   tests, builds and publishes to GitHub Pages on every push to main
 ```
@@ -73,8 +73,9 @@ tools/           data generators (usa_1950_pops.py, ussr_1950_pops.py and usa_19
   - **Pops, step 1 (US): done** (4 Oct 2026). 27,000 US pops over 48 states and DC × race × sex × household class × religion × age × city/suburb/country, fitted to 1950 census tables by iterative proportional fitting (`src/sim/pops/build.ts`, data `data/pops/usa-1950.json`, generated from the readable state table in `tools/usa_1950_pops.py`). Quarterly births, deaths and ageing with a single-year age profile so the baby boom moves as a wave; fertility from the Easterlin effect, relative cohort size and women's work. Yearly class changes driven by the jobs each sector offers (farm exodus), retirement, suburbanisation, migration between states (Jim Crow as an explicit barrier), immigration. Pops set the labour force (replacing the placeholder growth rate) and the household spending mix by Engel's law. Save schema 5. Population tab with age pyramid, state map, breakdowns, trends and a state table. Model paper: `docs/models/pops.md`.
   - **Soviet pops: done** (4 Oct 2026). About 12,000 pops over the 15 republics × nationality × sex × social group (kolkhozniki, workers, office staff, specialists, officials, Gulag prisoners, pensioners) × religion × age × city/countryside (`data/pops/ussr-1950.json` from `tools/ussr_1950_pops.py`): the war's missing men and birth holes, kolkhozniki unable to move between republics, prisoners freed only by policy. The Soviet labour force and spending mix now come from its pops.
   - **Politics: done** (5 Oct 2026). Opinion of the President per pop (party leaning, economy, cost of governing, honeymoon, policy), calibrated to Truman's 69%; who may vote under the 1949 franchise (Jim Crow, age 21). Thirteen interest groups with members from the pops, clout from wealth, numbers and organisation, lock-in and approval. Political capital. The 81st Congress by faction (Southern and Northern Democrats, Taft and internationalist Republicans): every Treasury change is a bill with odds, the player can spend capital, and the roll happens at turn end. Elections: Congress every two years from 1950, the President every four from 1952 through the Electoral College, reapportionment after each census, historical nominees. Politics tab, bill strips on the Treasury desk, a full-screen announcement for presidential elections. Save schema 6. Model paper: `docs/models/politics.md`.
-  - **Next:** the events engine (the first ten events: the Soviet bomb, Korea, McCarthy…), which also drives realignment and civil rights.
-- **Phase 3 remaining:** the events engine, military units, intelligence fog, the commodity market, regional industry (fixes the pops' migration bias that keeps the Northeast too big and the Sun Belt too small, which flows into reapportionment). Pops should also bring structural change (Engel's law in household spending, farm-to-factory migration), which fixes the known gap that industry and steel grow too slowly in the USSR and never lose ground to services in the USA (see "Known gaps" in `docs/models/planned.md`).
+  - **Events engine: done** (6 Oct 2026). Hand-written events in `data/events/` with fire windows, triggers, odds that respond to the world (each event rolls on its own seeded stream), tier caps per quarter, pool events with cooldowns, options with requirements and a historical default taken when the player does not answer, AI choice by weight, and consequences queued for later quarters. Effects: flags, pressure meters (Red Scare, war weariness), modifiers with curves (approval, interest groups, bill odds, consumption, investment, exports, inflation), emergency budget changes, stats, the Fed's regime and price controls. Twenty-two events for 1949–53: NATO, the Soviet bomb, China, the H-bomb, Hiss, McCarthy, NSC-68, the Korean War chain (invasion, Chinese entry, rearmament budget, MacArthur, armistice), the price freeze and its end, the Treasury–Fed Accord, the Rosenbergs, strike waves. The economy gains an independent Fed (gradual rate moves, long yields with a term premium) and price controls that hold back inflation and release it later. Decision cards and full-screen crises open at the start of a turn; the wire shows this quarter's events and the meters; the record lists every event. Sandbox games switch events off. Save schema 7. Model paper: `docs/models/events.md`.
+  - **Next:** military units (divisions, the draft, casualties feeding war weariness), or opinion effects by pop attribute so events can drive realignment and civil rights.
+- **Phase 3 remaining:** military units, intelligence fog, the commodity market, regional industry (fixes the pops' migration bias that keeps the Northeast too big and the Sun Belt too small, which flows into reapportionment). Pops should also bring structural change (Engel's law in household spending, farm-to-factory migration), which fixes the known gap that industry and steel grow too slowly in the USSR and never lose ground to services in the USA (see "Known gaps" in `docs/models/planned.md`).
 
 ## Design decisions made by Ryan
 
@@ -99,6 +100,8 @@ tools/           data generators (usa_1950_pops.py, ussr_1950_pops.py and usa_19
 - None outstanding.
 
 ## Open data tasks
+
+- Check the event texts, dates, quotes and effect sizes in `data/events/usa-1949-1953.json` and the meters in `data/events/meters.json`.
 
 - Ryan to verify the 1949 starting figures in `data/nations/usa.json` and `ussr.json` against the listed sources, then set `"verification": "checked"`.
 - Check the 1949 bloc assignments and crisis dates in `data/map/world-1949.json`, then set `"verification": "checked"`. Latin America and the European colonies are shown unaligned for now; decide whether Rio Treaty states should be US-aligned.

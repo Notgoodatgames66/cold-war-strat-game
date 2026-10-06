@@ -304,4 +304,9 @@ export interface PoliticsState {
   };
   lastBills: BillResult[];
   elections: ElectionResult[];
+  /**
+   * Log-odds added by events this quarter (modifiers and meters): to approval
+   * of the head of government, and to each interest group's approval.
+   */
+  eventEffects?: { approval: number; groups: Record<string, number> };
 }
